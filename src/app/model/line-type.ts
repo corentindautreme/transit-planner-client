@@ -1,0 +1,1 @@
+export type LineType = 'tram' | 'trolleybus' | 'bus';

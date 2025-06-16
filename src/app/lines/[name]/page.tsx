@@ -1,0 +1,88 @@
+import { Stop } from '@/app/model/stop';
+import { LineSign } from '@/app/lines/components/line-sign';
+import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
+import { Junction, LineStop } from '@/app/lines/components/line-stop';
+
+export default async function Page(props: { params: Promise<{ name: string }>; }) {
+    const params = await props.params;
+    const lineName = params.name;
+
+    const line = await fetch(`${process.env.BACKEND_URL}/lines/describe-line?name=${lineName}`).then(res => res.json());
+
+    const d1Stops: Stop[] = line.routes[0].stops;
+    const d2Stops: Stop[] = line.routes[1].stops.reverse();
+
+    const stopMap: (Stop | Stop[][])[] = [];
+
+    let idxD1 = 0, idxD2 = 0;
+    while (true) {
+        while (idxD1 < d1Stops.length && idxD2 < d2Stops.length && d1Stops[idxD1].name === d2Stops[idxD2].name) {
+            stopMap.push(d1Stops[idxD1]);
+            idxD1++;
+            idxD2++;
+        }
+        if (idxD1 >= d1Stops.length && idxD2 >= d2Stops.length) {
+            break;
+        }
+        stopMap.push([[], []]);
+        // while we find stops on D1 that are not on D2
+        while (idxD1 < d1Stops.length && !d2Stops.some((stop: Stop) => stop.name === d1Stops[idxD1].name)) {
+            (stopMap[stopMap.length - 1] as Stop[][])[0].push(d1Stops[idxD1]);
+            idxD1++;
+        }
+        // while we find stops on D2 that are not on D1
+        while (idxD2 < d2Stops.length && !d1Stops.some((stop: Stop) => stop.name === d2Stops[idxD2].name)) {
+            (stopMap[stopMap.length - 1] as Stop[][])[1].push(d2Stops[idxD2]);
+            idxD2++;
+        }
+    }
+
+    return (
+        <div className="flex flex-col mx-auto">
+            <div className="flex items-center mb-3">
+                <Link href="/lines"><ChevronLeft/></Link>
+                <LineSign name={line.name} type={line.type} direction={line.directions.join(' – ')}/>
+            </div>
+            {stopMap.reverse().map((stopOrSegment, index) => {
+                if (typeof stopOrSegment === 'object' && 'name' in stopOrSegment) {
+                    const stop = stopOrSegment as Stop;
+                    return <LineStop
+                        key={stop.name}
+                        name={stop.name}
+                        type={line.type}
+                        connections={stop.connections}
+                        start={index == 0}
+                        end={index == stopMap.length - 1}
+                        labelSide={'left'}
+                    />;
+                } else {
+                    if ((stopOrSegment as Stop[][]).every(segment => segment.length <= 1)) {
+                        return (stopOrSegment as Stop[][])
+                            .filter(segment => segment.length > 0)
+                            .map((segment, segmentIndex) => {
+                                    const stop = segment[0];
+                                    return <>
+                                        <LineStop
+                                            name={stop.name}
+                                            type={line.type}
+                                            connections={stop.connections}
+                                            start={index == 0}
+                                            end={index == stopMap.length - 1}
+                                            labelSide={segmentIndex == 1 ? 'left' : 'right'}
+                                            oneWay={segmentIndex == 0 ? 'up' : 'down'}
+                                        />
+                                    </>;
+                                }
+                            )
+                            ;
+                    } else {
+                        return <>
+                            <Junction segments={stopOrSegment} type={line.type}/>
+                        </>
+                    }
+                }
+            })}
+        </div>
+    );
+}
