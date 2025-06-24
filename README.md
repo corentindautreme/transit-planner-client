@@ -1,2 +1,3 @@
-# transit-planner-client
-TBD pending inspiration
+# Transit planner client
+
+TODO
