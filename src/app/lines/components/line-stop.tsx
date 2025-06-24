@@ -137,7 +137,7 @@ function LeftLabelRightConnections({name, type, connections, start, end, oneWay}
                 })}></div>
                 <div className={clsx('rounded-full',
                     {
-                        'border-3 bg-white w-4 h-4 ': start || end,
+                        'border-3 w-4 h-4 ': start || end,
                         'border-2 bg-white w-3 h-3 ': Object.keys(connections).length == 0,
                         'border-yellow-500': type == 'tram',
                         'border-red-500': type == 'trolleybus',
