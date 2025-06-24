@@ -34,22 +34,19 @@ export function ConnectionLineSign({name, type}: { name: string, type: LineType 
     )
 }
 
-export function OneWayConnectionLineSign({name, type, direction, align}: {
+export function OneWayConnectionLineSign({name, type, direction}: {
     name: string,
     type: LineType,
-    direction: string,
-    align?: 'start' | 'end'
+    direction: string
 }) {
     return (
         <div className="flex overflow-hidden">
-            {align == 'end' && <div className="grow"></div>}
-            <div className={clsx('flex items-center rounded border-t-2 border-b-2 border-e-2 overflow-hidden',
+            <div className={clsx('flex items-center rounded overflow-hidden',
                 {
-                    'border-yellow-500': type === 'tram',
-                    'border-red-500': type === 'trolleybus'
+                    'bg-yellow-500/50': type === 'tram',
+                    'bg-red-500/50': type === 'trolleybus'
                 }
             )}>
-                <div className=""></div>
                 <div className={clsx('shrink-0 rounded w-8 text-xs text-center font-bold',
                     {
                         'bg-yellow-500': type === 'tram',
@@ -58,7 +55,13 @@ export function OneWayConnectionLineSign({name, type, direction, align}: {
                 )}>
                     {name}
                 </div>
-                <div className="grow text-xs text-nowrap overflow-hidden text-ellipsis px-0.5">{direction}</div>
+                <div className="grow text-xs text-nowrap overflow-hidden text-ellipsis px-0.5">
+                    {direction.split(' ')
+                        .filter(s => s.charAt(0) === s.charAt(0).toUpperCase())
+                        .map((s, index) => (index == 0 ? `${s.slice(0, 3)}` : `${s.charAt(0)}`) + (s.length > 1 ? '.' : ''))
+                        .join(' ')
+                    }
+                </div>
             </div>
         </div>
     )

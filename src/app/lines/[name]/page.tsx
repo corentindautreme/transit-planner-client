@@ -1,8 +1,9 @@
-import { Stop } from '@/app/model/stop';
+import { ConnectionsByLineType, GroupedConnectionsStop, Stop } from '@/app/model/stop';
 import { LineSign } from '@/app/lines/components/line-sign';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { Junction, LineStop } from '@/app/lines/components/line-stop';
+import { LineType } from '@/app/model/line-type';
 
 export default async function Page(props: { params: Promise<{ name: string }>; }) {
     const params = await props.params;
@@ -10,10 +11,28 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
 
     const line = await fetch(`${process.env.BACKEND_URL}/lines/describe-line?name=${lineName}`).then(res => res.json());
 
-    const d1Stops: Stop[] = line.routes[0].stops;
-    const d2Stops: Stop[] = line.routes[1].stops.reverse();
+    const d1Stops: GroupedConnectionsStop[] = line.routes[0].stops.map((s: Stop) => ({
+        ...s,
+        connections: s.connections.reduce((connectionByLineType, c) => {
+            if (!(c.type in connectionByLineType)) {
+                connectionByLineType[c.type as LineType] = [];
+            }
+            connectionByLineType[c.type as LineType].push(c);
+            return connectionByLineType;
+        }, {} as ConnectionsByLineType)
+    }));
+    const d2Stops: GroupedConnectionsStop[] = line.routes[1].stops.reverse().map((s: Stop) => ({
+        ...s,
+        connections: s.connections.reduce((connectionByLineType, c) => {
+            if (!(c.type in connectionByLineType)) {
+                connectionByLineType[c.type as LineType] = [];
+            }
+            connectionByLineType[c.type as LineType].push(c);
+            return connectionByLineType;
+        }, {} as ConnectionsByLineType)
+    }));
 
-    const stopMap: (Stop | Stop[][])[] = [];
+    const stopMap: (GroupedConnectionsStop | GroupedConnectionsStop[][])[] = [];
 
     let idxD1 = 0, idxD2 = 0;
     while (true) {
@@ -27,13 +46,13 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
         }
         stopMap.push([[], []]);
         // while we find stops on D1 that are not on D2
-        while (idxD1 < d1Stops.length && !d2Stops.some((stop: Stop) => stop.name === d1Stops[idxD1].name)) {
-            (stopMap[stopMap.length - 1] as Stop[][])[0].push(d1Stops[idxD1]);
+        while (idxD1 < d1Stops.length && !d2Stops.some((stop: GroupedConnectionsStop) => stop.name === d1Stops[idxD1].name)) {
+            (stopMap[stopMap.length - 1] as GroupedConnectionsStop[][])[0].push(d1Stops[idxD1]);
             idxD1++;
         }
         // while we find stops on D2 that are not on D1
-        while (idxD2 < d2Stops.length && !d1Stops.some((stop: Stop) => stop.name === d2Stops[idxD2].name)) {
-            (stopMap[stopMap.length - 1] as Stop[][])[1].push(d2Stops[idxD2]);
+        while (idxD2 < d2Stops.length && !d1Stops.some((stop: GroupedConnectionsStop) => stop.name === d2Stops[idxD2].name)) {
+            (stopMap[stopMap.length - 1] as GroupedConnectionsStop[][])[1].push(d2Stops[idxD2]);
             idxD2++;
         }
     }
@@ -46,7 +65,7 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
             </div>
             {stopMap.reverse().map((stopOrSegment, index) => {
                 if (typeof stopOrSegment === 'object' && 'name' in stopOrSegment) {
-                    const stop = stopOrSegment as Stop;
+                    const stop = stopOrSegment as GroupedConnectionsStop;
                     return <LineStop
                         key={stop.name}
                         name={stop.name}
@@ -57,8 +76,8 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
                         labelSide={'left'}
                     />;
                 } else {
-                    if ((stopOrSegment as Stop[][]).every(segment => segment.length <= 1)) {
-                        return (stopOrSegment as Stop[][])
+                    if ((stopOrSegment as GroupedConnectionsStop[][]).every(segment => segment.length <= 1)) {
+                        return (stopOrSegment as GroupedConnectionsStop[][])
                             .filter(segment => segment.length > 0)
                             .map((segment, segmentIndex) => {
                                     const stop = segment[0];

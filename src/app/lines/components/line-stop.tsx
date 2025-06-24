@@ -1,52 +1,63 @@
 import { LineType } from '@/app/model/line-type';
 import { clsx } from 'clsx';
-import { Connection, Stop } from '@/app/model/stop';
+import { Connection, ConnectionsByLineType, GroupedConnectionsStop } from '@/app/model/stop';
 import { ConnectionLineSign, OneWayConnectionLineSign } from '@/app/lines/components/line-sign';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 function Connections({stopName, connections, align}: {
     stopName: string,
-    connections: Connection[],
+    connections: ConnectionsByLineType,
     align?: 'start' | 'end'
 }) {
     return (
-        <div className="w-full flex flex-col gap-y-1">
-            {connections.filter(c => c.directions.length > 1).length > 0 &&
-                <div className={clsx('flex flex-wrap items-center gap-0.5',
-                    {
-                        'justify-end': align === 'end'
-                    }
-                )}>
-                    {connections
-                        .filter(c => c.directions.length > 1)
-                        .map((c, index) =>
-                            <ConnectionLineSign key={`${stopName}-c-${index}`} name={c.line} type={c.type as LineType}/>
-                        )}
-                </div>
+        <div className={clsx('w-full flex flex-wrap items-center gap-0.5',
+            {
+                'justify-end': align === 'end'
             }
-            {connections.filter(c => c.directions.length == 1).length > 0 &&
-                <div className={clsx('w-full flex flex-wrap gap-0.5 overflow-hidden',
-                    {
-                        'justify-end': align === 'end'
-                    }
-                )}>
-                    {connections
-                        .filter(c => c.directions.length == 1)
-                        .map((c, index) => (
-                            <OneWayConnectionLineSign key={`${stopName}-c-${index}`} name={c.line}
-                                                      type={c.type as LineType} direction={c.directions[0]}
-                                                      align={align}/>
-                        ))}
-                </div>
-            }
+        )}>
+            {'tram' in connections && <ConnectionsList
+                connections={connections['tram']}
+                stopName={stopName}
+            />}
+            {'trolleybus' in connections && <ConnectionsList
+                connections={connections['trolleybus']}
+                stopName={stopName}
+            />}
         </div>
     );
+}
+
+function ConnectionsList({stopName, connections}: {
+    stopName: string,
+    connections: Connection[]
+}) {
+    return <>
+        {connections.filter(c => c.directions.length > 1).length > 0
+            && connections
+                .filter(c => c.directions.length > 1)
+                .map((c, index) => <ConnectionLineSign
+                    key={`${stopName}-c-${index}`}
+                    name={c.line}
+                    type={c.type as LineType}
+                />)
+        }
+        {connections.filter(c => c.directions.length == 1).length > 0
+            && connections
+                .filter(c => c.directions.length == 1)
+                .map((c, index) => (<OneWayConnectionLineSign
+                        key={`${stopName}-c-${index}`}
+                        name={c.line}
+                        type={c.type as LineType}
+                        direction={c.directions[0]}
+                    />
+                ))}
+    </>;
 }
 
 export function LineStop({name, type, connections, start, end, labelSide, oneWay}: {
     name: string,
     type: LineType,
-    connections: Connection[],
+    connections: ConnectionsByLineType,
     start: boolean,
     end: boolean,
     labelSide: 'left' | 'right',
@@ -88,7 +99,7 @@ export function LineStop({name, type, connections, start, end, labelSide, oneWay
 function LeftLabelRightConnections({name, type, connections, start, end, oneWay}: {
     name: string,
     type: LineType,
-    connections: Connection[],
+    connections: ConnectionsByLineType,
     start: boolean,
     end: boolean,
     oneWay?: 'up' | 'down'
@@ -127,11 +138,11 @@ function LeftLabelRightConnections({name, type, connections, start, end, oneWay}
                 <div className={clsx('rounded-full',
                     {
                         'border-3 bg-white w-4 h-4 ': start || end,
-                        'border-2 bg-white w-3 h-3 ': connections.length == 0,
+                        'border-2 bg-white w-3 h-3 ': Object.keys(connections).length == 0,
                         'border-yellow-500': type == 'tram',
                         'border-red-500': type == 'trolleybus',
-                        'bg-yellow-500 w-3 h-3 ': connections.length > 0 && type == 'tram',
-                        'bg-red-500 w-3 h-3 ': connections.length > 0 && type == 'trolleybus'
+                        'bg-yellow-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'tram',
+                        'bg-red-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'trolleybus'
                     }
                 )}></div>
                 <div className={clsx('flex-1 shrink-0 w-[4.8px]', {
@@ -150,7 +161,7 @@ function LeftLabelRightConnections({name, type, connections, start, end, oneWay}
 function LeftConnectionsRightLabel({name, type, connections, start, end, oneWay}: {
     name: string,
     type: LineType,
-    connections: Connection[],
+    connections: ConnectionsByLineType,
     start: boolean,
     end: boolean,
     oneWay?: 'up' | 'down'
@@ -169,9 +180,9 @@ function LeftConnectionsRightLabel({name, type, connections, start, end, oneWay}
                 <div className={clsx('border-yellow-500 rounded-full',
                     {
                         'border-3 bg-white w-4 h-4 ': start || end,
-                        'border-2 bg-white w-3 h-3 ': connections.length == 0,
-                        'bg-yellow-500 w-3 h-3 ': connections.length > 0 && type == 'tram',
-                        'bg-red-500 w-3 h-3 ': connections.length > 0 && type == 'trolleybus'
+                        'border-2 bg-white w-3 h-3 ': Object.keys(connections).length == 0,
+                        'bg-yellow-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'tram',
+                        'bg-red-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'trolleybus'
                     }
                 )}></div>
                 <div className={clsx('flex-1 shrink-0 w-[4.8px]', {
@@ -210,7 +221,7 @@ function LeftConnectionsRightLabel({name, type, connections, start, end, oneWay}
 function JunctionLineStop({name, type, connections, end, oneWay}: {
     name: string,
     type: LineType,
-    connections: Connection[],
+    connections: ConnectionsByLineType,
     end: boolean,
     oneWay: 'up' | 'down'
 }) {
@@ -260,9 +271,9 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
                         )}></div>
                         <div className={clsx('rounded-full',
                             {
-                                'border-2 bg-white w-3 h-3 ': connections.length == 0,
-                                'bg-yellow-500 w-3 h-3 ': connections.length > 0 && type == 'tram',
-                                'bg-red-500 w-3 h-3 ': connections.length > 0 && type == 'trolleybus',
+                                'border-2 bg-white w-3 h-3 ': Object.keys(connections).length == 0,
+                                'bg-yellow-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'tram',
+                                'bg-red-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'trolleybus',
                                 'border-yellow-500': type == 'tram',
                                 'border-red-500': type == 'trolleybus'
                             }
@@ -290,7 +301,7 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
                 </div>
 
                 {/* Connections */}
-                {connections.length > 0 &&
+                {Object.keys(connections).length > 0 &&
                     <div className="flex gap-x-2 items-stretch">
                         {oneWay == 'down' ? (
                             <div className="flex-4 py-1 overflow-hidden">
@@ -366,7 +377,7 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
 }
 
 export function Junction({segments, type}: {
-    segments: Stop[][],
+    segments: GroupedConnectionsStop[][],
     type: LineType
 }) {
     return <>
