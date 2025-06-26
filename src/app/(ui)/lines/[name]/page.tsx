@@ -1,8 +1,8 @@
 import { ConnectionsByLineType, GroupedConnectionsStop, Stop } from '@/app/model/stop';
-import { LineSign } from '@/app/lines/components/line-sign';
+import { LineAndDirectionSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
-import { Junction, LineStop } from '@/app/lines/components/line-stop';
+import { Junction, LineStop } from '@/app/(ui)/lines/components/line-stop';
 import { LineType } from '@/app/model/line-type';
 
 export default async function Page(props: { params: Promise<{ name: string }>; }) {
@@ -58,10 +58,10 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
     }
 
     return (
-        <div className="flex flex-col mx-auto">
+        <div className="bg-white rounded-xl py-3 px-1 flex flex-col mx-auto">
             <div className="flex items-center mb-3">
                 <Link href="/lines"><ChevronLeft/></Link>
-                <LineSign name={line.name} type={line.type} direction={line.directions.join(' – ')}/>
+                <LineAndDirectionSign name={line.name} type={line.type} direction={line.directions.join(' – ')}/>
             </div>
             {stopMap.reverse().map((stopOrSegment, index) => {
                 if (typeof stopOrSegment === 'object' && 'name' in stopOrSegment) {

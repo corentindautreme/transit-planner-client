@@ -1,18 +1,23 @@
 'use client';
 
 import { JSX } from 'react';
-import { House, Route } from 'lucide-react';
+import { GitCommit, House, Route } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { clsx } from 'clsx';
 
-type LinkName = 'Home' | 'Lines';
+type LinkName = 'Home' | 'Departures' | 'Lines';
 
 const links: { name: LinkName, href: string, icon: JSX.Element }[] = [
     {
         name: 'Home',
         href: '/',
         icon: <House/>
+    },
+    {
+        name: 'Departures',
+        href: '/departures',
+        icon: <GitCommit/>,
     },
     {
         name: 'Lines',

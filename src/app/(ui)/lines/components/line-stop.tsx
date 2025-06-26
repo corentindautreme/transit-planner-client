@@ -1,7 +1,7 @@
 import { LineType } from '@/app/model/line-type';
 import { clsx } from 'clsx';
 import { Connection, ConnectionsByLineType, GroupedConnectionsStop } from '@/app/model/stop';
-import { ConnectionLineSign, OneWayConnectionLineSign } from '@/app/lines/components/line-sign';
+import { ConnectionLineSign, OneWayConnectionLineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 function Connections({stopName, connections, align}: {
@@ -288,7 +288,7 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
 
                     {oneWay == 'up' ? (
                         <div
-                            className="flex-4 flex flex-col gap-y-1 text-right text-base/4 overflow-hidden">
+                            className="flex-4 flex flex-col gap-y-1 text-base/4 overflow-hidden">
                             <div className="flex grow overflow-hidden">
                             <span className="overflow-hidden text-ellipsis">
                                 {name}
