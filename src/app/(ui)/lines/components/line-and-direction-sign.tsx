@@ -1,21 +1,25 @@
 import { clsx } from 'clsx';
 import { LineType } from '@/app/model/line-type';
 
-export function LineSign({name, type, direction}: {
+export function LineSign({name, type}: {name: string; type: LineType}) {
+    return <div className={clsx('rounded w-10 text-center font-bold',
+        {
+            'bg-yellow-500': type === 'tram',
+            'bg-red-500 text-white': type === 'trolleybus',
+        }
+    )}>
+        {name}
+    </div>;
+}
+
+export function LineAndDirectionSign({name, type, direction}: {
     name: string;
     type: LineType,
     direction: string
 }) {
     return (
         <div className="flex gap-x-1 items-center">
-            <div className={clsx('rounded w-10 text-center font-bold',
-                {
-                    'bg-yellow-500': type === 'tram',
-                    'bg-red-500 text-white': type === 'trolleybus',
-                }
-            )}>
-                {name}
-            </div>
+            <LineSign name={name} type={type}/>
             <div className="">{direction}</div>
         </div>
     )

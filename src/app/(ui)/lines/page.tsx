@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { LineSign } from '@/app/lines/components/line-sign';
+import { LineAndDirectionSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { BusFront, Equal, TramFront } from 'lucide-react';
 import { Suspense } from 'react';
 import { Line } from '@/app/model/line';
@@ -27,7 +27,7 @@ export default async function Page() {
                     .sort((l1, l2) => l1.name.localeCompare(l2.name))
                     .map(line =>
                         <Link key={line.name} href={`/lines/${line.name}`}>
-                            <LineSign
+                            <LineAndDirectionSign
                                 name={line.name}
                                 type={line.type}
                                 direction={line.directions.join(' – ')}
@@ -54,7 +54,7 @@ export default async function Page() {
                     .sort((l1, l2) => l1.name.localeCompare(l2.name))
                     .map(line =>
                         <Link key={line.name} href={`/lines/${line.name}`}>
-                            <LineSign
+                            <LineAndDirectionSign
                                 name={line.name}
                                 type={line.type}
                                 direction={line.directions.join(' – ')}

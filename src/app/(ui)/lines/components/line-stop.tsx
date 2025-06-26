@@ -1,7 +1,7 @@
 import { LineType } from '@/app/model/line-type';
 import { clsx } from 'clsx';
 import { Connection, ConnectionsByLineType, GroupedConnectionsStop } from '@/app/model/stop';
-import { ConnectionLineSign, OneWayConnectionLineSign } from '@/app/lines/components/line-sign';
+import { ConnectionLineSign, OneWayConnectionLineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 function Connections({stopName, connections, align}: {
