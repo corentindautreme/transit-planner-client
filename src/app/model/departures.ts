@@ -9,6 +9,7 @@ export interface DepartureDetails {
     direction: string;
     type: LineType;
     time: string;
+    displayTime: string;
 }
 
 export type DepartureByLine = { [line: string]: { type: LineType, departures: { [direction: string]: Departure[] } } };

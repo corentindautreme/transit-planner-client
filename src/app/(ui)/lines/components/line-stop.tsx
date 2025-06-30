@@ -288,7 +288,7 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
 
                     {oneWay == 'up' ? (
                         <div
-                            className="flex-4 flex flex-col gap-y-1 text-right text-base/4 overflow-hidden">
+                            className="flex-4 flex flex-col gap-y-1 text-base/4 overflow-hidden">
                             <div className="flex grow overflow-hidden">
                             <span className="overflow-hidden text-ellipsis">
                                 {name}

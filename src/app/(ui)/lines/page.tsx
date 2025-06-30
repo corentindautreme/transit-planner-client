@@ -15,11 +15,9 @@ export default async function Page() {
     return (
         <Suspense fallback={'Loading...'}>
             <div className="flex flex-col gap-y-1">
-                <div className="flex mx-auto items-center gap-x-2 font-bold mb-1">
+                <div className="flex items-center gap-x-2 font-bold mb-1">
+                    <TramFront size={18}/>
                     Tram
-                    <div className="p-2 rounded-full bg-yellow-500">
-                        <TramFront size={18}/>
-                    </div>
                 </div>
 
                 {lines
@@ -27,26 +25,26 @@ export default async function Page() {
                     .sort((l1, l2) => l1.name.localeCompare(l2.name))
                     .map(line =>
                         <Link key={line.name} href={`/lines/${line.name}`}>
-                            <LineAndDirectionSign
-                                name={line.name}
-                                type={line.type}
-                                direction={line.directions.join(' – ')}
-                            />
+                            <div className="bg-background p-3 rounded-lg">
+                                <LineAndDirectionSign
+                                    name={line.name}
+                                    type={line.type}
+                                    direction={line.directions.join(' – ')}
+                                />
+                            </div>
                         </Link>
                     )}
 
-                <div className="flex mx-auto items-center gap-x-2 font-bold mb-1">
-                    Trolleybus
-                    <div className="p-2 pb-1.5 rounded-full bg-red-500 text-white">
-                        <div className="relative mt-0.5">
-                            <BusFront size={18} className="bg-red-500"/>
-                            <div className="absolute h-2.5 w-4 -top-2 overflow-hidden">
-                                <div className="absolute transform-[rotate(-90deg)]">
-                                    <Equal size={18} className="relative"/>
-                                </div>
+                <div className="flex items-center gap-x-2 font-bold my-1">
+                    <div className="relative mt-0.5">
+                        <BusFront size={18}/>
+                        <div className="absolute h-2.5 w-4 -top-2 overflow-hidden">
+                            <div className="absolute transform-[rotate(-90deg)]">
+                                <Equal size={18} className="relative"/>
                             </div>
                         </div>
                     </div>
+                    Trolleybus
                 </div>
 
                 {lines
@@ -54,11 +52,13 @@ export default async function Page() {
                     .sort((l1, l2) => l1.name.localeCompare(l2.name))
                     .map(line =>
                         <Link key={line.name} href={`/lines/${line.name}`}>
-                            <LineAndDirectionSign
-                                name={line.name}
-                                type={line.type}
-                                direction={line.directions.join(' – ')}
-                            />
+                            <div className="bg-background p-3 rounded-lg">
+                                <LineAndDirectionSign
+                                    name={line.name}
+                                    type={line.type}
+                                    direction={line.directions.join(' – ')}
+                                />
+                            </div>
                         </Link>
                     )}
             </div>

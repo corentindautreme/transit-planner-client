@@ -58,7 +58,7 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
     }
 
     return (
-        <div className="flex flex-col mx-auto">
+        <div className="bg-white rounded-xl py-3 px-1 flex flex-col mx-auto">
             <div className="flex items-center mb-3">
                 <Link href="/lines"><ChevronLeft/></Link>
                 <LineAndDirectionSign name={line.name} type={line.type} direction={line.directions.join(' – ')}/>

@@ -16,6 +16,14 @@ export default function DeparturesList({stop}: { stop: string }) {
     const [favoriteSelection, setFavoriteSelection] = useState<string>();
     const favoriteSelectionRef = useRef(null);
 
+    const getDisplayTime = (time: string, now: Date) => {
+        const waitTimeInMinutes = Math.ceil((new Date(time).getTime() - now.getTime()) / 60_000);
+        return waitTimeInMinutes == 0 ? 'now' :
+            waitTimeInMinutes <= 10
+                ? `${waitTimeInMinutes} min`
+                : new Date(time).toLocaleString('bs-BA', {timeStyle: 'short'});
+    }
+
     useEffect(() => {
         async function fetchDepartures() {
             try {
@@ -30,28 +38,21 @@ export default function DeparturesList({stop}: { stop: string }) {
                                     line: line,
                                     direction: direction,
                                     type: departures[line].type,
-                                    time: departure.scheduledAt
+                                    time: departure.scheduledAt,
+                                    displayTime: getDisplayTime(departure.scheduledAt, now)
                                 } as DepartureDetails)
                             )
                         ).flat()
                     )
                     .flat()
-                    .sort((d1, d2) => d1.time.localeCompare(d2.time))
-                    .map(d => {
-                        const waitTimeInMinutes = Math.ceil((new Date(d.time).getTime() - now.getTime()) / 60_000);
-                        const displayedTime = waitTimeInMinutes == 0 ? 'now' :
-                            waitTimeInMinutes <= 10
-                                ? `${waitTimeInMinutes} min`
-                                : new Date(d.time).toLocaleString('bs-BA', {timeStyle: 'short'});
-                        return {...d, time: displayedTime};
-                    });
+                    .sort((d1, d2) => d1.time.localeCompare(d2.time));
                 if (!!inlineDeparturesRef.current) {
-                    const departing = inlineDeparturesRef.current[0].time === 'now'
+                    const departing = inlineDeparturesRef.current[0].displayTime === 'now'
                         && (newInlineDepartures[0].direction !== inlineDeparturesRef.current[0].direction
                             || newInlineDepartures[0].line !== inlineDeparturesRef.current[0].line
                             || newInlineDepartures[0].time !== inlineDeparturesRef.current[0].time);
                     setDeparting(departing);
-                    setDepartingCount(inlineDeparturesRef.current.filter(d => d.time == 'now').length);
+                    setDepartingCount(inlineDeparturesRef.current.filter(d => d.displayTime == 'now').length);
                 }
                 setTimeout(() => {
                     setInlineDepartures(newInlineDepartures);
@@ -144,8 +145,8 @@ export default function DeparturesList({stop}: { stop: string }) {
                                 direction={departure.direction}
                             />
                             <div className={clsx({
-                                'animate-pulse font-bold': departure.time === 'now'
-                            })}>{departure.time}</div>
+                                'animate-pulse font-bold': departure.displayTime === 'now'
+                            })}>{departure.displayTime}</div>
                         </div>
                     ))}
                 </div>
