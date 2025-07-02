@@ -14,6 +14,6 @@ export type ConnectionsByLineType = { [key in LineType]: Connection[]};
 
 export interface Connection {
     line: string;
-    type: string;
+    type: LineType;
     directions: string[];
 }

@@ -1,15 +1,17 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import NextDeparturesAtStop from '@/app/(ui)/departures/components/next-departures-at-stop';
 import FavoriteDepartures from '@/app/(ui)/departures/components/favorite-departures';
 import { DepartureForStopAndLine } from '@/app/model/departures';
-import { Heart, Search, TramFront } from 'lucide-react';
+import { Heart, Search } from 'lucide-react';
+import { Stop } from '@/app/model/stop';
+import SearchStop from '@/app/(ui)/departures/components/search-stop';
 
 export const metadata: Metadata = {
     title: 'Departures'
 };
 
 export default async function Page() {
+    const stops = await fetch(`${process.env.BACKEND_URL}/stops`).then(res => res.json()) as Stop[];
     const departures: DepartureForStopAndLine[] = [
         {
             stop: 'Alipašin Most',
@@ -80,9 +82,7 @@ export default async function Page() {
                     <Search size={18}/>
                     Search stop
                 </div>
-                <div className="bg-white rounded-lg p-3">
-                    <input className="w-full" type="text" placeholder="Enter stop name..." size={1}/>
-                </div>
+                <SearchStop stops={stops}/>
                 <div className="flex items-center gap-x-2 font-bold mb-1">
                     <Heart size={18}/>
                     Favorite stops
