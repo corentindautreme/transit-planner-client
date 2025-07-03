@@ -4,7 +4,7 @@ import { Stop } from '@/app/model/stop';
 import Link from 'next/link';
 import { ChangeEvent, useState } from 'react';
 import { clsx } from 'clsx';
-import { BusFront, Equal, TramFront } from 'lucide-react';
+import { BusFront, Equal, Octagon, TramFront } from 'lucide-react';
 
 export default function SearchStop({stops}: { stops: Stop[] }) {
     const [matchingStops, setMatchingStops] = useState<Stop[]>([]);
@@ -19,20 +19,20 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
             }
             const normalizedInput = e.target.value.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
             const matchingStops = stops.filter(s => s.name.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').includes(normalizedInput));
-            setMatchingStops(matchingStops);
+            setMatchingStops(matchingStops.length == 0 ? undefined : matchingStops);
         }, 500);
     }
 
     return (
         <div className="bg-white rounded-lg p-3">
             <input
-                className={clsx('w-full', {'mb-3': matchingStops.length > 0})}
+                className={clsx('w-full', {'mb-3': !!matchingStops && matchingStops.length > 0})}
                 type="text"
                 placeholder="Enter stop name..."
                 size={1}
                 onChange={e => debouncedSearch(e)}
             />
-            {matchingStops.length > 0 && matchingStops.map((stop: Stop, index: number) => (
+            {!!matchingStops && matchingStops.length > 0 && matchingStops.map((stop: Stop, index: number) => (
                 <>
                     {index > 0 && <div className="w-full border-t-1 border-foreground/30"></div>}
                     <Link className="flex items-center py-1" key={stop.name} href={`/departures/${stop.name}`}>
@@ -53,6 +53,12 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
                     </Link>
                 </>
             ))}
+            {!matchingStops && (
+                <div className="pt-5 flex flex-col items-center gap-1 text-foreground/50">
+                    <Octagon/>
+                    <span className="text-sm">No stop found</span>
+                </div>
+            )}
         </div>
     )
 }

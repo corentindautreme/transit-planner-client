@@ -25,10 +25,22 @@ export default async function Page() {
             direction: 'Ilidža'
         },
         {
-            stop: 'Trg Austrije',
-            line: '105',
+            stop: 'Socijalno',
+            line: '3',
+            type: 'tram',
+            direction: 'Ilidža'
+        },
+        {
+            stop: 'Stadion Grbavica',
+            line: '103',
             type: 'trolleybus',
-            direction: 'Vogošća Terminal'
+            direction: 'Dobrinja'
+        },
+        {
+            stop: 'Stadion Grbavica',
+            line: '107',
+            type: 'trolleybus',
+            direction: 'Dobrinja'
         }
     ];
 

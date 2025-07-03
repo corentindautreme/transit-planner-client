@@ -62,6 +62,7 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
                 />
             </div>
             <div className="w-full border-t-1 border-foreground/30"></div>
+            {!departures && <DeparturesSkeleton/>}
             {!!departures && departures.length == 0 && (
                 <div className="flex flex-col items-center text-foreground/50 py-3">
                     <Signpost size={32} strokeWidth={1}/>
@@ -70,7 +71,6 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
             )}
             <div className="text-center">
                 {!!departures && departures.length > 0 && departures.map((departure: Departure, index: number) => (
-                    // TODO fades too early
                     <div key={`${stop}-${line}-${direction}-${index}`} className={clsx({
                         'transition-opacity ease-out duration-700 opacity-0': departing && index < departingCount
                     })}>
@@ -84,4 +84,12 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
             </div>
         </div>
     );
+}
+
+export function DeparturesSkeleton() {
+    return <div className="flex flex-col items-center gap-y-1">
+        <div className="rounded bg-foreground/30 w-12 h-5 animate-pulse"/>
+        <div className="rounded bg-foreground/30 w-12 h-5 animate-pulse"/>
+        <div className="rounded bg-foreground/30 w-12 h-5 animate-pulse"/>
+    </div>
 }
