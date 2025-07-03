@@ -17,3 +17,10 @@ export interface Connection {
     type: LineType;
     directions: string[];
 }
+
+export interface FavoriteStop {
+    stop: string;
+    line: string;
+    type: LineType;
+    direction: string;
+}

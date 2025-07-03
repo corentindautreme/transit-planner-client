@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, GitCommit, Heart } from 'lucide-react';
 import { LineAndDirectionSign, LineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
+import { getDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 import { clsx } from 'clsx';
 
 export default function DeparturesList({stop}: { stop: string }) {
@@ -15,14 +16,6 @@ export default function DeparturesList({stop}: { stop: string }) {
     const inlineDeparturesRef = useRef(inlineDepartures);
     const [favoriteSelection, setFavoriteSelection] = useState<string>();
     const favoriteSelectionRef = useRef(null);
-
-    const getDisplayTime = (time: string, now: Date) => {
-        const waitTimeInMinutes = Math.ceil((new Date(time).getTime() - now.getTime()) / 60_000);
-        return waitTimeInMinutes == 0 ? 'now' :
-            waitTimeInMinutes <= 10
-                ? `${waitTimeInMinutes} min`
-                : new Date(time).toLocaleString('bs-BA', {timeStyle: 'short'});
-    }
 
     useEffect(() => {
         async function fetchDepartures() {

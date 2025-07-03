@@ -35,7 +35,7 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
             {matchingStops.length > 0 && matchingStops.map((stop: Stop, index: number) => (
                 <>
                     {index > 0 && <div className="w-full border-t-1 border-foreground/30"></div>}
-                    <Link className="flex items-center" key={stop.name} href={`/departures/${stop.name}`}>
+                    <Link className="flex items-center py-1" key={stop.name} href={`/departures/${stop.name}`}>
                         <div className="me-1 font-bold">{stop.name}</div>
                         {stop.connections.some(c => c.type === 'tram') && (
                             <TramFront size={18}/>
