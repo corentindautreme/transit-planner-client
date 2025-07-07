@@ -1,11 +1,13 @@
 import { LineType } from '@/app/model/line-type';
 
 export interface Stop {
+    id: number;
     name: string;
     connections: Connection[];
 }
 
 export interface GroupedConnectionsStop {
+    id: number;
     name: string;
     connections: ConnectionsByLineType;
 }
