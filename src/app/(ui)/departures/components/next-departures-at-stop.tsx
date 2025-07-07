@@ -50,7 +50,7 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
 
     return (
         <div className="flex flex-col gap-2 bg-white rounded-lg p-3">
-            <div className="flex items-center justify-center text-xs font-bold">
+            <div className="flex items-center justify-center text-xs font-bold gap-1">
                 <MapPin size={14}/>{stop}
             </div>
             <div className="w-full border-t-1 border-foreground/30"></div>

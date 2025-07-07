@@ -84,16 +84,18 @@ export default function DeparturesList({stop}: { stop: string }) {
                         {stop}
                     </div>
 
-                    <div className="relative flex items-center justify-center flex-wrap gap-1">
+                    <div className="flex items-center justify-center flex-wrap gap-1">
                         {Object.keys(departures).map((line, index) =>
                             <div key={line} className="flex flex-col items-stretch">
                                 <button><LineSign name={line} type={departures[line].type}/></button>
-                                <button className="flex justify-center py-1" onClick={() => setFavoriteSelection(line)}>
+                                <button className="relative flex justify-center py-1" onClick={() => setFavoriteSelection(line)}>
                                     <Heart size={18}/>
                                     <div
-                                        ref={favoriteSelectionRef}
+                                        ref={favoriteSelection === line ? favoriteSelectionRef : null}
                                         className={clsx('max-w-[100dvw] overflow-hidden text-ellipsis absolute bottom-0 transform-[translateY(100%)] flex items-stretch rounded-xl text-sm border-1 border-foreground/10 shadow-lg/30',
                                             {
+                                                'left-0': index <= 2,
+                                                'right-0': index > 2,
                                                 'flex': favoriteSelection === line,
                                                 'hidden': favoriteSelection !== line,
                                                 'bg-yellow-500': departures[line].type === 'tram',

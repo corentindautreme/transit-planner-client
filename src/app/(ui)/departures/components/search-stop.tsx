@@ -26,7 +26,10 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
     return (
         <div className="bg-white rounded-lg p-3">
             <input
-                className={clsx('w-full', {'mb-3': !!matchingStops && matchingStops.length > 0})}
+                className={clsx('w-full bg-foreground/10 p-2', {
+                    'rounded-t-lg': !!matchingStops && matchingStops.length > 0,
+                    'rounded-lg': !matchingStops || matchingStops.length == 0,
+                })}
                 type="text"
                 placeholder="Enter stop name..."
                 size={1}
@@ -34,8 +37,13 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
             />
             {!!matchingStops && matchingStops.length > 0 && matchingStops.map((stop: Stop, index: number) => (
                 <>
-                    {index > 0 && <div className="w-full border-t-1 border-foreground/30"></div>}
-                    <Link className="flex items-center py-1" key={stop.name} href={`/departures/${stop.name}`}>
+                    {index >= 0 && <div className="w-full border-t-1 border-foreground/30"></div>}
+                    <Link
+                        className={clsx('flex items-center p-2 bg-foreground/10',
+                            {
+                                'rounded-b-lg': index === matchingStops.length - 1,
+                            }
+                        )} key={stop.name} href={`/departures/${stop.name}`}>
                         <div className="me-1 font-bold">{stop.name}</div>
                         {stop.connections.some(c => c.type === 'tram') && (
                             <TramFront size={18}/>
