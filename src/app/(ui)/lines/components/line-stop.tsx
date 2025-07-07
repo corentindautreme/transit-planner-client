@@ -88,7 +88,8 @@ export function LineStop({name, type, connections, start, end, labelSide, oneWay
                 <div className={clsx('h-4 w-[4.8px]',
                     {
                         'bg-yellow-500': type == 'tram',
-                        'bg-red-500': type == 'trolleybus'
+                        'bg-red-500': type == 'trolleybus',
+                        'bg-sky-500': type == 'bus'
                     }
                 )}></div>
             </div>}
@@ -112,7 +113,8 @@ function LeftLabelRightConnections({name, type, connections, start, end, oneWay}
                             {
                                 'font-bold p-1 rounded': start || end,
                                 'bg-yellow-500': (start || end) && type == 'tram',
-                                'bg-red-500 text-white': (start || end) && type == 'trolleybus'
+                                'bg-red-500 text-white': (start || end) && type == 'trolleybus',
+                                'bg-sky-500 text-white': (start || end) && type == 'bus'
                             }
                         )}>
                             {name}
@@ -122,7 +124,8 @@ function LeftLabelRightConnections({name, type, connections, start, end, oneWay}
                     <div className={clsx('shrink-0 rounded-full',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500 text-white': type == 'trolleybus'
+                            'bg-red-500 text-white': type == 'trolleybus',
+                            'bg-sky-500 text-white': type == 'bus'
                         }
                     )}>
                         <ChevronDown size={16}/>
@@ -133,6 +136,7 @@ function LeftLabelRightConnections({name, type, connections, start, end, oneWay}
                 <div className={clsx('flex-1 shrink-0 w-[4.8px]', {
                     'bg-yellow-500': !start && type == 'tram',
                     'bg-red-500': !start && type == 'trolleybus',
+                    'bg-sky-500': !start && type == 'bus',
                     'bg-transparent': start
                 })}></div>
                 <div className={clsx('rounded-full',
@@ -141,13 +145,16 @@ function LeftLabelRightConnections({name, type, connections, start, end, oneWay}
                         'border-2 bg-white w-3 h-3 ': Object.keys(connections).length == 0,
                         'border-yellow-500': type == 'tram',
                         'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus',
                         'bg-yellow-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'tram',
-                        'bg-red-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'trolleybus'
+                        'bg-red-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'trolleybus',
+                        'bg-sky-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'bus'
                     }
                 )}></div>
                 <div className={clsx('flex-1 shrink-0 w-[4.8px]', {
                     'bg-yellow-500': !end && type == 'tram',
                     'bg-red-500': !end && type == 'trolleybus',
+                    'bg-sky-500': !end && type == 'bus',
                     'bg-transparent': end
                 })}></div>
             </div>
@@ -175,19 +182,25 @@ function LeftConnectionsRightLabel({name, type, connections, start, end, oneWay}
                 <div className={clsx('flex-1 shrink-0 w-[4.8px]', {
                     'bg-yellow-500': !start && type == 'tram',
                     'bg-red-500': !start && type == 'trolleybus',
+                    'bg-sky-500': !start && type == 'bus',
                     'bg-transparent': start
                 })}></div>
-                <div className={clsx('border-yellow-500 rounded-full',
+                <div className={clsx('rounded-full',
                     {
+                        'border-yellow-500': type == 'tram',
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus',
                         'border-3 bg-white w-4 h-4 ': start || end,
                         'border-2 bg-white w-3 h-3 ': Object.keys(connections).length == 0,
                         'bg-yellow-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'tram',
-                        'bg-red-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'trolleybus'
+                        'bg-red-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'trolleybus',
+                        'bg-sky-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'bus'
                     }
                 )}></div>
                 <div className={clsx('flex-1 shrink-0 w-[4.8px]', {
                     'bg-yellow-500': !end && type == 'tram',
                     'bg-red-500': !end && type == 'trolleybus',
+                    'bg-sky-500': !end && type == 'bus',
                     'bg-transparent': end
                 })}></div>
             </div>
@@ -196,7 +209,8 @@ function LeftConnectionsRightLabel({name, type, connections, start, end, oneWay}
                     <div className={clsx('shrink-0 rounded-full',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500 text-white': type == 'trolleybus'
+                            'bg-red-500 text-white': type == 'trolleybus',
+                            'bg-sky-500 text-white': type == 'bus'
                         }
                     )}>
                         <ChevronUp size={16}/>
@@ -208,6 +222,7 @@ function LeftConnectionsRightLabel({name, type, connections, start, end, oneWay}
                             'font-bold p-1 rounded': start || end,
                             'bg-yellow-500': (start || end) && type == 'tram',
                             'bg-red-500 text-white': (start || end) && type == 'trolleybus',
+                            'bg-sky-500 text-white': (start || end) && type == 'bus'
                         }
                     )}>
                         {name}
@@ -237,7 +252,8 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
                         <div className={clsx('h-2 w-[4.8px]',
                             {
                                 'bg-yellow-500': type == 'tram',
-                                'bg-red-500': type == 'trolleybus'
+                                'bg-red-500': type == 'trolleybus',
+                                'bg-sky-500': type == 'bus'
                             }
                         )}></div>
                     </div>
@@ -266,7 +282,8 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
                             {
                                 'w-[4.8px]': true,
                                 'bg-yellow-500': type == 'tram',
-                                'bg-red-500': type == 'trolleybus'
+                                'bg-red-500': type == 'trolleybus',
+                                'bg-sky-500': type == 'bus'
                             }
                         )}></div>
                         <div className={clsx('rounded-full',
@@ -274,14 +291,17 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
                                 'border-2 bg-white w-3 h-3 ': Object.keys(connections).length == 0,
                                 'bg-yellow-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'tram',
                                 'bg-red-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'trolleybus',
+                                'bg-sky-500 w-3 h-3 ': Object.keys(connections).length > 0 && type == 'bus',
                                 'border-yellow-500': type == 'tram',
-                                'border-red-500': type == 'trolleybus'
+                                'border-red-500': type == 'trolleybus',
+                                'border-sky-500': type == 'bus'
                             }
                         )}></div>
                         <div className={clsx('flex-1 shrink-0 w-[4.8px]',
                             {
                                 'bg-yellow-500': type == 'tram',
-                                'bg-red-500': type == 'trolleybus'
+                                'bg-red-500': type == 'trolleybus',
+                                'bg-sky-500': type == 'bus'
                             }
                         )}></div>
                     </div>
@@ -315,7 +335,8 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
                             <div className={clsx('flex-1 shrink-0 w-[4.8px]',
                                 {
                                     'bg-yellow-500': type == 'tram',
-                                    'bg-red-500': type == 'trolleybus'
+                                    'bg-red-500': type == 'trolleybus',
+                                    'bg-sky-500': type == 'bus'
                                 }
                             )}></div>
                         </div>
@@ -340,7 +361,8 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
                             <div className={clsx('h-2 w-[4.8px]',
                                 {
                                     'bg-yellow-500': type == 'tram',
-                                    'bg-red-500': type == 'trolleybus'
+                                    'bg-red-500': type == 'trolleybus',
+                                    'bg-sky-500': type == 'bus'
                                 }
                             )}></div>
                         </div>
@@ -362,7 +384,8 @@ function JunctionLineStop({name, type, connections, end, oneWay}: {
                         <div className={clsx('h-full w-[4.8px]',
                             {
                                 'bg-yellow-500': type == 'tram',
-                                'bg-red-500': type == 'trolleybus'
+                                'bg-red-500': type == 'trolleybus',
+                                'bg-sky-500': type == 'bus'
                             }
                         )}></div>
                     </div>
@@ -391,13 +414,15 @@ export function Junction({segments, type}: {
                         className={clsx('mr-[-7.6px] w-3 rounded-tl-xl border-t-[4.8px] border-l-[4.8px] h-6',
                             {
                                 'border-yellow-500': type == 'tram',
-                                'border-red-500': type == 'trolleybus'
+                                'border-red-500': type == 'trolleybus',
+                                'border-sky-500': type == 'bus'
                             }
                         )}></div>
                     <div className={clsx('w-5 h-5 rounded-full text-white',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500 text-white': type == 'trolleybus'
+                            'bg-red-500 text-white': type == 'trolleybus',
+                            'bg-sky-500': type == 'bus'
                         }
                     )}>
                         <ChevronDown size={20}/>
@@ -405,20 +430,23 @@ export function Junction({segments, type}: {
                     <div className={clsx('w-[4.8px] h-4',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500': type == 'trolleybus'
+                            'bg-red-500': type == 'trolleybus',
+                            'bg-sky-500': type == 'bus'
                         }
                     )}></div>
                 </div>
                 <div className={clsx('w-2 rounded-tl border-t-[4.8px] h-6',
                     {
                         'border-yellow-500': type == 'tram',
-                        'border-red-500': type == 'trolleybus'
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus'
                     }
                 )}></div>
                 <div className={clsx('flex-1 border-t-[4.8px] h-6',
                     {
                         'border-yellow-500': type == 'tram',
-                        'border-red-500': type == 'trolleybus'
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus'
                     }
                 )}></div>
             </div>
@@ -426,13 +454,15 @@ export function Junction({segments, type}: {
                 <div className={clsx('flex-1 border-t-[4.8px] h-6',
                     {
                         'border-yellow-500': type == 'tram',
-                        'border-red-500': type == 'trolleybus'
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus'
                     }
                 )}></div>
                 <div className={clsx('w-2 rounded-tr border-t-[4.8px] h-6',
                     {
                         'border-yellow-500': type == 'tram',
-                        'border-red-500': type == 'trolleybus'
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus'
                     }
                 )}></div>
                 <div className="flex flex-col w-3 items-center">
@@ -440,13 +470,15 @@ export function Junction({segments, type}: {
                         className={clsx('ml-[-7.6px] w-3 rounded-tr-xl border-t-[4.8px] border-r-[4.8px] h-6',
                             {
                                 'border-yellow-500': type == 'tram',
-                                'border-red-500': type == 'trolleybus'
+                                'border-red-500': type == 'trolleybus',
+                                'border-sky-500': type == 'bus'
                             }
                         )}></div>
                     <div className={clsx('w-5 h-5 rounded-full text-white',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500 text-white': type == 'trolleybus'
+                            'bg-red-500 text-white': type == 'trolleybus',
+                            'bg-sky-500 text-white': type == 'bus'
                         }
                     )}>
                         <ChevronUp size={20}/>
@@ -454,7 +486,8 @@ export function Junction({segments, type}: {
                     <div className={clsx('w-[4.8px] h-4',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500': type == 'trolleybus'
+                            'bg-red-500': type == 'trolleybus',
+                            'bg-sky-500': type == 'bus'
                         }
                     )}></div>
                 </div>
@@ -490,13 +523,15 @@ export function Junction({segments, type}: {
                     <div className={clsx('w-[4.8px] h-4',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500': type == 'trolleybus'
+                            'bg-red-500': type == 'trolleybus',
+                            'bg-sky-500': type == 'bus'
                         }
                     )}></div>
                     <div className={clsx('w-5 h-5 rounded-full text-white',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500': type == 'trolleybus'
+                            'bg-red-500': type == 'trolleybus',
+                            'bg-sky-500': type == 'bus'
                         }
                     )}>
                         <ChevronDown size={20}/>
@@ -505,20 +540,23 @@ export function Junction({segments, type}: {
                         className={clsx('mr-[-7.6px] w-3 rounded-bl-xl border-b-[4.8px] border-l-[4.8px] h-6',
                             {
                                 'border-yellow-500': type == 'tram',
-                                'border-red-500': type == 'trolleybus'
+                                'border-red-500': type == 'trolleybus',
+                                'border-sky-500': type == 'bus'
                             }
                         )}></div>
                 </div>
                 <div className={clsx('w-2 rounded-bl border-b-[4.8px] h-6',
                     {
                         'border-yellow-500': type == 'tram',
-                        'border-red-500': type == 'trolleybus'
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus'
                     }
                 )}></div>
                 <div className={clsx('flex-1 border-b-[4.8px] h-6',
                     {
                         'border-yellow-500': type == 'tram',
-                        'border-red-500': type == 'trolleybus'
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus'
                     }
                 )}></div>
             </div>
@@ -526,26 +564,30 @@ export function Junction({segments, type}: {
                 <div className={clsx('flex-1 border-b-[4.8px] h-6',
                     {
                         'border-yellow-500': type == 'tram',
-                        'border-red-500': type == 'trolleybus'
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus'
                     }
                 )}></div>
                 <div className={clsx('w-2 rounded-tr border-b-[4.8px] h-6',
                     {
                         'border-yellow-500': type == 'tram',
-                        'border-red-500': type == 'trolleybus'
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus'
                     }
                 )}></div>
                 <div className="flex flex-col w-3 items-center">
                     <div className={clsx('w-[4.8px] h-4',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500': type == 'trolleybus'
+                            'bg-red-500': type == 'trolleybus',
+                            'bg-sky-500': type == 'bus'
                         }
                     )}></div>
                     <div className={clsx('w-5 h-5 rounded-full text-white',
                         {
                             'bg-yellow-500': type == 'tram',
-                            'bg-red-500': type == 'trolleybus'
+                            'bg-red-500': type == 'trolleybus',
+                            'bg-sky-500': type == 'bus'
                         }
                     )}>
                         <ChevronUp size={20}/>
@@ -554,7 +596,8 @@ export function Junction({segments, type}: {
                         className={clsx('ml-[-7.6px] w-3 rounded-br-xl border-b-[4.8px] border-r-[4.8px] h-6',
                             {
                                 'border-yellow-500': type == 'tram',
-                                'border-red-500': type == 'trolleybus'
+                                'border-red-500': type == 'trolleybus',
+                                'border-sky-500': type == 'bus'
                             }
                         )}></div>
                 </div>
@@ -566,7 +609,8 @@ export function Junction({segments, type}: {
             <div className={clsx('border-x-3 h-3',
                 {
                     'border-yellow-500': type == 'tram',
-                    'border-red-500': type == 'trolleybus'
+                    'border-red-500': type == 'trolleybus',
+                    'border-sky-500': type == 'bus'
                 }
             )}></div>
         </div>

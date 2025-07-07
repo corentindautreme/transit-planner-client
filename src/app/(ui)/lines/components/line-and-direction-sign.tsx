@@ -1,12 +1,13 @@
 import { clsx } from 'clsx';
 import { LineType } from '@/app/model/line-type';
-import { MoveRight } from 'lucide-react';
+import { MoveRight, Plane, TrainFront } from 'lucide-react';
 
 export function LineSign({name, type}: { name: string; type: LineType }) {
     return <div className={clsx('shrink-0 rounded w-10 text-center font-bold',
         {
             'bg-yellow-500': type === 'tram',
             'bg-red-500 text-white': type === 'trolleybus',
+            'bg-sky-500 text-white': type === 'bus'
         }
     )}>
         {name}
@@ -22,6 +23,36 @@ export function LineAndDirectionSign({name, type, direction}: {
         <div className="flex gap-x-1 items-center">
             <LineSign name={name} type={type}/>
             <div className="text-base/4">{direction}</div>
+        </div>
+    )
+}
+
+function SignificantSign({stop}: {stop: string}) {
+    if (stop.toLowerCase().includes("aerodrom")) {
+        return (
+            <div className="inline-flex ms-0.5 bg-black rounded text-white p-0.5">
+                <Plane size={14}/>
+            </div>
+        );
+    }
+    else if (stop.toLowerCase().includes("željeznička stanica")) {
+        return (
+            <div className="inline-flex ms-0.5 bg-black rounded text-white p-0.5">
+                <TrainFront size={14}/>
+            </div>
+        );
+    }
+}
+
+export function LineAndDirectionsSign({name, type, directions}: {
+    name: string;
+    type: LineType,
+    directions: string[]
+}) {
+    return (
+        <div className="flex gap-x-1 items-center">
+            <LineSign name={name} type={type}/>
+            <div className="text-base/4">{directions[0]}<SignificantSign stop={directions[0]}/> – {directions[1]}<SignificantSign stop={directions[1]}/></div>
         </div>
     )
 }
@@ -50,10 +81,11 @@ export function LineFromDirectionSign({name, type, from, direction}: {
 
 export function ConnectionLineSign({name, type}: { name: string, type: LineType }) {
     return (
-        <div className={clsx('rounded w-8 text-xs text-center font-bold',
+        <div className={clsx('rounded w-8 text-xs py-0.5 text-center font-bold',
             {
                 'bg-yellow-500': type === 'tram',
                 'bg-red-500 text-white': type === 'trolleybus',
+                'bg-sky-500 text-white': type === 'bus'
             }
         )}>
             {name}
@@ -71,13 +103,15 @@ export function OneWayConnectionLineSign({name, type, direction}: {
             <div className={clsx('flex items-center rounded overflow-hidden',
                 {
                     'bg-yellow-500/50': type === 'tram',
-                    'bg-red-500/50': type === 'trolleybus'
+                    'bg-red-500/50': type === 'trolleybus',
+                    'bg-sky-500/50': type === 'bus'
                 }
             )}>
-                <div className={clsx('shrink-0 rounded w-8 text-xs text-center font-bold',
+                <div className={clsx('shrink-0 rounded w-8 text-xs py-0.5 text-center font-bold',
                     {
                         'bg-yellow-500': type === 'tram',
-                        'bg-red-500 text-white': type === 'trolleybus'
+                        'bg-red-500 text-white': type === 'trolleybus',
+                        'bg-sky-500 text-white': type === 'bus'
                     }
                 )}>
                     {name}

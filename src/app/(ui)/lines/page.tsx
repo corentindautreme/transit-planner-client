@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { LineAndDirectionSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
+import { LineAndDirectionsSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { BusFront, Equal, TramFront } from 'lucide-react';
 import { Suspense } from 'react';
 import { Line } from '@/app/model/line';
@@ -26,14 +26,15 @@ export default async function Page() {
                     .map(line =>
                         <Link key={line.name} href={`/lines/${line.name}`}>
                             <div className="bg-background p-3 rounded-lg">
-                                <LineAndDirectionSign
+                                <LineAndDirectionsSign
                                     name={line.name}
                                     type={line.type}
-                                    direction={line.directions.join(' – ')}
+                                    directions={line.directions}
                                 />
                             </div>
                         </Link>
-                    )}
+                    )
+                }
 
                 <div className="flex items-center gap-x-2 font-bold my-1">
                     <div className="relative mt-0.5">
@@ -53,14 +54,36 @@ export default async function Page() {
                     .map(line =>
                         <Link key={line.name} href={`/lines/${line.name}`}>
                             <div className="bg-background p-3 rounded-lg">
-                                <LineAndDirectionSign
+                                <LineAndDirectionsSign
                                     name={line.name}
                                     type={line.type}
-                                    direction={line.directions.join(' – ')}
+                                    directions={line.directions}
                                 />
                             </div>
                         </Link>
-                    )}
+                    )
+                }
+
+                <div className="flex items-center gap-x-2 font-bold mb-1">
+                    <BusFront size={18}/>
+                    Bus
+                </div>
+
+                {lines
+                    .filter(line => line.type == 'bus')
+                    .sort((l1, l2) => l1.name.localeCompare(l2.name))
+                    .map(line =>
+                        <Link key={line.name} href={`/lines/${line.name}`}>
+                            <div className="bg-background p-3 rounded-lg">
+                                <LineAndDirectionsSign
+                                    name={line.name}
+                                    type={line.type}
+                                    directions={line.directions}
+                                />
+                            </div>
+                        </Link>
+                    )
+                }
             </div>
         </Suspense>
     );
