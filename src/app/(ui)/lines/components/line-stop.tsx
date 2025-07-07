@@ -2,7 +2,7 @@ import { LineType } from '@/app/model/line-type';
 import { clsx } from 'clsx';
 import { Connection, ConnectionsByLineType, GroupedConnectionsStop } from '@/app/model/stop';
 import { ConnectionLineSign, OneWayConnectionLineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { BusFront, ChevronDown, ChevronUp, Plane, TrainFront } from 'lucide-react';
 
 function Connections({stopName, connections, align}: {
     stopName: string,
@@ -15,6 +15,16 @@ function Connections({stopName, connections, align}: {
                 'justify-end': align === 'end'
             }
         )}>
+            {stopName.toLowerCase().includes('aerodrom') && (
+                <div className="flex justify-center rounded p-1 font-bold bg-black text-white">
+                    <Plane size={14}/>
+                </div>
+            )}
+            {stopName.toLowerCase().includes('željeznička stanica') && (
+                <div className="flex justify-center rounded p-1 font-bold bg-black text-white">
+                    <TrainFront size={14}/>
+                </div>
+            )}
             {'tram' in connections && <ConnectionsList
                 connections={connections['tram']}
                 stopName={stopName}
@@ -23,6 +33,20 @@ function Connections({stopName, connections, align}: {
                 connections={connections['trolleybus']}
                 stopName={stopName}
             />}
+            {'bus' in connections && connections['bus'].some(c => c.line === '200E' && c.directions.some(d => d.toLowerCase().includes("aerodrom"))) &&
+                <div className="flex items-center">
+                    <div className="flex justify-center rounded font-bold border-2 border-black">
+                        <BusFront size={15}/>
+                    </div>
+                    <div className="w-0.5 border-y-1 border-black"></div>
+                    <div className="flex justify-center rounded p-0.5 font-bold bg-black text-white">
+                        <Plane size={15}/>
+                    </div>
+                </div>}
+            {'bus' in connections && (connections['bus'].length > 1 || connections['bus'][0].line !== '200E') &&
+                <div className="flex justify-center rounded p-0.5 font-bold bg-sky-500 text-white">
+                    <BusFront size={15}/>
+                </div>}
         </div>
     );
 }
