@@ -36,7 +36,7 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
                 onChange={e => debouncedSearch(e)}
             />
             {!!matchingStops && matchingStops.length > 0 && matchingStops.map((stop: Stop, index: number) => (
-                <>
+                <div key={`autocomplete-${stop.name}`}>
                     <div className="w-full border-t-1 border-foreground/30"></div>
                     <Link
                         className={clsx('flex items-center p-2 bg-foreground/10',
@@ -59,7 +59,7 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
                             </div>
                         )}
                     </Link>
-                </>
+                </div>
             ))}
             {!matchingStops && (
                 <div className="pt-5 flex flex-col items-center gap-1 text-foreground/50">

@@ -67,7 +67,7 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
                 if (typeof stopOrSegment === 'object' && 'name' in stopOrSegment) {
                     const stop = stopOrSegment as GroupedConnectionsStop;
                     return <LineStop
-                        key={stop.name}
+                        key={`${stop.name}-${stop.name}`}
                         name={stop.name}
                         type={line.type}
                         connections={stop.connections}
@@ -81,24 +81,21 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
                             .map((segment, segmentIndex) => {
                                     if (segment.length == 0) return;
                                     const stop = segment[0];
-                                    return <>
-                                        <LineStop
-                                            name={stop.name}
-                                            type={line.type}
-                                            connections={stop.connections}
-                                            start={index == 0}
-                                            end={index == stopMap.length - 1}
-                                            labelSide={segmentIndex == 1 ? 'left' : 'right'}
-                                            oneWay={segmentIndex == 0 ? 'up' : 'down'}
-                                        />
-                                    </>;
+                                    return <LineStop
+                                        key={`${stop.name}-${stop.name}`}
+                                        name={stop.name}
+                                        type={line.type}
+                                        connections={stop.connections}
+                                        start={index == 0}
+                                        end={index == stopMap.length - 1}
+                                        labelSide={segmentIndex == 1 ? 'left' : 'right'}
+                                        oneWay={segmentIndex == 0 ? 'up' : 'down'}
+                                    />;
                                 }
                             )
                             ;
                     } else {
-                        return <>
-                            <Junction segments={stopOrSegment} type={line.type}/>
-                        </>
+                        return <Junction key={`${index}-junction`} segments={stopOrSegment} type={line.type}/>
                     }
                 }
             })}
