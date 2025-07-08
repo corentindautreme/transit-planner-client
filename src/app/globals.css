@@ -13,8 +13,8 @@
 }
 
 @theme {
-    --animate-news-ticker: newsTicker 5s linear infinite;
-    --animate-news-ticker-alt: newsTickerAlt 5s linear infinite;
+    --animate-news-ticker: newsTicker 10s linear infinite;
+    --animate-news-ticker-alt: newsTickerAlt 10s linear infinite;
 
     @keyframes newsTicker {
         0% {

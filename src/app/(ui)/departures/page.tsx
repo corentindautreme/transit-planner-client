@@ -13,37 +13,43 @@ export default async function Page() {
     const stops = await fetch(`${process.env.BACKEND_URL}/stops`).then(res => res.json()) as Stop[];
     const favorites: FavoriteStop[] = [
         {
-            stop: 'Alipašin Most',
+            id: 10,
+            name: 'Alipašin Most',
             line: '3',
             type: 'tram',
             direction: 'Baščaršija'
         },
         {
-            stop: 'Alipašin Most',
+            id: 10,
+            name: 'Alipašin Most',
             line: '3',
             type: 'tram',
             direction: 'Ilidža'
         },
         {
-            stop: 'Socijalno',
+            id: 14,
+            name: 'Socijalno',
             line: '3',
             type: 'tram',
             direction: 'Ilidža'
         },
         {
-            stop: 'Stadion Grbavica',
+            id: 31,
+            name: 'Stadion Grbavica',
             line: '103',
             type: 'trolleybus',
             direction: 'Dobrinja'
         },
         {
-            stop: 'Stadion Grbavica',
+            id: 31,
+            name: 'Stadion Grbavica',
             line: '107',
             type: 'trolleybus',
             direction: 'Dobrinja'
         },
         {
-            stop: 'Međunarodni Aerodrom Sarajevo',
+            id: 77,
+            name: 'Međunarodni Aerodrom Sarajevo',
             line: '200E',
             type: 'bus',
             direction: 'Bentbaša'

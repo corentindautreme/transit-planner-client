@@ -1,4 +1,5 @@
 import { LineType } from "./line-type";
+import { Stop } from '@/app/model/stop';
 
 export interface Departure {
     scheduledAt: string;
@@ -13,7 +14,12 @@ export interface DepartureDetails {
     displayTime: string;
 }
 
-export type DepartureByLine = { [line: string]: { type: LineType, departures: { [direction: string]: Departure[] } } };
+export interface DeparturesAtStop {
+    stop: Stop;
+    departures: DeparturesByLine;
+}
+
+export type DeparturesByLine = { [line: string]: { type: LineType, departures: { [direction: string]: Departure[] } } };
 
 export interface DepartureForStopAndLine {
     stop: string;

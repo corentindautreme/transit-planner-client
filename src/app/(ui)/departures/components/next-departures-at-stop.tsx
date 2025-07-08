@@ -1,15 +1,16 @@
 'use client';
 
-import { Departure, DepartureByLine } from '@/app/model/departures';
+import { Departure, DeparturesAtStop } from '@/app/model/departures';
 import { LineAndDirectionSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { LineType } from '@/app/model/line-type';
 import { MapPin, Signpost } from 'lucide-react';
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 import { clsx } from 'clsx';
 
-export default function NextDeparturesAtStop({stop, line, direction, type}: {
-    stop: string,
+export default function NextDeparturesAtStop({stopId, stopName, line, direction, type}: {
+    stopId: number,
+    stopName: string,
     line: string,
     type: LineType,
     direction: string
@@ -23,9 +24,9 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
         async function fetchNextDepartures() {
             try {
                 const now = new Date();
-                const newDepartures: Departure[] = await fetch(`http://localhost:4000/departures/next?from=${stop}&line=${line}&direction=${direction}&limit=3`)
-                    .then(res => res.json() as DepartureByLine)
-                    .then(departuresByLine => departuresByLine[line].departures[direction])
+                const newDepartures: Departure[] = await fetch(`http://localhost:4000/departures/next?from=${stopId}&line=${line}&direction=${direction}&limit=3`)
+                    .then(res => res.json() as DeparturesAtStop)
+                    .then(departuresByLine => departuresByLine.departures[line].departures[direction])
                     .then(departures => departures.map(d => ({
                         ...d,
                         displayTime: getDisplayTime(d.scheduledAt, now)
@@ -50,7 +51,7 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
 
     return (
         <div className="flex flex-col gap-2 bg-white rounded-lg p-3">
-            <StopName name={stop}/>
+            <StopName name={stopName}/>
             <div className="w-full border-t-1 border-foreground/30"></div>
             <div className="flex font-bold justify-center">
                 <LineAndDirectionSign
@@ -69,7 +70,7 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
             )}
             <div className="text-center">
                 {!!departures && departures.length > 0 && departures.map((departure: Departure, index: number) => (
-                    <div key={`${stop}-${line}-${direction}-${index}`} className={clsx({
+                    <div key={`${stopName}-${line}-${direction}-${index}`} className={clsx({
                         'transition-opacity ease-out duration-700 opacity-0': departing && index < departingCount
                     })}>
                         <div className={clsx({

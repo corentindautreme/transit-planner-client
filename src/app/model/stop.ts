@@ -21,7 +21,8 @@ export interface Connection {
 }
 
 export interface FavoriteStop {
-    stop: string;
+    id: number;
+    name: string;
     line: string;
     type: LineType;
     direction: string;
