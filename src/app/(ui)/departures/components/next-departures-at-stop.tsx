@@ -50,9 +50,7 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
 
     return (
         <div className="flex flex-col gap-2 bg-white rounded-lg p-3">
-            <div className="flex items-center justify-center text-xs font-bold gap-1">
-                <MapPin size={14}/>{stop}
-            </div>
+            <StopName name={stop}/>
             <div className="w-full border-t-1 border-foreground/30"></div>
             <div className="flex font-bold justify-center">
                 <LineAndDirectionSign
@@ -82,6 +80,31 @@ export default function NextDeparturesAtStop({stop, line, direction, type}: {
                     </div>
                 ))}
             </div>
+        </div>
+    );
+}
+
+function StopName({name}: {name: string}) {
+    return name.length > 16 ? (
+        <div className="relative w-full flex overflow-hidden">
+            <div className="animate-news-ticker flex items-center text-xs font-bold gap-1">
+                <MapPin size={14} className="shrink-0 bg-background"/>
+                <div className="grow whitespace-nowrap">
+                    <span>{name}</span>
+                </div>
+            </div>
+            <div
+                className="absolute left-1 animate-news-ticker-alt flex items-center text-xs font-bold gap-1">
+                <MapPin size={14} className="shrink-0 bg-background"/>
+                <div className="grow whitespace-nowrap">
+                    <span>{name}</span>
+                </div>
+            </div>
+        </div>
+    ) : (
+        <div className="flex items-center justify-center text-xs font-bold gap-1">
+            <MapPin size={14} className="shrink-0 bg-background"/>
+            {name}
         </div>
     );
 }

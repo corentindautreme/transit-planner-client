@@ -81,7 +81,7 @@ export default function DeparturesList({stop}: { stop: string }) {
                 <div className="flex flex-col gap-y-1 bg-background rounded-lg p-3 overflow-x-clip text-ellipsis">
                     <div className="flex flex-col items-center text-xl">
                         <GitCommit size={28}/>
-                        {stop}
+                        <div className="text-center">{stop}</div>
                     </div>
 
                     <div className="flex items-center justify-center flex-wrap gap-1">
@@ -100,6 +100,7 @@ export default function DeparturesList({stop}: { stop: string }) {
                                                 'hidden': favoriteSelection !== line,
                                                 'bg-yellow-500': departures[line].type === 'tram',
                                                 'bg-red-500 text-white': departures[line].type === 'trolleybus',
+                                                'bg-sky-500 text-white': departures[line].type === 'bus'
                                             }
                                         )}>
                                         <div className="flex items-center gap-1 px-1 py-2">

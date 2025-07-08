@@ -41,6 +41,12 @@ export default async function Page() {
             line: '107',
             type: 'trolleybus',
             direction: 'Dobrinja'
+        },
+        {
+            stop: 'Međunarodni Aerodrom Sarajevo',
+            line: '200E',
+            type: 'bus',
+            direction: 'Bentbaša'
         }
     ];
 
