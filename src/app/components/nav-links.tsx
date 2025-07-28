@@ -1,12 +1,12 @@
 'use client';
 
 import { JSX } from 'react';
-import { GitCommit, House, Route } from 'lucide-react';
+import { CalendarClock, GitCommit, House, Route } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { clsx } from 'clsx';
 
-type LinkName = 'Home' | 'Departures' | 'Lines';
+type LinkName = 'Home' | 'Departures' | 'Schedules' | 'Lines';
 
 const links: { name: LinkName, href: string, icon: JSX.Element }[] = [
     {
@@ -18,6 +18,11 @@ const links: { name: LinkName, href: string, icon: JSX.Element }[] = [
         name: 'Departures',
         href: '/departures',
         icon: <GitCommit/>,
+    },
+    {
+        name: 'Schedules',
+        href: '/schedules',
+        icon: <CalendarClock/>,
     },
     {
         name: 'Lines',
