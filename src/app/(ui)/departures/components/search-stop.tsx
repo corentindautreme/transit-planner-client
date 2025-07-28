@@ -58,6 +58,9 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
                                 </div>
                             </div>
                         )}
+                        {stop.connections.some(c => c.type === 'bus') && (
+                            <BusFront size={18}/>
+                        )}
                     </Link>
                 </div>
             ))}
