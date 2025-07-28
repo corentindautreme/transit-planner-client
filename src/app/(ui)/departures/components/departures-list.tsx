@@ -1,6 +1,6 @@
 'use client';
 
-import { DepartureByLine, DepartureDetails } from '@/app/model/departures';
+import { DepartureDetails, DeparturesAtStop } from '@/app/model/departures';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, GitCommit, Heart } from 'lucide-react';
@@ -8,10 +8,10 @@ import { LineAndDirectionSign, LineSign } from '@/app/(ui)/lines/components/line
 import { getDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 import { clsx } from 'clsx';
 
-export default function DeparturesList({stop}: { stop: string }) {
+export default function DeparturesList({stopId}: { stopId: number }) {
     const [departing, setDeparting] = useState(false);
     const [departingCount, setDepartingCount] = useState(0);
-    const [departures, setDepartures] = useState<DepartureByLine>();
+    const [departures, setDepartures] = useState<DeparturesAtStop>();
     const [inlineDepartures, setInlineDepartures] = useState<DepartureDetails[]>();
     const inlineDeparturesRef = useRef(inlineDepartures);
     const [favoriteSelection, setFavoriteSelection] = useState<string>();
@@ -20,17 +20,17 @@ export default function DeparturesList({stop}: { stop: string }) {
     useEffect(() => {
         async function fetchDepartures() {
             try {
-                const departures: DepartureByLine = await fetch(`http://localhost:4000/departures/next?from=${stop}`).then(res => res.json());
+                const departures: DeparturesAtStop = await fetch(`http://localhost:4000/departures/next?from=${stopId}`).then(res => res.json());
                 setDepartures(departures);
                 const now = new Date();
-                const newInlineDepartures: DepartureDetails[] = Object.keys(departures)
-                    .map(line => Object.keys(departures[line].departures)
-                        .map(direction => departures[line].departures[direction]
+                const newInlineDepartures: DepartureDetails[] = Object.keys(departures.departures)
+                    .map(line => Object.keys(departures.departures[line].departures)
+                        .map(direction => departures.departures[line].departures[direction]
                             .map(departure => (
                                 {
                                     line: line,
                                     direction: direction,
-                                    type: departures[line].type,
+                                    type: departures.departures[line].type,
                                     time: departure.scheduledAt,
                                     displayTime: getDisplayTime(departure.scheduledAt, now)
                                 } as DepartureDetails)
@@ -81,13 +81,13 @@ export default function DeparturesList({stop}: { stop: string }) {
                 <div className="flex flex-col gap-y-1 bg-background rounded-lg p-3 overflow-x-clip text-ellipsis">
                     <div className="flex flex-col items-center text-xl">
                         <GitCommit size={28}/>
-                        {stop}
+                        <div className="text-center">{departures.stop.name}</div>
                     </div>
 
                     <div className="flex items-center justify-center flex-wrap gap-1">
-                        {Object.keys(departures).map((line, index) =>
+                        {Object.keys(departures.departures).map((line, index) =>
                             <div key={line} className="flex flex-col items-stretch">
-                                <button><LineSign name={line} type={departures[line].type}/></button>
+                                <button><LineSign name={line} type={departures.departures[line].type}/></button>
                                 <button className="relative flex justify-center py-1" onClick={() => setFavoriteSelection(line)}>
                                     <Heart size={18}/>
                                     <div
@@ -98,21 +98,22 @@ export default function DeparturesList({stop}: { stop: string }) {
                                                 'right-0': index > 2,
                                                 'flex': favoriteSelection === line,
                                                 'hidden': favoriteSelection !== line,
-                                                'bg-yellow-500': departures[line].type === 'tram',
-                                                'bg-red-500 text-white': departures[line].type === 'trolleybus',
+                                                'bg-yellow-500': departures.departures[line].type === 'tram',
+                                                'bg-red-500 text-white': departures.departures[line].type === 'trolleybus',
+                                                'bg-sky-500 text-white': departures.departures[line].type === 'bus'
                                             }
                                         )}>
                                         <div className="flex items-center gap-1 px-1 py-2">
                                             <div className="overflow-hidden text-ellipsis">
-                                                {Object.keys(departures[line].departures)[0]}
+                                                {Object.keys(departures.departures[line].departures)[0]}
                                             </div>
                                             <Heart className="shrink-0" size={14}/>
                                         </div>
-                                        {Object.keys(departures[line].departures).length > 1 && <>
+                                        {Object.keys(departures.departures[line].departures).length > 1 && <>
                                             <div className="shrink-0 w-[1px] bg-black"></div>
                                             <div className="flex items-center gap-1 px-1 py-2">
                                                 <div className="overflow-hidden text-ellipsis">
-                                                    {Object.keys(departures[line].departures)[1]}
+                                                    {Object.keys(departures.departures[line].departures)[1]}
                                                 </div>
                                                 <Heart className="shrink-0" size={14}/>
                                             </div>
@@ -127,7 +128,7 @@ export default function DeparturesList({stop}: { stop: string }) {
                 <div className="flex flex-col gap-y-2">
                     {inlineDepartures.map((departure, index) => (
                         <div
-                            key={`${departure.line}-${departure.time}`}
+                            key={`${departure.line}-${departure.direction}-${departure.time}`}
                             className={clsx('flex items-center justify-between bg-background p-3 rounded-lg',
                                 {
                                     'transition-opacity ease-out duration-700 opacity-0': departing && index < departingCount

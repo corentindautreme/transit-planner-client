@@ -36,7 +36,7 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
 
     let idxD1 = 0, idxD2 = 0;
     while (true) {
-        while (idxD1 < d1Stops.length && idxD2 < d2Stops.length && d1Stops[idxD1].name === d2Stops[idxD2].name) {
+        while (idxD1 < d1Stops.length && idxD2 < d2Stops.length && d1Stops[idxD1].id === d2Stops[idxD2].id) {
             stopMap.push(d1Stops[idxD1]);
             idxD1++;
             idxD2++;
@@ -46,12 +46,12 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
         }
         stopMap.push([[], []]);
         // while we find stops on D1 that are not on D2
-        while (idxD1 < d1Stops.length && !d2Stops.some((stop: GroupedConnectionsStop) => stop.name === d1Stops[idxD1].name)) {
+        while (idxD1 < d1Stops.length && !d2Stops.some((stop: GroupedConnectionsStop) => stop.id === d1Stops[idxD1].id)) {
             (stopMap[stopMap.length - 1] as GroupedConnectionsStop[][])[0].push(d1Stops[idxD1]);
             idxD1++;
         }
         // while we find stops on D2 that are not on D1
-        while (idxD2 < d2Stops.length && !d1Stops.some((stop: GroupedConnectionsStop) => stop.name === d2Stops[idxD2].name)) {
+        while (idxD2 < d2Stops.length && !d1Stops.some((stop: GroupedConnectionsStop) => stop.id === d2Stops[idxD2].id)) {
             (stopMap[stopMap.length - 1] as GroupedConnectionsStop[][])[1].push(d2Stops[idxD2]);
             idxD2++;
         }
@@ -78,8 +78,8 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
                 } else {
                     if ((stopOrSegment as GroupedConnectionsStop[][]).every(segment => segment.length <= 1)) {
                         return (stopOrSegment as GroupedConnectionsStop[][])
-                            .filter(segment => segment.length > 0)
                             .map((segment, segmentIndex) => {
+                                    if (segment.length == 0) return;
                                     const stop = segment[0];
                                     return <>
                                         <LineStop

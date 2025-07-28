@@ -43,7 +43,7 @@ export default function SearchStop({stops}: { stops: Stop[] }) {
                             {
                                 'rounded-b-lg': index === matchingStops.length - 1,
                             }
-                        )} key={stop.name} href={`/departures/${stop.name}`}>
+                        )} key={stop.name} href={`/departures/${stop.id}`}>
                         <div className="me-1 font-bold">{stop.name}</div>
                         {stop.connections.some(c => c.type === 'tram') && (
                             <TramFront size={18}/>
