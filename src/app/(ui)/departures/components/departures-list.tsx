@@ -3,7 +3,7 @@
 import { DepartureDetails, DeparturesAtStop } from '@/app/model/departures';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, GitCommit, Heart } from 'lucide-react';
+import { ChevronLeft, GitCommit, Heart, Signpost } from 'lucide-react';
 import { LineAndDirectionSign, LineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { getDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 import { clsx } from 'clsx';
@@ -73,10 +73,9 @@ export default function DeparturesList({stopId}: { stopId: number }) {
         };
     }, [favoriteSelectionRef]);
 
-    return (!departures || !inlineDepartures) ? 'Loading...' : (
-        <>
-            <div className="flex flex-col gap-y-2">
-                <Link className="w-fit flex items-center gap-x-1" href="/departures"><ChevronLeft/>Back</Link>
+    return (!departures || !inlineDepartures) ? <DeparturesListSkeleton/> : (
+        <div className="h-full flex flex-col gap-y-2">
+            <Link className="w-fit flex items-center gap-x-1" href="/departures"><ChevronLeft/>Back</Link>
 
                 <div className="flex flex-col gap-y-1 bg-background rounded-lg p-3 overflow-x-clip text-ellipsis">
                     <div className="flex flex-col items-center text-xl">
@@ -125,28 +124,98 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-y-2">
-                    {inlineDepartures.map((departure, index) => (
-                        <div
-                            key={`${departure.line}-${departure.direction}-${departure.time}`}
-                            className={clsx('flex items-center justify-between bg-background p-3 rounded-lg',
-                                {
-                                    'transition-opacity ease-out duration-700 opacity-0': departing && index < departingCount
-                                }
-                            )}
-                        >
-                            <LineAndDirectionSign
-                                name={departure.line}
-                                type={departure.type}
-                                direction={departure.direction}
-                            />
-                            <div className={clsx({
-                                'animate-pulse font-bold': departure.displayTime === 'now'
-                            })}>{departure.displayTime}</div>
+            <div className="flex flex-col gap-y-2">
+                {inlineDepartures.map((departure, index) => (
+                    <div
+                        key={`${departure.line}-${departure.direction}-${departure.time}`}
+                        className={clsx('flex items-center justify-between bg-background p-3 rounded-lg',
+                            {
+                                'transition-opacity ease-out duration-700 opacity-0': departing && index < departingCount
+                            }
+                        )}
+                    >
+                        <LineAndDirectionSign name={departure.line} type={departure.type}
+                                              direction={departure.direction}/>
+                        <div className={clsx({'animate-pulse font-bold': departure.displayTime === 'now'})}>
+                            {departure.displayTime}
                         </div>
-                    ))}
+                    </div>
+                ))}
+            </div>
+            {inlineDepartures.length == 0 && (
+                <div className="grow flex flex-col gap-2 items-center justify-center text-foreground/50">
+                    <Signpost size={64} strokeWidth={1}/>
+                    <div className="text-center">No upcoming departure</div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+function DeparturesListSkeleton() {
+    return (
+        <div className="h-full flex flex-col gap-y-2">
+            <Link className="w-fit flex items-center gap-x-1" href="/departures"><ChevronLeft/>Back</Link>
+
+            <div className="flex flex-col gap-y-2 bg-background rounded-lg p-3 overflow-x-clip text-ellipsis">
+                <div className="flex flex-col items-center text-xl text-foreground/30">
+                    <GitCommit size={28}/>
+                    <div className="w-20 h-6 bg-foreground/20 rounded animate-pulse"></div>
+                </div>
+
+                <div className="flex items-center justify-center flex-wrap gap-1">
+                    <div className="flex flex-col gap-y-1 items-center text-foreground/30">
+                        <div className="w-10 h-6 bg-foreground/30 rounded animate-pulse"></div>
+                        <Heart size={18}/>
+                    </div>
+                    <div className="flex flex-col gap-y-1 items-center text-foreground/30">
+                        <div className="w-10 h-6 bg-foreground/30 rounded animate-pulse"></div>
+                        <Heart size={18}/>
+                    </div>
+                    <div className="flex flex-col gap-y-1 items-center text-foreground/30">
+                        <div className="w-10 h-6 bg-foreground/30 rounded animate-pulse"></div>
+                        <Heart size={18}/>
+                    </div>
                 </div>
             </div>
-        </>
-    );
+
+            <div className="flex flex-col gap-y-2">
+                <div className="flex items-center justify-between bg-background p-3 rounded-lg">
+                    <div className="flex items-center gap-1">
+                        <div className="w-10 h-6 bg-foreground/30 rounded animate-pulse"></div>
+                        <div className="w-18 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                    </div>
+                    <div className="w-12 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                </div>
+                <div className="flex items-center justify-between bg-background p-3 rounded-lg">
+                    <div className="flex items-center gap-1">
+                        <div className="w-10 h-6 bg-foreground/30 rounded animate-pulse"></div>
+                        <div className="w-18 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                    </div>
+                    <div className="w-12 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                </div>
+                <div className="flex items-center justify-between bg-background p-3 rounded-lg">
+                    <div className="flex items-center gap-1">
+                        <div className="w-10 h-6 bg-foreground/30 rounded animate-pulse"></div>
+                        <div className="w-18 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                    </div>
+                    <div className="w-12 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                </div>
+                <div className="flex items-center justify-between bg-background p-3 rounded-lg">
+                    <div className="flex items-center gap-1">
+                        <div className="w-10 h-6 bg-foreground/30 rounded animate-pulse"></div>
+                        <div className="w-18 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                    </div>
+                    <div className="w-12 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                </div>
+                <div className="flex items-center justify-between bg-background p-3 rounded-lg">
+                    <div className="flex items-center gap-1">
+                        <div className="w-10 h-6 bg-foreground/30 rounded animate-pulse"></div>
+                        <div className="w-18 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                    </div>
+                    <div className="w-12 h-5 bg-foreground/20 rounded animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    )
 }
