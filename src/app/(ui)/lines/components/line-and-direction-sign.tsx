@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { LineType } from '@/app/model/line-type';
 import { MoveRight, Plane, TrainFront } from 'lucide-react';
+import { shortenStopName } from '@/app/(ui)/utils/text-utils';
 
 export function LineSign({name, type}: { name: string; type: LineType }) {
     return <div className={clsx('shrink-0 rounded w-10 text-center font-bold',
@@ -27,15 +28,14 @@ export function LineAndDirectionSign({name, type, direction}: {
     )
 }
 
-function SignificantSign({stop}: {stop: string}) {
-    if (stop.toLowerCase().includes("aerodrom")) {
+function SignificantSign({stop}: { stop: string }) {
+    if (stop.toLowerCase().includes('aerodrom')) {
         return (
             <div className="inline-flex ms-0.5 bg-black rounded text-white p-0.5">
                 <Plane size={14}/>
             </div>
         );
-    }
-    else if (stop.toLowerCase().includes("željeznička stanica")) {
+    } else if (stop.toLowerCase().includes('željeznička stanica')) {
         return (
             <div className="inline-flex ms-0.5 bg-black rounded text-white p-0.5">
                 <TrainFront size={14}/>
@@ -52,7 +52,8 @@ export function LineAndDirectionsSign({name, type, directions}: {
     return (
         <div className="flex gap-x-1 items-center">
             <LineSign name={name} type={type}/>
-            <div className="text-base/4">{directions[0]}<SignificantSign stop={directions[0]}/> – {directions[1]}<SignificantSign stop={directions[1]}/></div>
+            <div className="text-base/4">{directions[0]}<SignificantSign
+                stop={directions[0]}/> – {directions[1]}<SignificantSign stop={directions[1]}/></div>
         </div>
     )
 }
@@ -69,11 +70,9 @@ export function LineFromDirectionSign({name, type, from, direction}: {
                 <LineSign name={name} type={type}/>
             </div>
             <div className="flex items-center gap-x-1 overflow-hidden">
-                {/*<div className="text-nowrap overflow-hidden text-ellipsis">{from}</div>*/}
                 <div className="text-center text-base/4">{from}</div>
                 <MoveRight className="shrink-0"/>
                 <div className="text-center text-base/4">{direction}</div>
-                {/*<div className="text-nowrap overflow-hidden text-ellipsis">{direction}</div>*/}
             </div>
         </div>
     )
@@ -117,11 +116,7 @@ export function OneWayConnectionLineSign({name, type, direction}: {
                     {name}
                 </div>
                 <div className="grow text-xs text-nowrap overflow-hidden text-ellipsis px-0.5">
-                    {direction.split(' ')
-                        .filter(s => s.charAt(0) === s.charAt(0).toUpperCase())
-                        .map((s, index) => (index == 0 ? `${s.slice(0, 3)}` : `${s.charAt(0)}`) + (s.length > 1 ? '.' : ''))
-                        .join(' ')
-                    }
+                    {shortenStopName(direction)}
                 </div>
             </div>
         </div>
