@@ -3,16 +3,19 @@ import { LineType } from '@/app/model/line-type';
 import { MoveRight, Plane, TrainFront } from 'lucide-react';
 import { shortenStopName } from '@/app/(ui)/utils/text-utils';
 
-export function LineSign({name, type}: { name: string; type: LineType }) {
-    return <div className={clsx('shrink-0 rounded w-10 text-center font-bold',
+export function LineSign({name, type, inline}: { name: string; type: LineType, inline?: boolean }) {
+    const Tag = inline ? 'span' : 'div';
+    return <Tag className={clsx('shrink-0 rounded w-10 text-center font-bold',
         {
             'bg-yellow-500': type === 'tram',
             'bg-red-500 text-white': type === 'trolleybus',
-            'bg-sky-500 text-white': type === 'bus'
+            'bg-sky-500 text-white': type === 'bus',
+            'inline-block': inline,
+            'border-1 border-black': inline && type === 'tram'
         }
     )}>
         {name}
-    </div>;
+    </Tag>;
 }
 
 export function LineAndDirectionSign({name, type, direction}: {
@@ -78,9 +81,10 @@ export function LineFromDirectionSign({name, type, from, direction}: {
     )
 }
 
-export function ConnectionLineSign({name, type}: { name: string, type: LineType }) {
+export function ConnectionLineSign({name, type, inline}: { name: string, type: LineType, inline?: boolean }) {
+    const Tag = inline ? 'span' : 'div';
     return (
-        <div className={clsx('rounded w-8 text-xs py-0.5 text-center font-bold',
+        <Tag className={clsx('rounded w-8 text-xs py-0.5 text-center font-bold',
             {
                 'bg-yellow-500': type === 'tram',
                 'bg-red-500 text-white': type === 'trolleybus',
@@ -88,7 +92,7 @@ export function ConnectionLineSign({name, type}: { name: string, type: LineType 
             }
         )}>
             {name}
-        </div>
+        </Tag>
     )
 }
 

@@ -58,47 +58,49 @@ export default async function Page(props: { params: Promise<{ name: string }>; }
     }
 
     return (
-        <div className="bg-white rounded-xl py-3 px-1 flex flex-col mx-auto">
+        <div className="h-full bg-white rounded-xl py-3 px-1 flex flex-col mx-auto overflow-hidden">
             <div className="flex items-center mb-3">
                 <Link href="/lines"><ChevronLeft/></Link>
                 <LineAndDirectionSign name={line.name} type={line.type} direction={line.directions.join(' – ')}/>
             </div>
-            {stopMap.reverse().map((stopOrSegment, index) => {
-                if (typeof stopOrSegment === 'object' && 'name' in stopOrSegment) {
-                    const stop = stopOrSegment as GroupedConnectionsStop;
-                    return <LineStop
-                        key={`${stop.name}-${stop.name}`}
-                        name={stop.name}
-                        type={line.type}
-                        connections={stop.connections}
-                        start={index == 0}
-                        end={index == stopMap.length - 1}
-                        labelSide={'left'}
-                    />;
-                } else {
-                    if ((stopOrSegment as GroupedConnectionsStop[][]).every(segment => segment.length <= 1)) {
-                        return (stopOrSegment as GroupedConnectionsStop[][])
-                            .map((segment, segmentIndex) => {
-                                    if (segment.length == 0) return;
-                                    const stop = segment[0];
-                                    return <LineStop
-                                        key={`${stop.name}-${stop.name}`}
-                                        name={stop.name}
-                                        type={line.type}
-                                        connections={stop.connections}
-                                        start={index == 0}
-                                        end={index == stopMap.length - 1}
-                                        labelSide={segmentIndex == 1 ? 'left' : 'right'}
-                                        oneWay={segmentIndex == 0 ? 'up' : 'down'}
-                                    />;
-                                }
-                            )
-                            ;
+            <div className="flex flex-col overflow-hidden overflow-y-scroll">
+                {stopMap.reverse().map((stopOrSegment, index) => {
+                    if (typeof stopOrSegment === 'object' && 'name' in stopOrSegment) {
+                        const stop = stopOrSegment as GroupedConnectionsStop;
+                        return <LineStop
+                            key={`${stop.name}-${stop.name}`}
+                            name={stop.name}
+                            type={line.type}
+                            connections={stop.connections}
+                            start={index == 0}
+                            end={index == stopMap.length - 1}
+                            labelSide={'left'}
+                        />;
                     } else {
-                        return <Junction key={`${index}-junction`} segments={stopOrSegment} type={line.type}/>
+                        if ((stopOrSegment as GroupedConnectionsStop[][]).every(segment => segment.length <= 1)) {
+                            return (stopOrSegment as GroupedConnectionsStop[][])
+                                .map((segment, segmentIndex) => {
+                                        if (segment.length == 0) return;
+                                        const stop = segment[0];
+                                        return <LineStop
+                                            key={`${stop.name}-${stop.name}`}
+                                            name={stop.name}
+                                            type={line.type}
+                                            connections={stop.connections}
+                                            start={index == 0}
+                                            end={index == stopMap.length - 1}
+                                            labelSide={segmentIndex == 1 ? 'left' : 'right'}
+                                            oneWay={segmentIndex == 0 ? 'up' : 'down'}
+                                        />;
+                                    }
+                                )
+                                ;
+                        } else {
+                            return <Junction key={`${index}-junction`} segments={stopOrSegment} type={line.type}/>
+                        }
                     }
-                }
-            })}
+                })}
+            </div>
         </div>
     );
 }
