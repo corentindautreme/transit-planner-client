@@ -4,6 +4,7 @@ import { BusFront, Equal, TramFront } from 'lucide-react';
 import { Suspense } from 'react';
 import { Line } from '@/app/model/line';
 import Link from 'next/link';
+import { fetch } from '@/app/(ui)/utils/fetch';
 
 export const metadata: Metadata = {
     title: 'Lines'

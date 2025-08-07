@@ -24,9 +24,9 @@ export default function NextDeparturesAtStop({stopId, stopName, line, direction,
         async function fetchNextDepartures() {
             try {
                 const now = new Date();
-                const newDepartures: Departure[] = await fetch(`http://localhost:4000/departures/next?from=${stopId}&line=${line}&direction=${direction}&limit=3`)
-                    .then(res => res.json() as DeparturesAtStop)
-                    .then(departuresByLine => departuresByLine.departures[line].departures[direction])
+                const newDepartures: Departure[] = await fetch(`/api/departures/next?from=${stopId}&line=${line}&direction=${direction}&limit=3`)
+                    .then(res => res.json())
+                    .then((departuresByLine: DeparturesAtStop) => departuresByLine.departures[line].departures[direction])
                     .then(departures => departures.map(d => ({
                         ...d,
                         displayTime: getDisplayTime(d.scheduledAt, now)

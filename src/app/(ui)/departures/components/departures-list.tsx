@@ -20,7 +20,7 @@ export default function DeparturesList({stopId}: { stopId: number }) {
     useEffect(() => {
         async function fetchDepartures() {
             try {
-                const departures: DeparturesAtStop = await fetch(`http://localhost:4000/departures/next?from=${stopId}`).then(res => res.json());
+                const departures: DeparturesAtStop = await fetch(`/api/departures/next?from=${stopId}`).then(res => res.json());
                 setDepartures(departures);
                 const now = new Date();
                 const newInlineDepartures: DepartureDetails[] = Object.keys(departures.departures)

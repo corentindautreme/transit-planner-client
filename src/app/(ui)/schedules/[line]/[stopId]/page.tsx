@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { Suspense } from 'react';
 import DeparturesTable from '@/app/(ui)/schedules/components/departures-table';
+import { fetch } from '@/app/(ui)/utils/fetch';
 
 export default async function Page(props: { params: Promise<{ line: string, stopId: number }>; }) {
     const params = await props.params;

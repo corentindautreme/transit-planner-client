@@ -4,6 +4,7 @@ import FavoriteDepartures from '@/app/(ui)/departures/components/favorite-depart
 import { Heart, Search } from 'lucide-react';
 import { FavoriteStop, Stop } from '@/app/model/stop';
 import SearchStop from '@/app/(ui)/departures/components/search-stop';
+import { fetch } from '@/app/(ui)/utils/fetch';
 
 export const metadata: Metadata = {
     title: 'Departures'

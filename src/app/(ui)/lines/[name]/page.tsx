@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { Junction, LineStop } from '@/app/(ui)/lines/components/line-stop';
 import { LineType } from '@/app/model/line-type';
+import { fetch } from '@/app/(ui)/utils/fetch';
 
 export default async function Page(props: { params: Promise<{ name: string }>; }) {
     const params = await props.params;
