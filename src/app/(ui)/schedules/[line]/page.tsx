@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { clsx } from 'clsx';
 import { LineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { ChevronLeft } from 'lucide-react';
+import { fetch } from '@/app/(ui)/utils/fetch';
 
 export default async function Page(props: { params: Promise<{ line: string }>; }) {
     const params = await props.params;
