@@ -11,7 +11,6 @@ export default async function Page(props: { params: Promise<{ line: string, stop
     const stopId = params.stopId;
 
     const departures = await fetch(`${process.env.BACKEND_URL}/departures/scheduled?from=${stopId}&line=${lineName}`).then(res => res.json()) as DeparturesAtStop;
-    console.log(departures);
 
     return (
         <div className="h-full flex flex-col gap-3">

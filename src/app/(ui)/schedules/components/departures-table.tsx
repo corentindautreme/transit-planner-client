@@ -70,7 +70,7 @@ export default function DeparturesTable({line, departuresAtStop}: {
                             }
                         )}
                     >
-                        {new Date(departure.scheduledAt).toLocaleString('bs-BA', {timeStyle: 'short'})}
+                        {new Date(departure.scheduledAt).toLocaleString('bs-BA', {timeStyle: 'short', timeZone: 'Etc/GMT-1'})}
                     </div>
                 ))}
             </div>

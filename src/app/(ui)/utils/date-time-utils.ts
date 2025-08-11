@@ -3,5 +3,5 @@ export function getDisplayTime(time: string, now: Date) {
     return waitTimeInMinutes == 0 ? 'now' :
         waitTimeInMinutes <= 10
             ? `${waitTimeInMinutes} min`
-            : new Date(time).toLocaleString('bs-BA', {timeStyle: 'short'});
+            : new Date(time).toLocaleString('bs-BA', {timeStyle: 'short', timeZone: 'Etc/GMT-1'});
 }
