@@ -7,7 +7,7 @@ import { clsx } from 'clsx';
 import { BusFront, Equal, Octagon, TramFront } from 'lucide-react';
 
 export default function SearchStop({stops}: { stops: Stop[] }) {
-    const [matchingStops, setMatchingStops] = useState<Stop[]>([]);
+    const [matchingStops, setMatchingStops] = useState<Stop[] | undefined>([]);
     let debounceTimeoutId: NodeJS.Timeout;
 
     const debouncedSearch = (e: ChangeEvent<HTMLInputElement>) => {

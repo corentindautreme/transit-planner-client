@@ -13,7 +13,7 @@ function Error() {
                 </div>
                 <h1 className="font-bold my-1 text-lg">Error</h1>
                 <div className="text-center my-5">
-                    Well that didn't work, did it.
+                    Well that didn&apos;t work, did it.
                 </div>
                 <Link
                     href="/login"
