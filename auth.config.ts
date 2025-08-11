@@ -43,7 +43,7 @@ export const authConfig = {
                     expiresAt: account.expires_at,
                     refreshToken: account.refresh_token
                 };
-            } else if (Date.now() < token.expiresAt * 1000) {
+            } else if (Date.now() < (token.expiresAt as number) * 1000) {
                 // Subsequent logins, but the `access_token` is still valid
                 return token;
             } else {
@@ -60,7 +60,7 @@ export const authConfig = {
                             client_id: process.env.AUTH_GOOGLE_ID!,
                             client_secret: process.env.AUTH_GOOGLE_SECRET!,
                             grant_type: 'refresh_token',
-                            refresh_token: token.refreshToken!
+                            refresh_token: token.refreshToken! as string
                         }),
                     });
 
@@ -106,5 +106,6 @@ export async function getToken(
         | [NextApiRequest, NextApiResponse]
         | []
 ): Promise<string> {
+    // @ts-ignore
     return (await getServerSession(...args, authConfig).auth() as Session & { token: string }).token;
 }

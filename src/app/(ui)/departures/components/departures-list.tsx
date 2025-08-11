@@ -15,7 +15,7 @@ export default function DeparturesList({stopId}: { stopId: number }) {
     const [inlineDepartures, setInlineDepartures] = useState<DepartureDetails[]>();
     const inlineDeparturesRef = useRef(inlineDepartures);
     const [favoriteSelection, setFavoriteSelection] = useState<string>();
-    const favoriteSelectionRef = useRef(null);
+    const favoriteSelectionRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         async function fetchDepartures() {
@@ -62,7 +62,7 @@ export default function DeparturesList({stopId}: { stopId: number }) {
 
     useEffect(() => {
         const handleOutSideClick = (event: MouseEvent) => {
-            if (favoriteSelectionRef.current && !favoriteSelectionRef.current.contains(event.target)) {
+            if (favoriteSelectionRef.current && !favoriteSelectionRef.current.contains(event.target as Node)) {
                 setFavoriteSelection(undefined);
             }
         };
