@@ -1,0 +1,32 @@
+name: Create Alias For Vercel Preview Deployment
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  repository_dispatch:
+    types:
+      - 'vercel.deployment.success'
+jobs:
+  create-alias:
+    if: github.event.client_payload.environment == 'preview'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+      - name: Install Vercel CLI
+        run: pnpm add --global vercel@latest
+      - name: Create Alias
+        env:
+          DEPLOYED_URL: ${{ github.event.client_payload.url }}
+        run: |
+          vercel alias rm transit-planner-client-preview.vercel.app --yes --token=${{ secrets.VERCEL_TOKEN }}
+          vercel alias set $DEPLOYED_URL transit-planner-client-preview.vercel.app --token=${{ secrets.VERCEL_TOKEN }}
