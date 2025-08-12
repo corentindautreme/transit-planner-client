@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, GitCommit, Heart, Signpost } from 'lucide-react';
 import { LineAndDirectionSign, LineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
-import { getDisplayTime } from '@/app/(ui)/utils/date-time-utils';
+import { getRelativeDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 import { clsx } from 'clsx';
 
 export default function DeparturesList({stopId}: { stopId: number }) {
@@ -32,7 +32,7 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                                     direction: direction,
                                     type: departures.departures[line].type,
                                     time: departure.scheduledAt,
-                                    displayTime: getDisplayTime(departure.scheduledAt, now)
+                                    displayTime: getRelativeDisplayTime(departure.scheduledAt, now)
                                 } as DepartureDetails)
                             )
                         ).flat()
