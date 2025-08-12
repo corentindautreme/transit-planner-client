@@ -5,7 +5,7 @@ import { LineAndDirectionSign } from '@/app/(ui)/lines/components/line-and-direc
 import { LineType } from '@/app/model/line-type';
 import { MapPin, Signpost } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { getDisplayTime } from '@/app/(ui)/utils/date-time-utils';
+import { getRelativeDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 import { clsx } from 'clsx';
 
 export default function NextDeparturesAtStop({stopId, stopName, line, direction, type}: {
@@ -29,7 +29,7 @@ export default function NextDeparturesAtStop({stopId, stopName, line, direction,
                     .then((departuresByLine: DeparturesAtStop) => departuresByLine.departures[line].departures[direction])
                     .then(departures => departures.map(d => ({
                         ...d,
-                        displayTime: getDisplayTime(d.scheduledAt, now)
+                        displayTime: getRelativeDisplayTime(d.scheduledAt, now)
                     } as Departure)));
                 if (!!departuresRef.current) {
                     const departing = departuresRef.current[0].displayTime === 'now' && newDepartures[0].displayTime !== 'now';

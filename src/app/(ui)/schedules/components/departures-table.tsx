@@ -6,6 +6,7 @@ import { LineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { ArrowDown, MapPin } from 'lucide-react';
 import { clsx } from 'clsx';
 import Link from 'next/link';
+import { getDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 
 export default function DeparturesTable({line, departuresAtStop}: {
     line: string,
@@ -70,7 +71,7 @@ export default function DeparturesTable({line, departuresAtStop}: {
                             }
                         )}
                     >
-                        {new Date(departure.scheduledAt).toLocaleString('bs-BA', {timeStyle: 'short', timeZone: 'Etc/GMT-1'})}
+                        {getDisplayTime(departure.scheduledAt)}
                     </div>
                 ))}
             </div>
