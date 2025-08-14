@@ -3,10 +3,11 @@
 import { DepartureDetails, DeparturesAtStop } from '@/app/model/departures';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, GitCommit, Heart, Signpost } from 'lucide-react';
+import { ChevronLeft, GitCommit, Heart, Signpost, X } from 'lucide-react';
 import { LineAndDirectionSign, LineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { getRelativeDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 import { clsx } from 'clsx';
+import { FavoriteStop } from '@/app/model/stop';
 
 export default function DeparturesList({stopId}: { stopId: number }) {
     const [departing, setDeparting] = useState(false);
@@ -14,8 +15,46 @@ export default function DeparturesList({stopId}: { stopId: number }) {
     const [departures, setDepartures] = useState<DeparturesAtStop>();
     const [inlineDepartures, setInlineDepartures] = useState<DepartureDetails[]>();
     const inlineDeparturesRef = useRef(inlineDepartures);
+
+    const [selectedLines, setSelectedLines] = useState<string[]>([]);
+
     const [favoriteSelection, setFavoriteSelection] = useState<string>();
     const favoriteSelectionRef = useRef<HTMLDivElement | null>(null);
+    const favoritesStops = JSON.parse(localStorage.getItem('favoriteStops') || '[]') as FavoriteStop[];
+    const [favorites, setFavorites] = useState<FavoriteStop[]>(favoritesStops);
+
+    const isFavorite = (line: string, direction?: string) => {
+        return favorites.some(f => f.id === stopId && f.line === line && (!direction || f.direction === direction));
+    }
+
+    const toggleSelectedLine = (line: string) => {
+        const newSelectedLines = [...selectedLines];
+        setSelectedLines(newSelectedLines.includes(line)
+            ? newSelectedLines.filter(l => l != line)
+            : [...newSelectedLines, line]
+        );
+    };
+
+    const toggleFavorite = (line: string, direction: string) => {
+        if (isFavorite(line, direction)) {
+            const newFavorites = [...favorites].filter(f => f.line !== line || f.direction !== direction);
+            localStorage.setItem('favoriteStops', JSON.stringify(newFavorites));
+            setFavorites(newFavorites);
+        } else {
+            const newFavorites: FavoriteStop[] = [
+                ...favorites,
+                {
+                    id: stopId,
+                    name: departures!.stop.name,
+                    line: line,
+                    type: departures!.departures[line].type,
+                    direction: direction
+                }
+            ];
+            localStorage.setItem('favoriteStops', JSON.stringify(newFavorites));
+            setFavorites(newFavorites);
+        }
+    };
 
     useEffect(() => {
         async function fetchDepartures() {
@@ -74,8 +113,9 @@ export default function DeparturesList({stopId}: { stopId: number }) {
     }, [favoriteSelectionRef]);
 
     return (!departures || !inlineDepartures) ? <DeparturesListSkeleton/> : (
-        <div className="h-full flex flex-col gap-y-2">
-            <Link className="w-fit flex items-center gap-x-1" href="/departures"><ChevronLeft/>Back</Link>
+        <>
+            <div className={clsx('h-full flex flex-col gap-y-2', {'blur-xs': favoriteSelection})}>
+                <Link className="w-fit flex items-center gap-x-1" href="/departures"><ChevronLeft/>Back</Link>
 
                 <div className="flex flex-col gap-y-1 bg-background rounded-lg p-3 overflow-x-clip text-ellipsis">
                     <div className="flex flex-col items-center text-xl">
@@ -84,71 +124,114 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                     </div>
 
                     <div className="flex items-center justify-center flex-wrap gap-1">
-                        {Object.keys(departures.departures).map((line, index) =>
+                        {Object.keys(departures.departures).map(line =>
                             <div key={line} className="flex flex-col items-stretch">
-                                <button><LineSign name={line} type={departures.departures[line].type}/></button>
-                                <button className="relative flex justify-center py-1" onClick={() => setFavoriteSelection(line)}>
-                                    <Heart size={18}/>
-                                    <div
-                                        ref={favoriteSelection === line ? favoriteSelectionRef : null}
-                                        className={clsx('max-w-[100dvw] overflow-hidden text-ellipsis absolute bottom-0 transform-[translateY(100%)] flex items-stretch rounded-xl text-sm border-1 border-foreground/10 shadow-lg/30',
-                                            {
-                                                'left-0': index <= 2,
-                                                'right-0': index > 2,
-                                                'flex': favoriteSelection === line,
-                                                'hidden': favoriteSelection !== line,
-                                                'bg-yellow-500': departures.departures[line].type === 'tram',
-                                                'bg-red-500 text-white': departures.departures[line].type === 'trolleybus',
-                                                'bg-sky-500 text-white': departures.departures[line].type === 'bus'
-                                            }
-                                        )}>
-                                        <div className="flex items-center gap-1 px-1 py-2">
-                                            <div className="overflow-hidden text-ellipsis">
-                                                {Object.keys(departures.departures[line].departures)[0]}
-                                            </div>
-                                            <Heart className="shrink-0" size={14}/>
-                                        </div>
-                                        {Object.keys(departures.departures[line].departures).length > 1 && <>
-                                            <div className="shrink-0 w-[1px] bg-black"></div>
-                                            <div className="flex items-center gap-1 px-1 py-2">
-                                                <div className="overflow-hidden text-ellipsis">
-                                                    {Object.keys(departures.departures[line].departures)[1]}
-                                                </div>
-                                                <Heart className="shrink-0" size={14}/>
-                                            </div>
-                                        </>}
-                                    </div>
+                                <button
+                                    className={clsx({'opacity-50': selectedLines.length > 0 && !selectedLines.includes(line)})}
+                                    onClick={() => toggleSelectedLine(line)}
+                                >
+                                    <LineSign name={line} type={departures.departures[line].type}/>
+                                </button>
+                                <button className={clsx('relative flex justify-center py-1', {
+                                    'text-yellow-500': isFavorite(line) && departures.departures[line].type == 'tram',
+                                    'text-red-500': isFavorite(line) && departures.departures[line].type == 'trolleybus',
+                                    'text-sky-500': isFavorite(line) && departures.departures[line].type == 'bus'
+                                })}
+                                        onClick={() => setFavoriteSelection(line)}
+                                >
+                                    <Heart size={18} className={clsx({'fill-current': isFavorite(line)})}/>
                                 </button>
                             </div>
                         )}
                     </div>
                 </div>
 
-            <div className="flex flex-col gap-y-2">
-                {inlineDepartures.map((departure, index) => (
-                    <div
-                        key={`${departure.line}-${departure.direction}-${departure.time}`}
-                        className={clsx('flex items-center justify-between bg-background p-3 rounded-lg',
-                            {
-                                'transition-opacity ease-out duration-700 opacity-0': departing && index < departingCount
-                            }
+                <div className="flex flex-col gap-y-2">
+                    {inlineDepartures
+                        .filter(departure => selectedLines.length == 0 || selectedLines.includes(departure.line))
+                        .map((departure, index) => (
+                            <div
+                                key={`${departure.line}-${departure.direction}-${departure.time}`}
+                                className={clsx('flex items-center justify-between bg-background p-3 rounded-lg',
+                                    {
+                                        'transition-opacity ease-out duration-700 opacity-0': departing && index < departingCount
+                                    }
+                                )}
+                            >
+                                <LineAndDirectionSign name={departure.line} type={departure.type}
+                                                      direction={departure.direction}/>
+                                <div className={clsx({'animate-pulse font-bold': departure.displayTime === 'now'})}>
+                                    {departure.displayTime}
+                                </div>
+                            </div>
+                        ))}
+                </div>
+                {inlineDepartures.length == 0 && (
+                    <div className="grow flex flex-col gap-2 items-center justify-center text-foreground/50">
+                        <Signpost size={64} strokeWidth={1}/>
+                        <div className="text-center">No upcoming departure</div>
+                    </div>
+                )}
+            </div>
+            {favoriteSelection && <div
+                ref={favoriteSelectionRef}
+                className={clsx('z-1 w-full absolute left-0 bottom-0 flex flex-col gap-1 items-center p-2 bg-white rounded-t-xl shadow-[10px_0px_15px_rgba(0,0,0,0.25)]',
+                    {}
+                )}
+            >
+                <div className="w-full flex items-center justify-between">
+                    <div className="size-7"></div>
+                    <LineSign name={favoriteSelection} type={departures.departures[favoriteSelection].type}/>
+                    <button
+                        onClick={() => setFavoriteSelection(undefined)}
+                        className="rounded-full p-1 bg-foreground/10"
+                    >
+                        <X className="size-5"/>
+                    </button>
+                </div>
+                <div className="w-full flex items-stretch gap-1 pt-3 pb-6">
+                    <button
+                        className="flex flex-1 flex-col items-center justify-center px-4"
+                        onClick={() => toggleFavorite(
+                            favoriteSelection,
+                            Object.keys(departures.departures[favoriteSelection].departures)[0]
                         )}
                     >
-                        <LineAndDirectionSign name={departure.line} type={departure.type}
-                                              direction={departure.direction}/>
-                        <div className={clsx({'animate-pulse font-bold': departure.displayTime === 'now'})}>
-                            {departure.displayTime}
+                        {Object.keys(departures.departures[favoriteSelection].departures)[0]}
+                        <div className={clsx({
+                            'text-yellow-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[0]) && departures.departures[favoriteSelection].type == 'tram',
+                            'text-red-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[0]) && departures.departures[favoriteSelection].type == 'trolleybus',
+                            'text-sky-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[0]) && departures.departures[favoriteSelection].type == 'bus'
+                        })}>
+                            <Heart size={18}
+                                   className={clsx({'fill-current': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[0])})}/>
                         </div>
-                    </div>
-                ))}
-            </div>
-            {inlineDepartures.length == 0 && (
-                <div className="grow flex flex-col gap-2 items-center justify-center text-foreground/50">
-                    <Signpost size={64} strokeWidth={1}/>
-                    <div className="text-center">No upcoming departure</div>
+                    </button>
+                    {Object.keys(departures.departures[favoriteSelection].departures).length > 1 &&
+                        <>
+                            <div className="shrink-0 flex justify-self-stretch border-e-1"></div>
+                            <button
+                                className="flex flex-1 flex-col items-center justify-center px-4"
+                                onClick={() => toggleFavorite(
+                                    favoriteSelection,
+                                    Object.keys(departures.departures[favoriteSelection].departures)[1]
+                                )}
+                            >
+                                {Object.keys(departures.departures[favoriteSelection].departures)[1]}
+                                <div className={clsx({
+                                    'text-yellow-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[1]) && departures.departures[favoriteSelection].type == 'tram',
+                                    'text-red-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[1]) && departures.departures[favoriteSelection].type == 'trolleybus',
+                                    'text-sky-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[1]) && departures.departures[favoriteSelection].type == 'bus'
+                                })}>
+                                    <Heart size={18}
+                                           className={clsx({'fill-current': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[1])})}/>
+                                </div>
+                            </button>
+                        </>
+                    }
                 </div>
-            )}
-        </div>
+            </div>}
+        </>
     );
 }
 
