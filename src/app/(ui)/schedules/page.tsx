@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { Line } from '@/app/model/line';
 import Link from 'next/link';
 import { fetch } from '@/app/(ui)/utils/fetch';
+import FavoriteSchedules from '@/app/(ui)/schedules/components/favorite-schedules';
 
 export const metadata: Metadata = {
     title: 'Schedules'
@@ -16,6 +17,8 @@ export default async function Page() {
     return (
         <Suspense fallback={'Loading...'}>
             <div className="flex flex-col gap-y-1">
+                <FavoriteSchedules/>
+
                 <div className="flex items-center gap-x-2 font-bold mb-1">
                     <TramFront size={18}/>
                     Tram

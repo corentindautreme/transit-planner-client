@@ -2,11 +2,11 @@
 
 import { DeparturesAtStop } from '@/app/model/departures';
 import { useState } from 'react';
-import { LineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
-import { ArrowDown, MapPin } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import { clsx } from 'clsx';
 import Link from 'next/link';
 import { getDisplayTime } from '@/app/(ui)/utils/date-time-utils';
+import ScheduleHeader from '@/app/(ui)/schedules/components/schedule-header';
 
 export default function DeparturesTable({line, departuresAtStop}: {
     line: string,
@@ -28,13 +28,7 @@ export default function DeparturesTable({line, departuresAtStop}: {
                 <ArrowDown size={20}/>Next
             </Link>
 
-            <div className="flex flex-col p-3 bg-background rounded-lg">
-                <div className="flex items-center gap-1">
-                    <LineSign name={line} type={departuresAtStop.departures[line].type} inline={true}/>
-                    <MapPin size={18} className="shrink-0 ms-1"/>
-                    {departuresAtStop.stop.name}
-                </div>
-            </div>
+            <ScheduleHeader line={line} type={departuresAtStop.departures[line].type} stop={departuresAtStop.stop}/>
 
             <div className="flex">
                 {Object.keys(departuresAtStop.departures[line].departures)
