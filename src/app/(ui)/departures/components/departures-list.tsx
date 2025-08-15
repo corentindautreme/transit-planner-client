@@ -191,13 +191,14 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                 </div>
                 <div className="w-full flex items-stretch gap-1 pt-3 pb-6">
                     <button
-                        className="flex flex-1 flex-col items-center justify-center px-4"
+                        className="flex flex-1 flex-col gap-1 items-center justify-center px-4"
                         onClick={() => toggleFavorite(
                             favoriteSelection,
                             Object.keys(departures.departures[favoriteSelection].departures)[0]
                         )}
                     >
-                        {Object.keys(departures.departures[favoriteSelection].departures)[0]}
+                        <div className="text-xs/2">To</div>
+                        <div className="font-bold">{Object.keys(departures.departures[favoriteSelection].departures)[0]}</div>
                         <div className={clsx({
                             'text-yellow-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[0]) && departures.departures[favoriteSelection].type == 'tram',
                             'text-red-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[0]) && departures.departures[favoriteSelection].type == 'trolleybus',
@@ -211,13 +212,14 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                         <>
                             <div className="shrink-0 flex justify-self-stretch border-e-1"></div>
                             <button
-                                className="flex flex-1 flex-col items-center justify-center px-4"
+                                className="flex flex-1 flex-col gap-1 items-center justify-center px-4"
                                 onClick={() => toggleFavorite(
                                     favoriteSelection,
                                     Object.keys(departures.departures[favoriteSelection].departures)[1]
                                 )}
                             >
-                                {Object.keys(departures.departures[favoriteSelection].departures)[1]}
+                                <div className="text-xs/2">To</div>
+                                <div className="font-bold">{Object.keys(departures.departures[favoriteSelection].departures)[1]}</div>
                                 <div className={clsx({
                                     'text-yellow-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[1]) && departures.departures[favoriteSelection].type == 'tram',
                                     'text-red-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[1]) && departures.departures[favoriteSelection].type == 'trolleybus',
