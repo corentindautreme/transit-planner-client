@@ -21,10 +21,9 @@ export interface DeparturesAtStop {
 
 export type DeparturesByLine = { [line: string]: { type: LineType, departures: { [direction: string]: Departure[] } } };
 
-export interface DepartureForStopAndLine {
-    stop: string;
+export interface FavoriteSchedule {
+    stopId: number;
+    stopName: string;
     line: string;
-    direction: string;
     type: LineType;
-    departures: Departure[];
 }
