@@ -1,13 +1,15 @@
 'use client';
 
-import { DepartureDetails, DeparturesAtStop } from '@/app/model/departures';
+import { DepartureAtStop, DepartureDetails, DeparturesAtStop } from '@/app/model/departures';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, GitCommit, Heart, Signpost, X } from 'lucide-react';
 import { LineAndDirectionSign, LineSign } from '@/app/(ui)/lines/components/line-and-direction-sign';
 import { getRelativeDisplayTime } from '@/app/(ui)/utils/date-time-utils';
 import { clsx } from 'clsx';
-import { FavoriteStop } from '@/app/model/stop';
+import { FavoriteStop, StopAndRouteDeparture } from '@/app/model/stop';
+import DeparturesOnRoute from '@/app/(ui)/departures/components/departures-on-route';
+import { LineType } from '@/app/model/line-type';
 
 export default function DeparturesList({stopId}: { stopId: number }) {
     const [departing, setDeparting] = useState(false);
@@ -22,6 +24,10 @@ export default function DeparturesList({stopId}: { stopId: number }) {
     const favoriteSelectionRef = useRef<HTMLDivElement | null>(null);
     const favoritesStops = JSON.parse(localStorage.getItem('favoriteStops') || '[]') as FavoriteStop[];
     const [favorites, setFavorites] = useState<FavoriteStop[]>(favoritesStops);
+
+    const [selectedDeparture, setSelectedDeparture] = useState<DepartureAtStop>();
+    const [routeDepartures, setRouteDepartures] = useState<StopAndRouteDeparture[]>();
+    const departureRouteRef = useRef<HTMLDivElement | null>(null);
 
     const isFavorite = (line: string, direction?: string) => {
         return favorites.some(f => f.id === stopId && f.line === line && (!direction || f.direction === direction));
@@ -112,9 +118,47 @@ export default function DeparturesList({stopId}: { stopId: number }) {
         };
     }, [favoriteSelectionRef]);
 
+    useEffect(() => {
+        const handleOutSideClick = (event: MouseEvent) => {
+            if (departureRouteRef.current && !departureRouteRef.current.contains(event.target as Node)) {
+                setRouteDepartures(undefined);
+                setSelectedDeparture(undefined);
+            }
+        };
+        window.addEventListener('mousedown', handleOutSideClick);
+
+        return () => {
+            window.removeEventListener('mousedown', handleOutSideClick);
+        };
+    }, [departureRouteRef]);
+
+    const selectDeparture = (line: string, type: LineType, direction: string, scheduledAt: string) => {
+        setSelectedDeparture({line: line, type: type, direction: direction, scheduledAt: scheduledAt});
+    }
+
+    const closeRouteDepartures = () => {
+        setRouteDepartures(undefined);
+        setSelectedDeparture(undefined);
+    }
+
+    useEffect(() => {
+        async function fetchDeparturesOnRoute() {
+            const url = `/api/departures/stops?line=${selectedDeparture!.line}&direction=${selectedDeparture!.direction}&from=${stopId}&after=${selectedDeparture!.scheduledAt}&includePast=true`;
+            const routeDepartures = await fetch(url).then(res => res.json()) as StopAndRouteDeparture[];
+            routeDepartures.forEach(rd => rd.departures.forEach(d => {
+                d.previous = d.scheduledAt < selectedDeparture!.scheduledAt;
+            }));
+            setRouteDepartures(routeDepartures);
+        }
+
+        if (selectedDeparture) {
+            fetchDeparturesOnRoute();
+        }
+    }, [selectedDeparture]);
+
     return (!departures || !inlineDepartures) ? <DeparturesListSkeleton/> : (
         <>
-            <div className={clsx('h-full flex flex-col gap-y-2', {'blur-xs': favoriteSelection})}>
+            <div className={clsx('h-full flex flex-col gap-y-2', {'blur-xs': favoriteSelection || selectedDeparture})}>
                 <Link className="w-fit flex items-center gap-x-1" href="/departures"><ChevronLeft/>Back</Link>
 
                 <div className="flex flex-col gap-y-1 bg-background rounded-lg p-3 overflow-x-clip text-ellipsis">
@@ -150,7 +194,8 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                     {inlineDepartures
                         .filter(departure => selectedLines.length == 0 || selectedLines.includes(departure.line))
                         .map((departure, index) => (
-                            <div
+                            <button
+                                onClick={() => selectDeparture(departure.line, departure.type, departure.direction, departure.time)}
                                 key={`${departure.line}-${departure.direction}-${departure.time}`}
                                 className={clsx('flex items-center justify-between bg-background p-3 rounded-lg',
                                     {
@@ -163,7 +208,7 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                                 <div className={clsx({'animate-pulse font-bold': departure.displayTime === 'now'})}>
                                     {departure.displayTime}
                                 </div>
-                            </div>
+                            </button>
                         ))}
                 </div>
                 {inlineDepartures.length == 0 && (
@@ -198,7 +243,8 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                         )}
                     >
                         <div className="text-xs/2">To</div>
-                        <div className="font-bold">{Object.keys(departures.departures[favoriteSelection].departures)[0]}</div>
+                        <div
+                            className="font-bold">{Object.keys(departures.departures[favoriteSelection].departures)[0]}</div>
                         <div className={clsx({
                             'text-yellow-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[0]) && departures.departures[favoriteSelection].type == 'tram',
                             'text-red-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[0]) && departures.departures[favoriteSelection].type == 'trolleybus',
@@ -219,7 +265,8 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                                 )}
                             >
                                 <div className="text-xs/2">To</div>
-                                <div className="font-bold">{Object.keys(departures.departures[favoriteSelection].departures)[1]}</div>
+                                <div
+                                    className="font-bold">{Object.keys(departures.departures[favoriteSelection].departures)[1]}</div>
                                 <div className={clsx({
                                     'text-yellow-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[1]) && departures.departures[favoriteSelection].type == 'tram',
                                     'text-red-500': isFavorite(favoriteSelection, Object.keys(departures.departures[favoriteSelection].departures)[1]) && departures.departures[favoriteSelection].type == 'trolleybus',
@@ -230,6 +277,33 @@ export default function DeparturesList({stopId}: { stopId: number }) {
                                 </div>
                             </button>
                         </>
+                    }
+                </div>
+            </div>}
+
+            {selectedDeparture && <div
+                ref={departureRouteRef}
+                className="z-1 w-full max-h-9/10 absolute left-0 bottom-0 flex flex-col gap-1 items-center p-2 bg-white rounded-t-xl shadow-[10px_0px_15px_rgba(0,0,0,0.25)]"
+            >
+                <div className="w-full flex items-center justify-end">
+                    <button onClick={() => closeRouteDepartures()} className="rounded-full p-1 bg-foreground/10">
+                        <X className="size-5"/>
+                    </button>
+                </div>
+                <div className="w-full grow overflow-hidden overflow-y-scroll">
+                    { !routeDepartures
+                        ? (
+                            <div className="flex flex-col gap-2 items-center py-10">
+                                <div className={clsx('size-8 rounded-full animate-spin border-4 mask-conic-from-75% mask-conic-to-75%',
+                                    {
+                                        'border-yellow-500': selectedDeparture.type === 'tram',
+                                        'border-red-500': selectedDeparture.type === 'trolleybus',
+                                        'border-blue-500': selectedDeparture.type === 'bus'
+                                    }
+                                )}></div>
+                                <div>Loading...</div>
+                            </div>
+                        ) : <DeparturesOnRoute currentStop={stopId} type={selectedDeparture.type} loadedDepartures={routeDepartures}/>
                     }
                 </div>
             </div>}

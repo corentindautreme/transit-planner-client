@@ -1,4 +1,5 @@
 import { LineType } from '@/app/model/line-type';
+import { Departure } from '@/app/model/departures';
 
 export interface Stop {
     id: number;
@@ -12,7 +13,7 @@ export interface GroupedConnectionsStop {
     connections: ConnectionsByLineType;
 }
 
-export type ConnectionsByLineType = { [key in LineType]: Connection[]};
+export type ConnectionsByLineType = { [key in LineType]: Connection[] };
 
 export interface Connection {
     line: string;
@@ -26,4 +27,8 @@ export interface FavoriteStop {
     line: string;
     type: LineType;
     direction: string;
+}
+
+export interface StopAndRouteDeparture extends Omit<Stop, 'connections'> {
+    departures: (Departure & { previous: boolean })[];
 }
