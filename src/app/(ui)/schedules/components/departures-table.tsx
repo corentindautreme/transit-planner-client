@@ -23,8 +23,8 @@ export default function DeparturesTable({line, departuresAtStop}: {
     useEffect(() => {
         const handleOutSideClick = (event: MouseEvent) => {
             if (departureRouteRef.current && !departureRouteRef.current.contains(event.target as Node)) {
-                setRouteDepartures(undefined);
                 setSelectedDeparture(undefined);
+                setTimeout(() => setRouteDepartures(undefined), 100);
             }
         };
         window.addEventListener('mousedown', handleOutSideClick);
@@ -35,7 +35,9 @@ export default function DeparturesTable({line, departuresAtStop}: {
     }, [departureRouteRef]);
 
     const selectDeparture = (scheduledAt: string) => {
-        setSelectedDeparture(scheduledAt);
+        if (!routeDepartures) {
+            setSelectedDeparture(scheduledAt);
+        }
     }
 
     const closeRouteDepartures = () => {

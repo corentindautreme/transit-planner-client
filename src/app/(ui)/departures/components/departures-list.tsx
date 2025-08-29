@@ -121,8 +121,8 @@ export default function DeparturesList({stopId}: { stopId: number }) {
     useEffect(() => {
         const handleOutSideClick = (event: MouseEvent) => {
             if (departureRouteRef.current && !departureRouteRef.current.contains(event.target as Node)) {
-                setRouteDepartures(undefined);
                 setSelectedDeparture(undefined);
+                setTimeout(() => setRouteDepartures(undefined), 100);
             }
         };
         window.addEventListener('mousedown', handleOutSideClick);
@@ -133,7 +133,9 @@ export default function DeparturesList({stopId}: { stopId: number }) {
     }, [departureRouteRef]);
 
     const selectDeparture = (line: string, type: LineType, direction: string, scheduledAt: string) => {
-        setSelectedDeparture({line: line, type: type, direction: direction, scheduledAt: scheduledAt});
+        if (!routeDepartures) {
+            setSelectedDeparture({line: line, type: type, direction: direction, scheduledAt: scheduledAt});
+        }
     }
 
     const closeRouteDepartures = () => {
