@@ -27,3 +27,9 @@ export interface FavoriteSchedule {
     line: string;
     type: LineType;
 }
+
+export interface DepartureAtStop extends Departure {
+    line: string;
+    type: LineType;
+    direction: string;
+}

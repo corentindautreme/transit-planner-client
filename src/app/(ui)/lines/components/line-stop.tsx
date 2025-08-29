@@ -640,3 +640,69 @@ export function Junction({segments, type}: {
         </div>
     </>;
 }
+
+export function LeftLabelRightName({name, type, label, start, end, highlight, faded}: {
+    name: string,
+    type: LineType,
+    label: string,
+    start: boolean,
+    end: boolean,
+    highlight: boolean,
+    faded: boolean
+}) {
+    return (
+        <div className="flex gap-3 shrink-0">
+            <div className={clsx('flex-1 flex items-center justify-end overflow-hidden text-sm',
+                {
+                    'font-bold': highlight,
+                    'opacity-50': faded
+                }
+            )}>
+                {label}
+            </div>
+            <div className="flex flex-col w-4 items-center">
+                <div className={clsx('flex-1 shrink-0 w-[4.8px]', {
+                    'bg-yellow-500': !start && type == 'tram',
+                    'bg-red-500': !start && type == 'trolleybus',
+                    'bg-sky-500': !start && type == 'bus',
+                    'bg-transparent': start
+                })}></div>
+                <div className={clsx('rounded-full',
+                    {
+                        'border-yellow-500': type == 'tram',
+                        'border-red-500': type == 'trolleybus',
+                        'border-sky-500': type == 'bus',
+                        'border-3 w-4 h-4 ': start || end,
+                        'border-2 w-3 h-3 ': !start && !end,
+                        'bg-white': !highlight,
+                        'bg-yellow-500': highlight && type == 'tram',
+                        'bg-red-500': highlight && type == 'trolleybus',
+                        'bg-sky-500': highlight && type == 'bus'
+                    }
+                )}></div>
+                <div className={clsx('flex-1 shrink-0 w-[4.8px]', {
+                    'bg-yellow-500': !end && type == 'tram',
+                    'bg-red-500': !end && type == 'trolleybus',
+                    'bg-sky-500': !end && type == 'bus',
+                    'bg-transparent': end
+                })}></div>
+            </div>
+            <div className="flex-4 flex gap-x-1 items-center text-base overflow-hidden py-1">
+                <div className="flex grow overflow-hidden">
+                    <span className={clsx('overflow-hidden text-ellipsis',
+                        {
+                            'font-bold px-1 rounded': start || end,
+                            'bg-yellow-500': (start || end) && type == 'tram',
+                            'bg-red-500 text-white': (start || end) && type == 'trolleybus',
+                            'bg-sky-500 text-white': (start || end) && type == 'bus',
+                            'font-bold': highlight,
+                            'opacity-50': faded
+                        }
+                    )}>
+                        {name}
+                    </span>
+                </div>
+            </div>
+        </div>
+    );
+}
