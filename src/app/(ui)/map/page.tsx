@@ -5,7 +5,7 @@ export default async function Page() {
         <>
             <div className="h-full w-[200%] bg-white rounded-xl py-3 px-1 flex items-center md:flex-col md:justify-center mx-auto overflow-y-hidden overflow-x-scroll">
 
-                <div className="relative w-full md:w-auto h-auto md:h-full flex flex-col md:flex-row justify-center items-start">
+                <div className="relative w-full md:w-auto h-auto md:h-full flex flex-col-reverse md:flex-row justify-center items-start">
                     {/* Live tram */}
                     <div className="absolute flex items-center justify-center left-1/2 -translate-x-1/2 md:translate-x-0 translate-y-0 md:-translate-y-1/2 top-[52%] md:top-1/2 md:left-[52%]">
                         <div className="md:hidden"><VerticalVehicle direction={'down'}/></div>
@@ -75,9 +75,10 @@ export default async function Page() {
                             </div>
 
                             {/* Connection to main track */}
-                            <div className="w-[25px] h-full md:w-full md:h-[25px] flex flex-col md:flex-row">
-                                <div className="h-1/2 md:h-full md:w-1/2 -mb-1 me-0 md:mb-0 md:-me-1 border-yellow-500 border-4 border-s-0 border-t-0 rounded-br-xl rounded-tl-none"></div> {/*md:border-s-4 md:border-t-4 md:border-b-0 md:border-l-0 md:rounded-tl-xl md:rounded-br-none*/}
-                                <div className="grow border-yellow-500 border-4 border-s-0 border-b-0 rounded-tr-xl rounded-bl-none md:border-s-4 md:border-b-4 md:border-t-0 md:border-r-0 md:rounded-bl-xl md:rounded-tr-none"></div>
+                            <div className="relative w-[25px] h-full md:w-full md:h-[25px] flex flex-col md:flex-row">
+                                <div className="absolute right-0 bottom-0 h-full md:h-1 w-1 md:w-full bg-yellow-500"></div>
+                                <div className="h-1/2 md:h-full md:w-1/2 -mb-1 me-0 md:mb-0 md:-me-1 border-yellow-500 border-4 border-s-0 border-t-0 rounded-br-3xl rounded-tl-none"></div> {/*md:border-s-4 md:border-t-4 md:border-b-0 md:border-l-0 md:rounded-tl-xl md:rounded-br-none*/}
+                                <div className="grow border-yellow-500 border-4 border-s-0 border-b-0 rounded-tr-3xl rounded-bl-none md:border-s-4 md:border-b-4 md:border-t-0 md:border-r-0 md:rounded-bl-3xl md:rounded-tr-none"></div>
                             </div>
                         </div>
 
@@ -118,10 +119,111 @@ export default async function Page() {
                         </div>
                     </div>
 
-                    <div className="w-full md:w-auto h-auto md:h-full flex md:flex-col">
-                        <div className="flex-1/2"></div>
-                        <div className="shrink-0 h-[100px] w-1 md:w-[100px] md:h-1 bg-yellow-500"></div>
-                        <div className="flex-1/2"></div>
+                    {/*<div className="w-full md:w-auto h-auto md:h-full flex md:flex-col">*/}
+                    {/*    <div className="flex-1/2"></div>*/}
+                    {/*    <div className="shrink-0 h-[100px] w-1 md:w-[100px] md:h-1 bg-yellow-500"></div>*/}
+                    {/*    <div className="flex-1/2"></div>*/}
+                    {/*</div>*/}
+
+                    {/* 2-track fork */}
+                    <div className="w-full md:w-auto h-auto md:h-full flex flex-col-reverse md:flex-row">
+
+                        {/* Connection to main track */}
+                        <div className="w-full md:w-auto h-auto md:h-full flex md:flex-col">
+                            <div className="flex-1/2"></div>
+
+                            <div className="shrink-0 w-[100px] md:w-auto h-auto md:h-[100px]">
+                                <div className="flex md:flex-col w-full md:w-[50px] h-[50px] md:h-full">
+                                    {/* First branch */}
+                                    <div className="shrink-0 w-[calc(50%+0.125rem)] md:w-full h-full md:h-[calc(50%+0.125rem)] flex md:flex-col">
+                                        {/* Mobile top left, md top right */}
+                                        <div className="md:self-end flex-1/2 h-[calc(50%+0.125rem)] md:h-auto md:w-[calc(50%+0.125rem)] border-yellow-500 border-s-4 border-b-4 md:border-b-0 md:border-t-4 rounded-bl-2xl md:rounded-bl-none md:rounded-tl-2xl"></div>
+                                        {/* Mobile bottom right, md bottom left */}
+                                        <div className="self-end md:self-start flex-1/2 h-[calc(50%+0.125rem)] md:h-auto md:w-[calc(50%+0.125rem)] border-yellow-500 border-e-4 border-t-4 md:border-t-0 md:border-b-4 rounded-tr-2xl md:rounded-tr-none md:rounded-br-2xl"></div>
+                                    </div>
+                                    {/* Second branch */}
+                                    <div className="shrink-0 -ms-1 md:ms-0 md:-mt-1 w-[calc(50%+0.125rem)] md:w-full h-full md:h-[calc(50%+0.125rem)] flex md:flex-col">
+                                        {/* Mobile bottom left, md top left */}
+                                        <div className="self-end md:self-start flex-1/2 h-[calc(50%+0.125rem)] md:h-auto md:w-[calc(50%+0.125rem)] border-yellow-500 border-t-4 border-s-4 md:border-s-0 md:border-e-4 rounded-tl-2xl md:rounded-tl-none md:rounded-tr-2xl"></div>
+                                        {/* Mobile top right, md bottom right */}
+                                        <div className="md:self-end flex-1/2 h-[calc(50%+0.125rem)] md:h-auto md:w-[calc(50%+0.125rem)] border-yellow-500 border-b-4 border-e-4 md:border-e-0 md:border-s-4 rounded-br-2xl md:rounded-br-none md:rounded-bl-2xl"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex-1/2"></div>
+                        </div>
+
+                        {/* Tracks */}
+                        <div className="flex md:flex-col w-full md:w-auto h-auto md:h-full">
+
+                            {/* left/top track */}
+                            <div className="flex-1/2 flex flex-col md:flex-row items-center md:justify-center">
+                                {/* Station */}
+                                <div className="w-full md:w-auto md:min-w-[50px] md:max-w-[50px] h-auto md:h-full flex flex-row gap-1 md:gap-2 md:flex-col">
+
+                                    <div className="w-full grow md:flex md:items-end">
+                                        <div className="w-full text-end md:text-center">Park</div>
+                                    </div>
+
+                                    <div className="shrink-0 flex flex-col md:flex-row items-center gap-0.5">
+                                        <div className="flex-1 w-1 h-0 md:w-0 md:h-1 bg-yellow-500 rounded-b-xl md:rounded-b-none md:rounded-br-xl md:rounded-e-xl"></div>
+                                        <div className="size-2 bg-yellow-500 rounded-full"></div>
+                                        <div className="flex-1 w-1 md:h-1 bg-yellow-500 rounded-t-xl md:rounded-t-none md:rounded-tl-xl md:rounded-s-xl"></div>
+                                    </div>
+
+                                    <div className="shrink-0 w-[calc(50px-0.125rem-8px)] md:w-auto md:h-[calc(50px-0.375rem-8px)]"></div> {/* 50px - flex gap-1/2 - size of the station marker */}
+                                </div>
+                            </div>
+
+                            {/* right/bottom track */}
+                            <div className="flex-1/2 flex flex-col md:flex-row items-center md:justify-center">
+                                {/* Station */}
+                                <div className="w-full md:w-auto md:max-w-[50px] h-auto md:h-full flex flex-row gap-1 md:gap-2 md:flex-col">
+                                    <div className="shrink-0 w-[calc(50px-0.125rem-8px)] md:w-auto md:h-[calc(50px-0.375rem-8px)]"></div> {/* 50px - flex gap-1 - size of the station marker */}
+
+                                    <div className="flex flex-col md:flex-row items-center gap-0.5">
+                                        <div className="flex-1 w-1 h-0 md:w-0 md:h-1 bg-yellow-500 rounded-b-xl md:rounded-b-none md:rounded-br-xl md:rounded-e-xl"></div>
+                                        <div className="size-2 bg-yellow-500 rounded-full"></div>
+                                        <div className="flex-1 w-1 md:h-1 bg-yellow-500 rounded-t-xl md:rounded-t-none md:rounded-tl-xl md:rounded-s-xl"></div>
+                                    </div>
+
+                                    <div className="w-full grow">
+                                        <div className="text-start md:flex md:flex-col md:items-center">Skenderija</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        {/* 2-track fork link with station */}
+                        <div className="flex md:flex-col w-full md:w-auto h-auto md:h-full">
+                            <div className="flex-1/2"></div>
+
+                            <div className="relative shrink-0 w-[100px] md:w-[50px] h-[50px] md:h-[100px] flex md:flex-col">
+                                <div className="absolute w-full h-full border-yellow-500 border-x-4 md:border-x-0 md:border-y-4"></div>
+                                {/*<div className="w-full md:w-auto h-auto md:h-full border-yellow-500 border-4 border-b-0 md:border-b-4 md:border-s-0 md-border-b-0 rounded-e-2xl"></div>*/}
+                                <div className="mt-0.5 md:mt-0 flex-1/2 border-yellow-500 border-4 border-e-0 border-b-0 md:border-e-4 md:border-l-0 md:border-b-0 rounded-tl-2xl md:rounded-tl-none md:rounded-tr-2xl"></div>
+
+                                {/* Station */}
+                                <div className="flex flex-col md:flex-row">
+                                    <div className="flex md:flex-col items-center gap-0.5">
+                                        <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-e-xl md:rounded-e-none md:rounded-br-xl md:rounded-b-xl"></div>
+                                        <div className="size-2 bg-yellow-500 rounded-full"></div>
+                                        <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-s-xl md:rounded-s-none md:rounded-tr-xl md:rounded-t-xl"></div>
+                                    </div>
+
+                                    <div className="flex-1/2 h-0 md:h-auto md:w-0 md:text-nowrap flex md:flex-col justify-center">
+                                        <div className="text-center">Tehnička škola</div>
+                                    </div>
+                                </div>
+
+                                <div className="mt-0.5 md:mt-0 flex-1/2 border-yellow-500 border-4 border-l-0 border-b-0 md:border-b-4 md:border-t-0 rounded-tr-2xl md:rounded-tr-none md:rounded-br-2xl"></div>
+                            </div>
+
+                            <div className="flex-1/2"></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
