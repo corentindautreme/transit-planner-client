@@ -47,8 +47,8 @@ function Station({stationName, lines}: {stationName: string, lines?: string[]}) 
             {/* Station signs */}
             <div className="flex-1/2 flex items-center md:items-start justify-start md:justify-center">
                 <div className="flex items-center flex-wrap gap-1 justify-start md:justify-center">
-                    { lines?.map(line => (
-                        <div className="shrink-0 w-5 text-center rounded bg-yellow-500 text-lg font-bold">{line}</div>
+                    { lines?.map((line, index) => (
+                        <div key={`${stationName}-line${index}`} className="shrink-0 w-5 text-center rounded bg-yellow-500 text-lg font-bold">{line}</div>
                     ))}
                 </div>
             </div>
@@ -106,8 +106,8 @@ function ForkTerminus({stationName, lines}: {stationName: string, lines: string[
         <div className="h-full md:h-auto max-w-[50px] md:w-full flex flex-col md:flex-row gap-1 md:gap-2">
 
             <div className="flex-1/2 h-0 md:h-auto md:w-0 flex gap-1 justify-center md:justify-end items-end">
-                { lines.map(line => (
-                    <div className="shrink-0 w-5 mb-1 text-center rounded bg-yellow-500 text-lg font-bold">{line}</div>
+                { lines.map((line, index) => (
+                    <div key={`${stationName}-line${index}`} className="shrink-0 w-5 mb-1 text-center rounded bg-yellow-500 text-lg font-bold">{line}</div>
                 ))}
             </div>
 
