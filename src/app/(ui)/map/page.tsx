@@ -1,78 +1,19 @@
 export default function Page() {
     return (
         <div className="h-full bg-white rounded-xl py-3 px-1 overflow-scroll">
-            <div className="min-w-[400px] md:min-w-none h-full flex flex-col-reverse md:flex-row items-center justify-center">
+            <div className="min-w-max md:min-w-none min-h-max h-full flex flex-col-reverse md:flex-row items-center justify-end md:justify-center">
+                <Separator length={100}/>
 
-                {/* Center track */}
-                <div className="flex w-1 md:w-[100px] h-[100px] md:h-1 bg-yellow-500"></div>
+                <Station stationName={'Nedzarici'} lines={['5']}/>
+
+                <Separator length={100}/>
 
                 {/* Left/top fork */}
-                <div className="w-full md:w-auto h-auto md:h-full flex md:flex-col">
-                    <div className="h-[50px] w-[calc(50%+0.125rem)] md:w-[50px] md:h-[calc(50%+0.125rem)] flex md:flex-col">
+                <Fork/>
 
-                        {/* Perpendicular fork track */}
-                        <div className="grow h-full md:w-full flex md:flex-col justify-end md:items-end pb-1 md:pb-0 md:pe-1">
+                <Separator length={100}/>
 
-                            {/* Terminus */}
-                            <div className="h-full md:h-auto max-w-[50px] md:w-full flex flex-col md:flex-row gap-1 md:gap-2">
-
-                                <div className="flex-1/2 h-0 md:h-auto md:w-0 flex gap-1 justify-center md:justify-end items-end">
-                                    <div className="shrink-0 w-5 mb-1 text-center rounded bg-yellow-500 text-lg font-bold">1</div>
-                                    <div className="shrink-0 w-5 mb-1 text-center rounded bg-yellow-500 text-lg font-bold">4</div>
-                                </div>
-
-                                <div className="flex md:flex-col items-center gap-0.5">
-                                    <div className="flex-1"></div>
-                                    <div className="size-2 bg-yellow-500 rounded-full"></div>
-                                    <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-s-xl md:rounded-s-none md:rounded-tr-xl md:rounded-t-xl"></div>
-                                </div>
-
-                                <div className="flex-1/2 h-0 md:h-auto md:w-0 md:text-nowrap flex md:flex-col justify-center">
-                                    <div className="text-center">Željeznička stanica</div>
-                                </div>
-                            </div>
-
-                            {/* Flat segment */}
-                            <div className="h-full md:h-[50px] w-[50px] md:w-full flex flex-col md:flex-row">
-                                <div className="flex-1/2"></div>
-                                <div className="shrink-0 w-full h-1 md:h-full md:w-1 bg-yellow-500"></div>
-                                <div className="flex-1/2"></div>
-                            </div>
-
-                            {/* Station */}
-                            <div className="h-full md:h-auto max-w-[50px] w-auto md:w-full flex flex-col md:flex-row gap-1 md:gap-2">
-                                <div className="flex-1/2"></div>
-                                <div className="flex md:flex-col items-center gap-0.5">
-                                    <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-e-xl md:rounded-e-none md:rounded-br-xl md:rounded-b-xl"></div>
-                                    <div className="size-2 bg-yellow-500 rounded-full"></div>
-                                    <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-s-xl md:rounded-s-none md:rounded-tr-xl md:rounded-t-xl"></div>
-                                </div>
-
-                                <div className="flex-1/2 h-0 md:h-auto md:w-0 md:text-nowrap flex md:flex-col justify-center">
-                                    <div className="text-center">Tehnička škola</div>
-                                </div>
-                            </div>
-
-                            {/* Flat segment */}
-                            <div className="h-full md:h-auto w-auto md:w-full flex flex-col md:flex-row">
-                                <div className="flex-1/2"></div>
-                                <div className="shrink-0 w-[10px] h-1 md:h-[10px] md:w-1 bg-yellow-500"></div>
-                                <div className="flex-1/2"></div>
-                            </div>
-                        </div>
-
-                        {/* Connection to main track */}
-                        <div className="shrink-0 relative w-[25px] h-full md:w-full md:h-[25px] flex flex-col md:flex-row">
-                            <div className="absolute right-0 bottom-0 h-full md:h-1 w-1 md:w-full bg-yellow-500"></div>
-                            <div className="h-1/2 md:h-full md:w-1/2 -mb-1 me-0 md:mb-0 md:-me-1 border-yellow-500 border-4 border-s-0 border-t-0 rounded-br-3xl rounded-tl-none"></div> {/*md:border-s-4 md:border-t-4 md:border-b-0 md:border-l-0 md:rounded-tl-xl md:rounded-br-none*/}
-                            <div className="grow border-yellow-500 border-4 border-s-0 border-b-0 rounded-tr-3xl rounded-bl-none md:border-s-4 md:border-b-4 md:border-t-0 md:border-r-0 md:rounded-bl-3xl md:rounded-tr-none"></div>
-                        </div>
-                    </div>
-
-
-                    <div className="bg-background shrink-0 h-[50px] w-[calc(50%-0.125rem)] md:w-[50px] md:h-[calc(50%-0.125rem)] flex md:flex-col"></div>
-
-                </div>
+                <Station stationName={'Stanica Aaaaa'}/>
 
                 {/* 2-track fork - connector to main track */}
                 <TwoTrackForkConnector/>
@@ -86,6 +27,126 @@ export default function Page() {
                 {/* End fork connector */}
                 <EndForkConnector/>
             </div>
+        </div>
+    );
+}
+
+function Station({stationName, lines}: {stationName: string, lines?: string[]}) {
+    return (
+        <div className="flex gap-2 md:flex-col w-full md:max-w-[50px] max-h-[50px] md:max-h-none md:h-full">
+            {/* Station label */}
+            <div className="flex-1/2 max-w-1/2 md:max-w-none flex md:flex-col items-center justify-end overflow-hidden md:overflow-visible">
+                <div className="w-full overflow-hidden md:overflow-visible md:min-w-max text-ellipsis text-end md:text-center">{stationName}</div>
+            </div>
+            {/* Station marker */}
+            <div className="flex flex-col md:flex-row items-center gap-0.5">
+                <div className="flex-1 w-1 h-0 md:w-0 md:h-1 bg-yellow-500 rounded-b-xl md:rounded-b-none md:rounded-br-xl md:rounded-e-xl"></div>
+                <div className="size-2 bg-yellow-500 rounded-full"></div>
+                <div className="flex-1 w-1 md:h-1 bg-yellow-500 rounded-t-xl md:rounded-t-none md:rounded-tl-xl md:rounded-s-xl"></div>
+            </div>
+            {/* Station signs */}
+            <div className="flex-1/2 flex items-center md:items-start justify-start md:justify-center">
+                <div className="flex items-center flex-wrap gap-1 justify-start md:justify-center">
+                    { lines?.map(line => (
+                        <div className="shrink-0 w-5 text-center rounded bg-yellow-500 text-lg font-bold">{line}</div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function Separator({length}: {length: number}) {
+    return (
+        <>
+            <div className="hidden md:block shrink-0" style={{ width: `${length}px` }}>
+                <div className="flex w-full h-1 bg-yellow-500"></div>
+            </div>
+            <div className="block md:hidden shrink-0" style={{ height: `${length}px` }}>
+                <div className="flex h-full w-1 bg-yellow-500"></div>
+            </div>
+        </>
+    )
+}
+
+function Fork() {
+    return (
+        <div className="w-full md:w-auto h-auto md:h-full flex md:flex-col">
+            <div className="h-[50px] w-[calc(50%+0.125rem)] md:w-[50px] md:h-[calc(50%+0.125rem)] flex md:flex-col justify-end">
+
+                {/* Perpendicular fork track */}
+                <div className="grow h-full md:w-full flex md:flex-col justify-end md:items-end pb-1 md:pb-0 md:pe-1">
+
+                    {/* Terminus */}
+                    <ForkTerminus stationName={'Željeznička stanica'} lines={['1', '4']}/>
+
+                    {/* Flat segment */}
+                    <ForkFlatSegment/>
+
+                    {/* Station */}
+                    <ForkStation stationName={'Tehnička škola'}/>
+                </div>
+
+                {/* Connection to main track */}
+                <div className="shrink-0 relative w-[25px] h-full md:w-full md:h-[25px] flex flex-col md:flex-row">
+                    <div className="absolute right-0 bottom-0 h-full md:h-1 w-1 md:w-full bg-yellow-500"></div>
+                    <div className="h-1/2 md:h-full md:w-1/2 -mb-1 me-0 md:mb-0 md:-me-1 border-yellow-500 border-4 border-s-0 border-t-0 rounded-br-3xl rounded-tl-none"></div> {/*md:border-s-4 md:border-t-4 md:border-b-0 md:border-l-0 md:rounded-tl-xl md:rounded-br-none*/}
+                    <div className="grow border-yellow-500 border-4 border-s-0 border-b-0 rounded-tr-3xl rounded-bl-none md:border-s-4 md:border-b-4 md:border-t-0 md:border-r-0 md:rounded-bl-3xl md:rounded-tr-none"></div>
+                </div>
+            </div>
+
+            <div className="shrink-0 h-[50px] w-[calc(50%-0.125rem)] md:w-[50px] md:h-[calc(50%-0.125rem)] flex md:flex-col"></div>
+
+        </div>
+    );
+}
+
+function ForkTerminus({stationName, lines}: {stationName: string, lines: string[]}) {
+    return (
+        <div className="h-full md:h-auto max-w-[50px] md:w-full flex flex-col md:flex-row gap-1 md:gap-2">
+
+            <div className="flex-1/2 h-0 md:h-auto md:w-0 flex gap-1 justify-center md:justify-end items-end">
+                { lines.map(line => (
+                    <div className="shrink-0 w-5 mb-1 text-center rounded bg-yellow-500 text-lg font-bold">{line}</div>
+                ))}
+            </div>
+
+            <div className="flex md:flex-col items-center gap-0.5">
+                <div className="flex-1"></div>
+                <div className="size-2 bg-yellow-500 rounded-full"></div>
+                <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-s-xl md:rounded-s-none md:rounded-tr-xl md:rounded-t-xl"></div>
+            </div>
+
+            <div className="flex-1/2 h-0 md:h-auto md:w-0 md:text-nowrap flex md:flex-col justify-center">
+                <div className="text-center">{stationName}</div>
+            </div>
+        </div>
+    );
+}
+
+function ForkStation({stationName}: {stationName: string}) {
+    return (
+        <div className="h-full md:h-auto max-w-[50px] w-auto md:w-full flex flex-col md:flex-row gap-1 md:gap-2">
+            <div className="flex-1/2"></div>
+            <div className="flex md:flex-col items-center gap-0.5">
+                <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-e-xl md:rounded-e-none md:rounded-br-xl md:rounded-b-xl"></div>
+                <div className="size-2 bg-yellow-500 rounded-full"></div>
+                <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-s-xl md:rounded-s-none md:rounded-tr-xl md:rounded-t-xl"></div>
+            </div>
+
+            <div className="flex-1/2 h-0 md:h-auto md:w-0 md:text-nowrap flex md:flex-col justify-center">
+                <div className="text-center">{stationName}</div>
+            </div>
+        </div>
+    );
+}
+
+function ForkFlatSegment() {
+    return (
+        <div className="h-full md:h-[50px] w-[50px] md:w-full flex flex-col md:flex-row">
+            <div className="flex-1/2"></div>
+            <div className="shrink-0 w-full h-1 md:h-full md:w-1 bg-yellow-500"></div>
+            <div className="flex-1/2"></div>
         </div>
     );
 }
@@ -300,7 +361,7 @@ function MiddleForkConnectorWithStation() {
 
 function EndForkConnector() {
     return (
-        <div className="w-full md:w-[25px] h-[25px] md:h-full flex md:flex-col">
+        <div className="shrink-0 w-full md:w-[25px] h-[25px] md:h-full flex md:flex-col">
             {/* left/top connector */}
             <div className="flex-1/2 flex md:flex-col justify-end md:items-end">
                 {/* 50% of container + half of a border-1 */}
