@@ -1,7 +1,15 @@
+import { clsx } from 'clsx';
+import { Fragment } from 'react';
+
 export default function Page() {
     return (
         <div className="h-full bg-white rounded-xl py-3 px-1 overflow-scroll">
             <div className="min-w-max md:min-w-none min-h-max h-full flex flex-col-reverse md:flex-row items-center justify-end md:justify-center">
+                <Separator length={100}/>
+
+                {/* Right/bottom fork */}
+                <Fork direction={'right'} stations={[{name: 'Tehnička škola'}, {name: 'Tehnička škola B'}, {name: 'Željeznička stanica', lines: ['1', '4']}]}/>
+
                 <Separator length={100}/>
 
                 <Station stationName={'Nedzarici'} lines={['5']}/>
@@ -9,7 +17,7 @@ export default function Page() {
                 <Separator length={100}/>
 
                 {/* Left/top fork */}
-                <Fork/>
+                <Fork  stations={[{name: 'Tehnička škola'}, {name: 'Željeznička stanica', lines: ['1', '4']}]}/>
 
                 <Separator length={100}/>
 
@@ -69,29 +77,61 @@ function Separator({length}: {length: number}) {
     )
 }
 
-function Fork() {
+function Fork({stations, direction}: {stations : {name: string, lines?: string[]}[], direction? : 'left' | 'right'}) {
     return (
-        <div className="w-full md:w-auto h-auto md:h-full flex md:flex-col">
-            <div className="h-[50px] w-[calc(50%+0.125rem)] md:w-[50px] md:h-[calc(50%+0.125rem)] flex md:flex-col justify-end">
+        <div className={clsx('w-full md:w-auto h-auto md:h-full flex',
+            {
+                'flex-row md:flex-col': !direction || direction === 'left',
+                'flex-row-reverse md:flex-col-reverse': direction === 'right',
+            }
+        )}>
+            <div className={clsx('h-[50px] w-[calc(50%+0.125rem)] md:w-[50px] md:h-[calc(50%+0.125rem)] flex',
+                {
+                    'flex-row md:flex-col justify-end': !direction || direction === 'left',
+                    'flex-row-reverse md:flex-col-reverse': direction === 'right',
+                }
+            )}>
 
                 {/* Perpendicular fork track */}
-                <div className="grow h-full md:w-full flex md:flex-col justify-end md:items-end pb-1 md:pb-0 md:pe-1">
+                <div className={clsx('grow h-full md:w-full flex pb-1 md:pb-0 md:pe-1',
+                    {
+                        'flex-row md:flex-col justify-end md:items-end': !direction || direction === 'left',
+                        'flex-row-reverse md:flex-col-reverse justify-end md:items-end': direction === 'right',
+                    }
+                )}>
 
-                    {/* Terminus */}
-                    <ForkTerminus stationName={'Željeznička stanica'} lines={['1', '4']}/>
-
-                    {/* Flat segment */}
-                    <ForkFlatSegment/>
-
-                    {/* Station */}
-                    <ForkStation stationName={'Tehnička škola'}/>
+                    { stations.reverse().map((station, index) => (
+                        // TODO unique key for each fork
+                        <Fragment key={`fork-${index}`}>
+                            { index === 0 && <ForkTerminus stationName={station.name} lines={station.lines!} direction={direction}/> }
+                            { index > 0 && <>
+                                <ForkFlatSegment/>
+                                <ForkStation stationName={station.name}/>
+                            </>}
+                        </Fragment>
+                    )) }
                 </div>
 
                 {/* Connection to main track */}
                 <div className="shrink-0 relative w-[25px] h-full md:w-full md:h-[25px] flex flex-col md:flex-row">
-                    <div className="absolute right-0 bottom-0 h-full md:h-1 w-1 md:w-full bg-yellow-500"></div>
-                    <div className="h-1/2 md:h-full md:w-1/2 -mb-1 me-0 md:mb-0 md:-me-1 border-yellow-500 border-4 border-s-0 border-t-0 rounded-br-3xl rounded-tl-none"></div> {/*md:border-s-4 md:border-t-4 md:border-b-0 md:border-l-0 md:rounded-tl-xl md:rounded-br-none*/}
-                    <div className="grow border-yellow-500 border-4 border-s-0 border-b-0 rounded-tr-3xl rounded-bl-none md:border-s-4 md:border-b-4 md:border-t-0 md:border-r-0 md:rounded-bl-3xl md:rounded-tr-none"></div>
+                    <div className={clsx('absolute h-full md:h-1 w-1 md:w-full bg-yellow-500',
+                        {
+                            'right-0 bottom-0': !direction || direction === 'left',
+                            'left-0 top-0': direction === 'right',
+                        }
+                    )}></div>
+                    <div className={clsx('h-1/2 md:h-full md:w-1/2 -mb-1 me-0 md:mb-0 md:-me-1 border-yellow-500 border-4',
+                        {
+                            'border-s-0 border-t-0 rounded-br-3xl rounded-tl-none': !direction || direction === 'left',
+                            'border-e-0 border-t-0 rounded-bl-3xl md:border-t-4 md:border-e-4 md:border-s-0 md:border-b-0 md:rounded-bl-none md:rounded-tr-3xl': direction === 'right',
+                        }
+                    )}></div>
+                    <div className={clsx('grow border-yellow-500 border-4',
+                        {
+                            'border-s-0 border-b-0 rounded-tr-3xl rounded-bl-none md:border-s-4 md:border-b-4 md:border-t-0 md:border-r-0 md:rounded-bl-3xl md:rounded-tr-none': !direction || direction === 'left',
+                            'border-e-0 border-b-0 rounded-tl-3xl md:border-s-4 md:rounded-tl-3xl': direction === 'right',
+                        }
+                    )}></div>
                 </div>
             </div>
 
@@ -101,7 +141,7 @@ function Fork() {
     );
 }
 
-function ForkTerminus({stationName, lines}: {stationName: string, lines: string[]}) {
+function ForkTerminus({stationName, lines, direction}: {stationName: string, lines: string[], direction? : 'left' | 'right'}) {
     return (
         <div className="h-full md:h-auto max-w-[50px] md:w-full flex flex-col md:flex-row gap-1 md:gap-2">
 
@@ -111,10 +151,20 @@ function ForkTerminus({stationName, lines}: {stationName: string, lines: string[
                 ))}
             </div>
 
-            <div className="flex md:flex-col items-center gap-0.5">
+            <div className={clsx('flex items-center gap-0.5',
+                {
+                    'flex-row md:flex-col': !direction || direction === 'left',
+                    'flex-row-reverse md:flex-col-reverse': direction === 'right',
+                }
+            )}>
                 <div className="flex-1"></div>
                 <div className="size-2 bg-yellow-500 rounded-full"></div>
-                <div className="flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500 rounded-s-xl md:rounded-s-none md:rounded-tr-xl md:rounded-t-xl"></div>
+                <div className={clsx('flex-1 h-1 w-0 md:h-0 md:w-1 bg-yellow-500',
+                    {
+                        'rounded-s-xl md:rounded-s-none md:rounded-t-xl': !direction || direction === 'left',
+                        'rounded-e-xl md:rounded-e-none md:rounded-b-xl': direction === 'right',
+                    }
+                )}></div>
             </div>
 
             <div className="flex-1/2 h-0 md:h-auto md:w-0 md:text-nowrap flex md:flex-col justify-center">
