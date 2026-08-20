@@ -17,7 +17,7 @@ export default function Page() {
                 <Separator length={100}/>
 
                 {/* Left/top fork */}
-                <Fork  stations={[{name: 'Tehnička škola'}, {name: 'Željeznička stanica', lines: ['1', '4']}]}/>
+                <Fork stations={[{name: 'Tehnička škola'}, {name: 'Željeznička stanica', lines: ['1', '4']}]}/>
 
                 <Separator length={100}/>
 
@@ -82,10 +82,10 @@ function Fork({stations, direction}: {stations : {name: string, lines?: string[]
         <div className={clsx('w-full md:w-auto h-auto md:h-full flex',
             {
                 'flex-row md:flex-col': !direction || direction === 'left',
-                'flex-row-reverse md:flex-col-reverse': direction === 'right',
+                'flex-row-reverse md:flex-col-reverse justify-end': direction === 'right',
             }
         )}>
-            <div className={clsx('h-[50px] w-[calc(50%+0.125rem)] md:w-[50px] md:h-[calc(50%+0.125rem)] flex',
+            <div className={clsx('min-w-max h-[50px] w-[calc(50%+0.125rem)] md:w-[50px] md:h-[calc(50%+0.125rem)] flex',
                 {
                     'flex-row md:flex-col justify-end': !direction || direction === 'left',
                     'flex-row-reverse md:flex-col-reverse': direction === 'right',
