@@ -4,11 +4,67 @@ import { Fragment } from 'react';
 export default function Page() {
     return (
         <div className="h-full bg-white rounded-xl py-3 px-1 overflow-scroll">
-            <div className="grid grid-cols-[repeat(20,_40px)] grid-rows-[repeat(10,_40px)]">
+            <div className="grid grid-cols-[repeat(20,_40px)] grid-rows-[repeat(5,_40px)_30px_40px_30px_repeat(5,_40px)]">
+
+                {/* Main track */}
+                <div className="row-start-3 row-end-4 col-start-5 col-end-6 flex items-center">
+                    <div className="h-1 w-full bg-yellow-500"></div>
+                </div>
+
+                <div className="row-start-3 row-end-4 col-start-6 col-end-7 flex flex-col items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-h-0 flex-1/2 flex flex-col items-center justify-end">
+                        <div className="w-full min-w-max text-ellipsis text-end md:text-center">Stanica</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="w-full flex items-center gap-0.5">
+                        <div className="flex-1 h-1 bg-yellow-500 rounded-e-xl"></div>
+                        <div className="size-2 bg-yellow-500 rounded-full"></div>
+                        <div className="flex-1 h-1 bg-yellow-500 rounded-s-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-h-0 flex-1/2 flex items-start justify-center">
+                        <div className="flex items-center gap-1 justify-center mt-1">
+                            <div className="shrink-0 w-5 text-center rounded bg-yellow-500 text-lg font-bold">1</div>
+                            <div className="shrink-0 w-5 text-center rounded bg-yellow-500 text-lg font-bold">1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row-start-3 row-end-4 col-start-7 col-end-8 flex items-center">
+                    <div className="h-1 w-full bg-yellow-500"></div>
+                </div>
+
+                {/* 2-track fork - entrance */}
+                <div className="row-start-1 row-end-2 col-start-8 col-end-9 flex flex-col items-end justify-end">
+                    <div className="w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] border-s-4 border-t-4 border-yellow-500 rounded-tl-xl"></div>
+                </div>
+
+                <div className="row-start-2 row-end-3 col-start-8 col-end-9 relative flex justify-center">
+                    <div className="w-1 bg-yellow-500"></div>
+                </div>
+
+                <div className="row-start-3 row-end-4 col-start-8 col-end-9 flex flex-col">
+                    <div className="w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] border-e-4 border-b-4 border-yellow-500 rounded-br-xl"></div>
+                    <div className="-mt-1 w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] border-t-4 border-e-4 border-yellow-500 rounded-tr-xl"></div>
+                </div>
+
+                <div className="row-start-4 row-end-5 col-start-8 col-end-9 relative flex justify-center">
+                    <div className="w-1 bg-yellow-500"></div>
+                </div>
+
+                <div className="row-start-5 row-end-6 col-start-8 col-end-9 flex flex-col items-end">
+                    <div className="w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] border-l-4 border-b-4 border-yellow-500 rounded-bl-xl"></div>
+                </div>
+                {/* end */}
 
                 {/* Fork - top branch */}
+                <div className="row-start-1 row-end-2 col-start-9 col-end-10 flex items-center">
+                    <div className="h-1 w-full bg-yellow-500"></div>
+                </div>
+
                 <div className="row-start-1 row-end-2 col-start-10 col-end-11 flex flex-col items-center justify-center">
-                    {/* Station name*/}
+                    {/* Station name */}
                     <div className="min-h-0 flex-1/2 flex flex-col items-center justify-end">
                         <div className="w-full min-w-max text-ellipsis text-end md:text-center">Stanica</div>
                     </div>
@@ -27,19 +83,23 @@ export default function Page() {
                     </div>
                 </div>
 
-                <div className="row-start-1 row-end-2 col-start-11 col-end-12 flex items-center">
+                <div className="row-start-1 row-end-2 col-start-11 col-end-16 flex items-center">
                     <div className="h-1 w-full bg-yellow-500"></div>
                 </div>
                 {/* end */}
 
                 {/* Fork - bottom branch */}
+                <div className="row-start-5 row-end-6 col-start-9 col-end-10 flex items-center">
+                    <div className="h-1 w-full bg-yellow-500"></div>
+                </div>
+
                 <div className="row-start-5 row-end-6 col-start-10 col-end-11 flex flex-col items-center justify-center">
-                    {/* Station name*/}
+                    {/* Station name */}
                     <div className="min-h-0 flex-1/2 flex flex-col items-center justify-end">
-                        <div className="w-full min-w-max text-ellipsis text-end md:text-center">Stanica</div>
+                        <div className="w-full min-w-max text-ellipsis text-center">Stanica</div>
                     </div>
                     {/* Marker */}
-                    <div className="w-full flex flex-row items-center gap-0.5">
+                    <div className="w-full flex items-center gap-0.5">
                         <div className="flex-1 h-1 bg-yellow-500 rounded-e-xl"></div>
                         <div className="size-2 bg-yellow-500 rounded-full"></div>
                         <div className="flex-1 h-1 bg-yellow-500 rounded-s-xl"></div>
@@ -53,7 +113,7 @@ export default function Page() {
                     </div>
                 </div>
 
-                <div className="row-start-5 row-end-6 col-start-11 col-end-12 flex items-center">
+                <div className="row-start-5 row-end-6 col-start-11 col-end-16 flex items-center">
                     <div className="h-1 w-full bg-yellow-500"></div>
                 </div>
 
@@ -72,6 +132,25 @@ export default function Page() {
                     <div className="w-1 bg-yellow-500"></div>
                 </div>
 
+                <div className="row-start-3 row-end-4 col-start-12 col-end-13 flex gap-1 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="w-full min-w-max text-center bg-yellow-500 px-1 py-0.5 font-bold rounded-lg">Stanica</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1 w-1 bg-yellow-500 rounded-b-xl"></div>
+                        <div className="size-2 bg-yellow-500 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-yellow-500 rounded-t-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center mt-1">
+                            <div className="shrink-0 w-5 text-center rounded bg-yellow-500 text-lg font-bold">1</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="row-start-4 row-end-5 col-start-12 col-end-13 relative flex justify-center">
                     <div className="w-1 bg-yellow-500"></div>
                 </div>
@@ -86,19 +165,70 @@ export default function Page() {
                     <div className="h-1 w-full bg-yellow-500"></div>
                 </div>
 
-                {/* 2-track connector */}
-                <div className="row-start-1 row-end-2 col-start-14 col-end-15 flex flex-col justify-end">
+                {/* 2-track end connector with station */}
+                <div className="row-start-1 row-end-2 col-start-16 col-end-17 flex flex-col justify-end">
                     <div className="w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] border-t-4 border-e-4 border-yellow-500 rounded-tr-xl"></div>
                 </div>
 
-                <div className="row-start-2 row-end-5 col-start-14 col-end-15 relative flex justify-center">
+                <div className="row-start-2 row-end-3 col-start-16 col-end-17 relative flex justify-center">
                     <div className="w-1 bg-yellow-500"></div>
                 </div>
 
-                <div className="row-start-5 row-end-6 col-start-14 col-end-15 flex flex-col">
+                <div className="row-start-3 row-end-4 col-start-16 col-end-17 flex gap-1 items-center justify-center">
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="flex items-center gap-1 justify-center mt-1">
+                            <div className="shrink-0 w-5 text-center rounded bg-yellow-500 text-lg font-bold">1</div>
+                        </div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1 w-1 bg-yellow-500 rounded-b-xl"></div>
+                        <div className="size-2 bg-yellow-500 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-yellow-500 rounded-t-xl"></div>
+                    </div>
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="w-full min-w-max text-center bg-yellow-500 px-1 py-0.5 font-bold rounded-lg">Stanica</div>
+                    </div>
+                </div>
+
+                <div className="row-start-4 row-end-5 col-start-16 col-end-17 relative flex justify-center">
+                    <div className="w-1 bg-yellow-500"></div>
+                </div>
+
+                <div className="row-start-5 row-end-6 col-start-16 col-end-17 flex flex-col">
                     <div className="w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] border-e-4 border-b-4 border-yellow-500 rounded-br-xl"></div>
                 </div>
                 {/* end */}
+
+                {/* River */}
+                <div className="row-start-7 row-end-8 col-start-5 col-end-17 bg-sky-300"></div>
+
+                {/* Trolleybus route */}
+                <div className="row-start-9 row-end-10 col-start-15 col-end-16 flex items-center">
+                    <div className="h-1 w-full bg-red-500"></div>
+                </div>
+
+                <div className="row-start-9 row-end-10 col-start-16 col-end-17 flex flex-col items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-h-0 flex-1/2 flex flex-col items-center justify-end">
+                        <div className="w-full min-w-max text-ellipsis text-center bg-red-500 px-1 py-0.5 mb-1 font-bold rounded-lg">Stanica</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="w-full flex flex-row items-center gap-0.5">
+                        <div className="flex-1 h-1 bg-red-500 rounded-e-xl"></div>
+                        <div className="size-2 bg-red-500 rounded-full"></div>
+                        <div className="flex-1"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-h-0 flex-1/2 flex items-start justify-center">
+                        <div className="flex items-center gap-1 justify-center mt-1">
+                            <div className="shrink-0 w-5 text-center rounded bg-red-500 text-lg font-bold">1</div>
+                            <div className="shrink-0 w-5 text-center rounded bg-red-500 text-lg font-bold">1</div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
