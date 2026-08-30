@@ -3,25 +3,51 @@ import { Fragment } from 'react';
 
 export default function Page() {
     return (
-        <div className="h-full bg-white rounded-xl py-3 px-1 overflow-scroll">
-            <div className="min-w-max md:min-w-none min-h-max h-full flex flex-col-reverse md:flex-row items-center justify-end md:justify-center">
-                <Separator length={100}/>
+        <div className="h-full w-full bg-white rounded-xl py-3 overflow-auto">
+            <div className="flex flex-col-reverse md:flex-row min-w-max md:min-w-auto min-h-auto md:min-h-max">
 
-                {/* Right/bottom fork */}
-                <Fork direction={'right'} stations={[{name: 'Tehnička škola'}, {name: 'Tehnička škola B'}]}/>
+                <div className="flex md:flex-col justify-center md:items-center">
+                    <div className="bg-green-500 flex md:flex-col">
+                        <div className="w-[100px] md:w-auto h-auto md:h-[100px] flex flex-col md:flex-row items-center">
+                            <div className="w-1 md:w-[50px] h-[50px] md:h-1 bg-yellow-500"></div>
+                        </div>
+                        <div className="w-[100px] md:w-auto h-auto md:h-[100px] flex flex-col md:flex-row items-center">
+                            <div className="w-1 md:w-[50px] h-[50px] md:h-1 bg-yellow-500"></div>
+                        </div>
+                    </div>
+                </div>
 
-                <Separator length={100}/>
+                <div className="flex md:flex-col justify-center md:items-center">
+                    <div className="w-[50px] md:w-auto h-auto md:h-[50px] aspect-1/3 md:aspect-[3/1] bg-sky-500"></div>
+                </div>
 
-                <Station stationName={'Nedzarici'} lines={['5']}/>
+                <div className="flex md:flex-col justify-center-safe items-center max-h-[50px] md:max-h-none md:max-w-[50px]">
+                    <div className="flex-1 shrink-0 h-[300px] md:h-auto w-fit md:w-[300px] bg-yellow-300 border-1 border-yellow-700 flex md:flex-col items-center md:justify-center">
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                    </div>
+                    <div className="shrink-0 size-[50px] bg-green-500"></div>
+                    <div className="flex-1 shrink-0 h-[300px] md:h-auto grow md:w-[300px] bg-yellow-300 border-1 border-yellow-700 flex md:flex-col items-center md:justify-center">
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                        <div className="w-[50px] shrink-0 md:w-1 h-1 md:h-[50px] bg-yellow-500"></div>
+                    </div>
+                </div>
 
-                <Separator length={100}/>
+                <div className="flex md:flex-col justify-center md:items-center">
+                    <div className="w-[50px] md:w-auto h-auto md:h-[50px] aspect-1/3 md:aspect-[3/1] bg-sky-500"></div>
+                </div>
 
-                {/* Left/top fork */}
-                <Fork stations={[{name: 'Tehnička škola'}, {name: 'Željeznička stanica', lines: ['1', '4']}]}/>
 
-                <Separator length={100}/>
-
-                <Station stationName={'Stanica Aaaaa'}/>
 
                 {/* 2-track fork - connector to main track */}
                 <TwoTrackForkConnector/>
@@ -34,6 +60,7 @@ export default function Page() {
 
                 {/* End fork connector */}
                 <EndForkConnector/>
+
             </div>
         </div>
     );
@@ -100,14 +127,6 @@ function Fork({stations, direction}: {stations : {name: string, lines?: string[]
                         'flex-row-reverse md:flex-col-reverse justify-end md:items-end': direction === 'right',
                     }
                 )}>
-
-                    {/* TODO test "inverted" 2-line fork */}
-                    { !(stations.at(-1)!).lines &&
-                        <div className="h-[200px] md:h-auto w-auto md:w-[200px]">
-                            <TwoTrackForkConnector inverted={true}/>
-                        </div>
-                    }
-
                     { stations.reverse().map((station, index) => (
                         // TODO unique key for each fork
                         <Fragment key={`fork-${index}`}>
@@ -210,122 +229,41 @@ function ForkFlatSegment() {
     );
 }
 
-function TwoTrackForkConnector({ inverted } : { inverted?: boolean }) {
+function TwoTrackForkConnector() {
     return (
-        <div className={clsx('flex',
-            {
-                'w-full md:w-auto h-auto md:h-full md:flex-col': !inverted,
-                'w-auto md:w-full h-full md:h-auto flex-col md:flex-row': inverted,
-            }
-        )}>
+        <div className="w-full md:w-auto flex md:flex-col">
 
             {/* Left/top branch */}
-            <div className={clsx('flex-1/2 flex',
-                {
-                    'md:flex-col': !inverted,
-                    'flex-col md:flex-row': inverted,
-                }
-            )}>
+            <div className="flex-1/2 flex md:flex-col">
                 <div className="grow"></div>
                 {/* 50% + half of w-1 */}
-                <div className={clsx('flex',
-                    {
-                        'w-[calc(50%+0.125rem)] md:w-[50px] h-auto md:h-[calc(50%+0.125rem)] md:flex-col': !inverted,
-                        'w-[50px] md:w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] md:h-auto flex-col md:flex-row': inverted,
-                    }
-                )}>
-                    <div className={clsx('flex',
-                        {
-                            'flex-col md:flex-row w-1/2 md:w-auto h-[50px] md:h-1/2': !inverted,
-                            'md:flex-col w-auto md:w-1/2 h-1/2 md:h-[50px]': inverted,
-                        }
-                    )}>
-                        <div className={clsx('flex-1/2', {
-                            'hidden md:flex': !inverted,
-                            'flex md:hidden': inverted,
-                        })}></div>
-                        <div className={clsx({
-                            'w-auto md:w-1/2 h-[calc(50%+0.25rem)] md:h-auto border-4 border-yellow-500 border-t-0 border-e-0 md:border-t-4 md:border-b-0 rounded-bl-2xl md:rounded-b-none md:rounded-tl-2xl': !inverted,
-                            'w-1/2 md:w-auto h-auto md:h-[calc(50%+0.25rem)] border-4 border-yellow-500 border-b-0 border-e-0 md:border-t-0 md:border-b-4 rounded-tl-2xl md:rounded-tl-none md:rounded-bl-2xl': inverted
-                        })}></div>
-                        <div className={clsx('flex-1/2', {
-                            'flex md:hidden': !inverted,
-                            'hidden md:flex': inverted,
-                        })}></div>
+                <div className="w-[calc(50%+0.125rem)] md:w-[50px] h-auto md:h-[calc(50%+0.125rem)] flex md:flex-col">
+                    <div className="flex flex-col md:flex-row w-1/2 md:w-auto h-[50px] md:h-1/2">
+                        <div className="hidden md:flex flex-1/2"></div>
+                        <div className="w-auto md:w-1/2 h-[calc(50%+0.25rem)] md:h-auto border-4 border-yellow-500 border-t-0 border-e-0 md:border-t-4 md:border-b-0 rounded-bl-2xl md:rounded-b-none md:rounded-tl-2xl"></div>
+                        <div className="flex md:hidden flex-1/2"></div>
                     </div>
                     {/* bring back to the right/bottom so that the borders "connect" */}
-                    <div className={clsx('flex',
-                        {
-                            'flex-col md:flex-row w-[calc(50%+0.125rem)] md:w-[50px] h-[50px] md:h-[calc(50%+0.125rem)] -me-1 md:me-0 md:-mb-1': !inverted,
-                            'flex-row md:flex-col w-[50px] md:w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] md:h-[50px] md:-me-1 -mb-1 md:mb-0': inverted,
-                        }
-                    )}>
-                        <div className={clsx('flex-1/2', {
-                            'flex md:hidden': !inverted,
-                            'hidden md:flex': inverted,
-                        })}></div>
-                        <div className={clsx({
-                            'w-full md:w-[calc(50%+0.25rem)] h-[calc(50%+0.25rem)] md:h-auto border-4 border-yellow-500 border-s-0 border-b-0 md:border-b-4 md:border-t-0 rounded-tr-2xl md:rounded-t-none md:rounded-br-2xl': !inverted,
-                            'w-[calc(50%+0.25rem)] md:w-full h-auto md:h-[calc(50%+0.25rem)] border-4 border-yellow-500 border-t-0 md:border-b-4 md:border-b-0 md:border-t-4 rounded-br-2xl md:rounded-br-none md:rounded-tr-2xl': inverted,
-                        })}></div>
+                    <div className="flex flex-col md:flex-row w-[calc(50%+0.125rem)] md:w-[50px] h-[50px] md:h-[calc(50%+0.125rem)] -me-1 md:me-0 md:-mb-1">
+                        <div className="flex md:hidden flex-1/2"></div>
+                        <div className="w-full md:w-[calc(50%+0.25rem)] h-[calc(50%+0.25rem)] md:h-auto border-4 border-yellow-500 border-s-0 border-b-0 md:border-b-4 md:border-t-0 rounded-tr-2xl md:rounded-t-none md:rounded-br-2xl"></div>
                     </div>
                 </div>
             </div>
 
             {/* Right/bottom branch */}
-            <div className={clsx('flex-1/2 flex',
-                {
-                    'md:flex-col': !inverted,
-                    'flex-col md:flex-row': inverted
-                }
-            )}>
+            <div className="flex-1/2 flex md:flex-col">
                 {/* 50% + half of w-1 */}
-                <div className={clsx('flex',
-                    {
-                        'w-[calc(50%+0.125rem)] md:w-[50px] h-auto md:h-[calc(50%+0.125rem)] md:flex-col': !inverted,
-                        'w-[50px] md:w-[calc(50%+0.125rem)] h-[calc(50%+0.125rem)] md:h-auto flex-col md:flex-row': inverted,
-                    }
-                )}>
+                <div className="w-[calc(50%+0.125rem)] md:w-[50px] h-auto md:h-[calc(50%+0.125rem)] flex md:flex-col">
                     {/* bring back to the left/top so that the borders "connect" */}
-                    <div className={clsx('flex',
-                        {
-                            'flex-col md:flex-row w-1/2 md:w-[50px] h-[50px] md:h-[calc(50%+0.125rem)] -ms-0.5 md:ms-0 md:-mt-0.5': !inverted,
-                            'md:flex-col w-[50px] md:w-1/2 h-[calc(50%+0.125rem)] md:h-[50px] md:-ms-0.5 -mt-0.5 md:mt-0': inverted,
-                        }
-                    )}>
-                        <div className={clsx('flex-1/2',
-                            {
-                                'flex md:hidden': !inverted,
-                                'hidden md:flex': inverted,
-                            }
-                        )}></div>
-                        <div className={clsx({
-                            'w-full md:w-[calc(50%+0.25rem)] h-[calc(50%+0.25rem)] md:h-auto border-4 border-yellow-500 border-b-0 border-e-0 md:border-e-4 md:border-s-0 rounded-tl-2xl md:rounded-tl-none md:rounded-tr-2xl': !inverted,
-                            'w-[calc(50%+0.25rem)] md:w-full h-auto md:h-[calc(50%+0.25rem)] border-4 border-yellow-500 border-s-0 md:border-s-4 md:border-e-0 rounded-tr-2xl md:rounded-tr-none md:rounded-tl-2xl': inverted,
-                        })}></div>
+                    <div className="flex flex-col md:flex-row w-1/2 md:w-[50px] h-[50px] md:h-[calc(50%+0.125rem)] -ms-0.5 md:ms-0 md:-mt-0.5">
+                        <div className="flex md:hidden flex-1/2"></div>
+                        <div className="w-full md:w-[calc(50%+0.25rem)] h-[calc(50%+0.25rem)] md:h-auto border-4 border-yellow-500 border-b-0 border-e-0 md:border-e-4 md:border-s-0 rounded-tl-2xl md:rounded-tl-none md:rounded-tr-2xl"></div>
                     </div>
-                    <div className={clsx('flex',
-                        {
-                            'flex-col md:flex-row w-[calc(50%+0.125rem)] md:w-auto h-[50px] md:h-1/2': !inverted,
-                            'md:flex-col w-auto md:w-[calc(50%+0.125rem)] h-1/2 md:h-[50px]': inverted,
-                        }
-                    )}>
-                        <div className={clsx('flex-1/2',
-                            {
-                                'hidden md:flex': !inverted,
-                                'flex md:hidden': inverted,
-                            }
-                        )}></div>
-                        <div className={clsx({
-                            'w-auto md:w-1/2 h-[calc(50%+0.25rem)] md:h-auto border-4 border-yellow-500 border-t-0 border-s-0 md:border-s-4 md:border-e-0 rounded-br-2xl md:rounded-br-none md:rounded-bl-2xl': !inverted,
-                            'w-1/2 md:w-auto h-auto md:h-[calc(50%+0.25rem)] border-4 border-yellow-500 border-e-0 border-t-0 md:border-e-4 rounded-bl-2xl md:rounded-bl-none md:rounded-br-2xl': inverted,
-                        })}></div>
-                        <div className={clsx('flex-1/2',
-                            {
-                                'flex md:hidden': !inverted,
-                                'hidden md:flex': inverted,
-                            }
-                        )}></div>
+                    <div className="flex flex-col md:flex-row w-[calc(50%+0.125rem)] md:w-auto h-[50px] md:h-1/2">
+                        <div className="hidden md:flex flex-1/2"></div>
+                        <div className="w-auto md:w-1/2 h-[calc(50%+0.25rem)] md:h-auto border-4 border-yellow-500 border-t-0 border-s-0 md:border-s-4 md:border-e-0 rounded-br-2xl md:rounded-br-none md:rounded-bl-2xl"></div>
+                        <div className="flex md:hidden flex-1/2"></div>
                     </div>
                 </div>
                 <div className="grow"></div>
@@ -337,7 +275,7 @@ function TwoTrackForkConnector({ inverted } : { inverted?: boolean }) {
 
 function TwoTrackFork() {
     return (
-        <div className="w-full md:w-auto h-auto md:h-full flex md:flex-col">
+        <div className="w-full md:w-auto flex md:flex-col">
 
             {/* Top/left branch */}
             <div className="flex-1/2 flex flex-col-reverse md:flex-row items-center justify-center">
@@ -452,7 +390,7 @@ function TwoTrackFork() {
 
 function MiddleForkConnectorWithStation() {
     return (
-        <div className="relative w-full md:w-[50px] h-[50px] md:h-full flex md:flex-col">
+        <div className="relative w-full md:w-[50px] h-[50px] md:h-auto flex md:flex-col">
             <div className="flex-1/4"></div>
 
             <div className="relative w-[calc(50%+0.5rem)] md:w-auto h-auto md:h-[calc(50%+0.5rem)] flex md:flex-col"> {/* w = half the container + border-1 (0.25rem) * 2 */}
@@ -501,7 +439,7 @@ function MiddleForkConnectorWithStation() {
 
 function EndForkConnector() {
     return (
-        <div className="shrink-0 w-full md:w-[25px] h-[25px] md:h-full flex md:flex-col">
+        <div className="shrink-0 w-full md:w-[25px] h-[25px] md:h-auto flex md:flex-col">
             {/* left/top connector */}
             <div className="flex-1/2 flex md:flex-col justify-end md:items-end">
                 {/* 50% of container + half of a border-1 */}
