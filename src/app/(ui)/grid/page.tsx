@@ -1,3 +1,5 @@
+import { CableCar } from 'lucide-react';
+
 export default function Page() {
     return (
         <div className="h-full bg-white rounded-xl py-3 px-1 overflow-scroll">
@@ -5,6 +7,36 @@ export default function Page() {
 
                 {/* River */}
                 <div className="row-start-22 row-end-23 col-start-8 col-end-17 bg-sky-300"></div>
+
+                {/* Cable car */}
+                <div className="row-start-27 row-end-28 col-start-19 col-end-20 flex gap-1 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="w-full min-w-max text-center">Sarajevo</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1"></div>
+                        <div className="size-2 bg-gray-400 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-gray-400 rounded-t-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center">
+                            <div className="bg-gray-400 rounded px-0.5">
+                                <CableCar className="w-4"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* TODO dotted line + label "to Trebevic" - a station would be a better fit actually */}
+                <div className="row-start-28 row-end-29 col-start-19 col-end-20 flex justify-center">
+                    <div className="w-1 h-full bg-gray-400"></div>
+                </div>
+
+                {/* end */}
+
 
                 {/* Main track */}
                 <div className="row-start-18 row-end-19 col-start-3 col-end-4 flex items-center">
@@ -545,6 +577,141 @@ export default function Page() {
                 </div>
                 {/* end */}
 
+                {/* Trolleybus - left fork */}
+                {/* TODO finish (need extension of grid) */}
+                <div className="row-start-1 row-end-2 col-start-11 col-end-12 flex justify-center">
+                    <div className="h-full w-1 bg-red-500"></div>
+                </div>
+
+                <div className="row-start-2 row-end-3 col-start-11 col-end-12 flex gap-1 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="w-full min-w-max text-center">Gornji Hotonj</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1 w-1 bg-red-500 rounded-b-xl"></div>
+                        <div className="size-2 bg-red-500 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-red-500 rounded-t-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center">
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row-start-3 row-end-4 col-start-11 col-end-12 flex justify-center">
+                    <div className="h-full w-1 bg-red-500"></div>
+                </div>
+
+                <div className="row-start-4 row-end-5 col-start-11 col-end-12 flex gap-1 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="w-full min-w-max text-center">Kobilja Glava</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1 w-1 bg-red-500 rounded-b-xl"></div>
+                        <div className="size-2 bg-red-500 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-red-500 rounded-t-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center">
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row-start-5 row-end-6 col-start-11 col-end-12 flex justify-center">
+                    <div className="h-full w-1 bg-red-500"></div>
+                </div>
+
+                <div className="row-start-6 row-end-7 col-start-11 col-end-12 flex gap-1 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="w-full min-w-max text-center">Šip</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1 w-1 bg-red-500 rounded-b-xl"></div>
+                        <div className="size-2 bg-red-500 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-red-500 rounded-t-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center">
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row-start-7 row-end-8 col-start-11 col-end-12 flex justify-center">
+                    <div className="h-full w-1 bg-red-500"></div>
+                </div>
+
+                <div className="row-start-8 row-end-9 col-start-11 col-end-12 flex gap-1 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="w-full min-w-max text-center">Bare</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1 w-1 bg-red-500 rounded-b-xl"></div>
+                        <div className="size-2 bg-red-500 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-red-500 rounded-t-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center">
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row-start-9 row-end-10 col-start-11 col-end-12 flex justify-center">
+                    <div className="h-full w-1 bg-red-500"></div>
+                </div>
+
+                <div className="row-start-10 row-end-11 col-start-11 col-end-12 flex gap-1 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="w-full min-w-max text-center">Koševo</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1 w-1 bg-red-500 rounded-b-xl"></div>
+                        <div className="size-2 bg-red-500 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-red-500 rounded-t-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center">
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row-start-11 row-end-12 col-start-11 col-end-12 flex justify-center">
+                    <div className="h-full w-1 bg-red-500"></div>
+                </div>
+
+                <div className="row-start-12 row-end-13 col-start-11 col-end-12 flex gap-1 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                        <div className="w-full min-w-max text-center">Cigalne</div>
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center gap-0.5">
+                        <div className="flex-1 w-1 bg-red-500 rounded-b-xl"></div>
+                        <div className="size-2 bg-red-500 rounded-full"></div>
+                        <div className="flex-1 w-1 bg-red-500 rounded-t-xl"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center">
+                        </div>
+                    </div>
+                </div>
+                {/* end */}
+
                 {/* Trolleybus - right fork */}
                 <div className="row-start-8 row-end-9 col-start-15 col-end-16 flex gap-1 items-center justify-center">
                     {/* Station signs */}
@@ -583,7 +750,7 @@ export default function Page() {
                     </div>
                     {/* Station name */}
                     <div className="min-w-0 flex-1/2 flex">
-                        <div className="w-full min-w-max text-center">Stanica</div>
+                        <div className="w-full min-w-max text-center">Koševo</div>
                     </div>
                 </div>
 
@@ -605,7 +772,7 @@ export default function Page() {
                     </div>
                     {/* Station name */}
                     <div className="min-w-0 flex-1/2 flex">
-                        <div className="w-full min-w-max text-center">Stanica</div>
+                        <div className="w-full min-w-max text-center">Pijaca</div>
                     </div>
                 </div>
                 {/* end */}
