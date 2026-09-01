@@ -23,8 +23,8 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
     return (
         <html lang="en">
         <body className={`antialiased ${nunito.className} bg-yellow-500`}>
-        <div className="h-[100dvh]">
-            <div className="h-[88dvh] p-2">
+        <div className="h-[100dvh] w-full">
+            <div className="h-[88dvh] w-full p-2">
                 {children}
             </div>
             <div className="fixed w-full bottom-[2dvh]">
