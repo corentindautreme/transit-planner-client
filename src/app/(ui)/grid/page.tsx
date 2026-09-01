@@ -6,7 +6,21 @@ export default function Page() {
             <div className="grid grid-cols-[repeat(20,_40px)] grid-rows-[repeat(20,_40px)_30px_40px_30px_repeat(5,_40px)]">
 
                 {/* River */}
-                <div className="row-start-22 row-end-23 col-start-8 col-end-17 bg-sky-300"></div>
+                <div className="row-start-22 row-end-23 col-start-8 col-end-21 bg-sky-300"></div>
+
+                {/* Vijećnica <-> Cable car connection */}
+                <div className="row-start-22 row-end-23 col-start-19 col-end-20 flex justify-center">
+                    <div className="h-full w-3 bg-white"></div>
+                </div>
+
+                <div className="row-start-21 row-end-27 col-start-19 col-end-20 flex items-center justify-center -my-3">
+                    <div className="flex-1/2"></div>
+                    <div className="h-full border-s-4 border-dotted border-gray-300"></div>
+                    <div className="min-w-0 flex-1/2 flex">
+
+                    </div>
+                </div>
+                {/* end */}
 
                 {/* Cable car */}
                 <div className="row-start-27 row-end-28 col-start-19 col-end-20 flex gap-1 items-center justify-center">
@@ -23,16 +37,27 @@ export default function Page() {
                     {/* Station signs */}
                     <div className="min-w-0 flex-1/2 flex">
                         <div className="flex items-center gap-1 justify-center">
-                            <div className="bg-gray-400 rounded px-0.5">
+                            <div className="bg-gray-300 rounded px-0.5">
                                 <CableCar className="w-4"/>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* TODO dotted line + label "to Trebevic" - a station would be a better fit actually */}
-                <div className="row-start-28 row-end-29 col-start-19 col-end-20 flex justify-center">
-                    <div className="w-1 h-full bg-gray-400"></div>
+                <div className="row-start-28 row-end-29 col-start-19 col-end-20 flex gap-2 items-center justify-center">
+                    {/* Station name */}
+                    <div className="min-w-0 flex-1/2 flex justify-end">
+                    </div>
+                    {/* Marker */}
+                    <div className="h-full flex flex-col items-center">
+                        <div className="h-full border-x-2 border-dashed border-gray-400"></div>
+                    </div>
+                    {/* Station signs */}
+                    <div className="min-w-0 flex-1/2 flex">
+                        <div className="flex items-center gap-1 justify-center text-sm italic text-nowrap">
+                            To Trebević mountain
+                        </div>
+                    </div>
                 </div>
 
                 {/* end */}
@@ -110,7 +135,6 @@ export default function Page() {
                     {/* Station signs */}
                     <div className="min-h-0 flex-1/2 flex items-end justify-center">
                         <div className="flex items-center gap-1 justify-center">
-                            {/*<div className="shrink-0 w-5 text-center rounded bg-yellow-500 text-lg font-bold">1</div>*/}
                         </div>
                     </div>
                     {/* Marker */}
@@ -202,7 +226,7 @@ export default function Page() {
                     </div>
                     {/* Station name */}
                     <div className="min-w-0 flex-1/2 flex">
-                        <div className="w-full min-w-max text-center">Stanica</div>
+                        <div className="w-full min-w-max text-center">Hamza Hume</div>
                     </div>
                 </div>
 
