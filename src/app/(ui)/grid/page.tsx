@@ -1,10 +1,10 @@
 import { CableCar } from 'lucide-react';
-import Stop from '@/app/(ui)/grid/components/stop';
+import { DoubleStop, Stop } from '@/app/(ui)/grid/components/stop';
 
 export default function Page() {
     return (
         <div className="h-full w-full bg-white rounded-xl py-3 px-1 overflow-scroll overflow-x-auto">
-            <div className="grid grid-flow-col auto-cols-[40px] grid-rows-[repeat(35,_40px)_30px_40px_30px_repeat(5,_40px)]">
+            <div className="grid grid-flow-col auto-cols-[40px] grid-rows-[repeat(35,_40px)_30px_40px_30px_repeat(20,_40px)]">
 
                 {/* Landmarks */}
 
@@ -51,6 +51,51 @@ export default function Page() {
                 <div className="row-start-35 row-end-37 col-start-77 col-end-78 bg-sky-300"></div>
                 <div className="row-start-37 row-end-38 col-start-77 col-end-78 bg-sky-300 rounded-bl-3xl"></div>
                 <div className="row-start-37 row-end-38 col-start-78 col-end-102 bg-sky-300"></div>
+                {/* end */}
+
+                {/* Bridges and connections */}
+
+                {/* Latinska ćuprija - Trg Austrije */}
+                <div className="row-start-37 row-end-38 col-start-98 col-end-99 flex justify-center">
+                    <div className="h-full w-3 bg-white"></div>
+                </div>
+                <div className="row-start-36 row-end-39 col-start-98 col-end-99 flex items-center justify-center -my-3">
+                    <div className="flex-1/2"></div>
+                    <div className="h-full border-s-4 border-dotted border-gray-300"></div>
+                    <div className="min-w-0 flex-1/2 flex"></div>
+                </div>
+
+                {/* Drvenija */}
+                <div className="row-start-37 row-end-38 col-start-96 col-end-97 flex justify-center">
+                    <div className="h-full w-3 bg-white"></div>
+                </div>
+                <div className="row-start-36 row-end-39 col-start-96 col-end-97 flex items-center justify-center -my-3">
+                    <div className="flex-1/2"></div>
+                    <div className="h-full border-s-4 border-dotted border-gray-300"></div>
+                    <div className="min-w-0 flex-1/2 flex"></div>
+                </div>
+
+                {/* Socijalno - Stadion Grbavica */}
+                <div className="row-start-34 row-end-35 col-start-74 col-end-75 flex justify-center">
+                    <div className="h-full w-3 bg-white"></div>
+                </div>
+                <div className="row-start-34 row-end-39 col-start-74 col-end-75 flex items-center justify-center -my-3">
+                    <div className="flex-1/2"></div>
+                    <div className="h-full border-s-4 border-dotted border-gray-300"></div>
+                    <div className="min-w-0 flex-1/2 flex"></div>
+                </div>
+
+                {/* Otoka */}
+                <div className="row-start-34 row-end-35 col-start-65 col-end-66 flex justify-center">
+                    <div className="h-full w-3 bg-white"></div>
+                </div>
+                <div className="row-start-34 row-end-36 col-start-65 col-end-66 flex items-center justify-center -my-3">
+                    <div className="flex-1/2"></div>
+                    <div className="h-full border-s-4 border-dotted border-gray-300"></div>
+                    <div className="min-w-0 flex-1/2 flex"></div>
+                </div>
+
+                {/* end */}
 
                 {/* Vijećnica <-> Cable car connection */}
                 <div className="row-start-37 row-end-38 col-start-100 col-end-101 flex justify-center">
@@ -60,9 +105,7 @@ export default function Page() {
                 <div className="row-start-36 row-end-42 col-start-100 col-end-101 flex items-center justify-center -my-3">
                     <div className="flex-1/2"></div>
                     <div className="h-full border-s-4 border-dotted border-gray-300"></div>
-                    <div className="min-w-0 flex-1/2 flex">
-
-                    </div>
+                    <div className="min-w-0 flex-1/2 flex"></div>
                 </div>
                 {/* end */}
 
@@ -506,6 +549,49 @@ export default function Page() {
                 {/* end */}
 
                 {/* Trolleybus - main route */}
+
+                <Stop name={'Dobrinja škola'} type={'trolley'} row={48} col={56} labelPos={'bottom'}/>
+
+                {/* TODO connection/turn */}
+
+                <Stop direction={'vertical'} name={'Dobrinja III'} type={'trolley'} row={44} col={53}/>
+
+                {/* TODO connection */}
+
+                <Stop direction={'vertical'} name={'X Transverzala'} type={'trolley'} row={42} col={53}/>
+
+                {/* TODO connection / turn */}
+
+                <Stop name={'Alipašino\nPolje II'} type={'trolley'} row={39} col={54} labelPos={'bottom'}/>
+
+                <div className="row-start-39 row-end-40 col-start-55 col-end-56 flex items-center">
+                    <div className="w-full h-1 bg-red-500"></div>
+                </div>
+
+                <Stop name={'Mojmilo'} type={'trolley'} row={39} col={56} labelPos={'bottom'}/>
+
+                <div className="row-start-39 row-end-40 col-start-57 col-end-58 flex items-center">
+                    <div className="w-full h-1 bg-red-500"></div>
+                </div>
+
+                <Stop name={'Alipašino\nPolje I'} type={'trolley'} row={39} col={58} labelPos={'bottom'}/>
+
+                <div className="row-start-39 row-end-40 col-start-59 col-end-60 flex items-center">
+                    <div className="w-full h-1 bg-red-500"></div>
+                </div>
+
+                <Stop name={'Švrakino Selo'} type={'trolley'} row={39} col={60} labelPos={'bottom'}/>
+
+                <div className="row-start-39 row-end-40 col-start-61 col-end-63 flex items-center">
+                    <div className="w-full h-1 bg-red-500"></div>
+                </div>
+
+                <Stop name={'Švrakino Selo I'} type={'trolley'} row={39} col={63} labelPos={'bottom'}/>
+
+                <div className="row-start-39 row-end-40 col-start-64 col-end-67 flex items-center">
+                    <div className="w-full h-1 bg-red-500"></div>
+                </div>
+
                 <Stop name={'Aneks'} type={'trolley'} row={39} col={66} labelPos={'bottom'}/>
 
                 <div className="row-start-39 row-end-40 col-start-67 col-end-68 flex items-center">
@@ -566,21 +652,19 @@ export default function Page() {
                     <div className="w-full h-1 bg-red-500"></div>
                 </div>
 
-                <Stop name={'Hidrogradnja'} type={'trolley'} row={39} col={94}/>
+                <DoubleStop name1={'Hidrogradnja'} name2={'Čobanija'} type={'trolley'} row={39} col={94}/>
 
-                <Stop name={'Čobanija'} type={'trolley'} row={39} col={95} labelPos={'bottom'}/>
-
-                <div className="row-start-39 row-end-40 col-start-96 col-end-97 flex items-center">
+                <div className="row-start-39 row-end-40 col-start-95 col-end-96 flex items-center">
                     <div className="w-full h-1 bg-red-500"></div>
                 </div>
 
-                <Stop name={'Drvenija'} type={'trolley'} row={39} col={97} labelPos={'bottom'}/>
+                <Stop name={'Drvenija'} type={'trolley'} row={39} col={96} labelPos={'bottom'}/>
 
-                <div className="row-start-39 row-end-40 col-start-98 col-end-99 flex items-center">
+                <div className="row-start-39 row-end-40 col-start-97 col-end-98 flex items-center">
                     <div className="w-full h-1 bg-red-500"></div>
                 </div>
 
-                <Stop name={'Trg\nAustrije'} lines={['101', '103', '105']} terminus={'right'} type={'trolley'} row={39} col={99} labelPos={'bottom'}/>
+                <Stop name={'Trg\nAustrije'} lines={['101', '103', '105']} terminus={'right'} type={'trolley'} row={39} col={98} labelPos={'bottom'}/>
                 {/* end */}
 
                 {/* Trolleybus - main road fork to Otoka */}
@@ -684,19 +768,19 @@ export default function Page() {
                 {/* end */}
 
                 {/* Fork - top branch */}
-                <div className="row-start-31 row-end-32 col-start-89 col-end-93 flex items-center">
+                <div className="row-start-31 row-end-32 col-start-89 col-end-92 flex items-center">
                     <div className="h-1 w-full bg-yellow-500"></div>
                 </div>
 
-                <Stop name={'Park'} type={'tram'} row={31} col={93}/>
+                <Stop name={'Park'} type={'tram'} row={31} col={92}/>
 
-                <div className="row-start-31 row-end-32 col-start-94 col-end-96 flex items-center">
+                <div className="row-start-31 row-end-32 col-start-93 col-end-95 flex items-center">
                     <div className="h-1 w-full bg-yellow-500"></div>
                 </div>
 
-                <Stop name={'Banka'} type={'tram'} row={31} col={96}/>
+                <Stop name={'Banka'} type={'tram'} row={31} col={95}/>
 
-                <div className="row-start-31 row-end-32 col-start-97 col-end-99 flex items-center">
+                <div className="row-start-31 row-end-32 col-start-96 col-end-99 flex items-center">
                     <div className="h-1 w-full bg-yellow-500"></div>
                 </div>
 

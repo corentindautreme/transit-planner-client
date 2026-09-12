@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function Stop({direction, name, type, lines, terminus, row, col, labelPos}: {
+export function Stop({direction, name, type, lines, terminus, row, col, labelPos}: {
     direction?: 'horizontal' | 'vertical',
     name: string,
     type: 'tram' | 'trolley' | 'bus',
@@ -27,6 +28,77 @@ export default function Stop({direction, name, type, lines, terminus, row, col, 
         col,
         labelPos: (labelPos === 'right' || labelPos === 'left' ? undefined : labelPos)
     });
+}
+
+export function DoubleStop({name1, name2, type, row, col}: {
+    name1: string,
+    name2: string,
+    type: 'tram' | 'trolley' | 'bus',
+    row: number,
+    col: number,
+}) {
+    return (
+        <div
+            className="flex flex-col gap-1 items-center justify-center"
+            style={{
+                gridRowStart: row,
+                gridRowEnd: row + 1,
+                gridColumnStart: col,
+                gridColumnEnd: col + 1,
+            }}
+        >
+            {/* Station name 1 */}
+            <div className="min-h-0 flex-1/2 flex flex-col items-center justify-end">
+                <div className={clsx('flex items-center justify-center size-4 rounded-full',
+                    {
+                        'bg-yellow-500': type === 'tram',
+                        'bg-red-500 text-white': type === 'trolley',
+                        'bg-sky-500 text-white': type === 'bus'
+                    }
+                )}>
+                    <ChevronRight className="w-3" strokeWidth={3}/>
+                </div>
+                <div className="w-full min-w-max text-base/5 text-center whitespace-pre-line">{name1}</div>
+            </div>
+            {/* Marker */}
+            <div className="w-full flex items-center gap-0.5">
+                <div className={clsx('flex-1 rounded-e-xl h-1',
+                    {
+                        'bg-yellow-500': type === 'tram',
+                        'bg-red-500': type === 'trolley',
+                        'bg-sky-500': type === 'bus'
+                    }
+                )}></div>
+                <div className={clsx('size-2 rounded-full',
+                    {
+                        'bg-yellow-500': type === 'tram',
+                        'bg-red-500': type === 'trolley',
+                        'bg-sky-500': type === 'bus'
+                    }
+                )}></div>
+                <div className={clsx('flex-1 rounded-s-xl h-1',
+                    {
+                        'bg-yellow-500': type === 'tram',
+                        'bg-red-500': type === 'trolley',
+                        'bg-sky-500': type === 'bus'
+                    }
+                )}></div>
+            </div>
+            {/* Station name 2 */}
+            <div className="min-h-0 flex-1/2 flex flex-col items-center justify-start">
+                <div className="w-full min-w-max text-base/5 text-center whitespace-pre-line">{name2}</div>
+                <div className={clsx('flex items-center justify-center size-4 rounded-full',
+                    {
+                        'bg-yellow-500': type === 'tram',
+                        'bg-red-500 text-white': type === 'trolley',
+                        'bg-sky-500 text-white': type === 'bus'
+                    }
+                )}>
+                    <ChevronLeft className="w-3" strokeWidth={3}/>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 function HorizontalStop({name, type, lines, terminus, row, col, labelPos}: {
